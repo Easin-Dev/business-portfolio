@@ -18,3 +18,148 @@
       animation: spotlight 2s ease 0.75s 1 forwards;
   }
 }
+
+/* Hero Section এর জন্য একটি কন্টেইনার */
+.hero-wrapper {
+  height: 100vh;
+  width: 100%;
+}
+
+/* ভিডিও সেকশনের কন্টেইনার */
+.video-wrapper {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  /* এই মার্জিনটি ভিডিও সেকশনকে হিরো সেকশনের উপরে ২৫vh পরিমাণ তুলে আনবে */
+  margin-top: -25vh;
+  z-index: 20; /* এটি অন্যান্য সবকিছুর উপরে থাকবে */
+}
+
+
+
+
+
+/* ________________________________________________________________________________________________________________________________________________ */
+
+@layer utilities {
+  @keyframes first {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    20% {
+      transform: translate(80px, -50px);
+    }
+    40% {
+      transform: translate(130px, 100px);
+    }
+    60% {
+      transform: translate(30px, 150px);
+    }
+    80% {
+      transform: translate(-90px, 20px);
+    }
+    100% {
+      transform: translate(0px, 0px);
+    }
+  }
+
+  @keyframes second {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    20% {
+      transform: translate(120px, 50px);
+    }
+    40% {
+      transform: translate(10px, -100px);
+    }
+    60% {
+      transform: translate(130px, -150px);
+    }
+    80% {
+      transform: translate(90px, 120px);
+    }
+    100% {
+      transform: translate(0px, 0px);
+    }
+  }
+
+  @keyframes third {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    20% {
+      transform: translate(-120px, -50px);
+    }
+    40% {
+      transform: translate(10px, 100px);
+    }
+    60% {
+      transform: translate(-130px, 150px);
+    }
+    80% {
+      transform: translate(90px, -120px);
+    }
+    100% {
+      transform: translate(0px, 0px);
+    }
+  }
+
+  @keyframes fourth {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    20% {
+      transform: translate(120px, -50px);
+    }
+    40% {
+      transform: translate(-10px, -100px);
+    }
+    60% {
+      transform: translate(130px, 150px);
+    }
+    80% {
+      transform: translate(-90px, 120px);
+    }
+    100% {
+      transform: translate(0px, 0px);
+    }
+  }
+
+  @keyframes fifth {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    20% {
+      transform: translate(-120px, 50px);
+    }
+    40% {
+      transform: translate(10px, 100px);
+    }
+    60% {
+      transform: translate(-130px, -150px);
+    }
+    80% {
+      transform: translate(90px, -120px);
+    }
+    100% {
+      transform: translate(0px, 0px);
+    }
+  }
+
+  .animate-first {
+    animation: first 20s infinite;
+  }
+  .animate-second {
+    animation: second 20s infinite;
+  }
+  .animate-third {
+    animation: third 20s infinite;
+  }
+  .animate-fourth {
+    animation: fourth 20s infinite;
+  }
+  .animate-fifth {
+    animation: fifth 20s infinite;
+  }
+}

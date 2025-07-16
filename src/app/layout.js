@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./component/SmoothScroll";
 import Navbar from "./component/Navbar";
+import Footer from "./component/Footer";
+import MarqueeSection from "./component/MarqueeSection";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +28,8 @@ export default function RootLayout({ children }) {
       >
         <SmoothScroll>{children}</SmoothScroll>
         <Navbar />
+        <MarqueeSection />
+        <Footer />
       </body>
     </html>
   );

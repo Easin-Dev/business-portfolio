@@ -77,7 +77,7 @@ const bonuses = [
 
 export default function PricingSection() {
   return (
-    <section className="w-full bg-black text-white rounded-t-4xl py-20 lg:py-32 overflow-hidden">
+    <section className="w-full bg-black text-white py-20 lg:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* সেকশনের শিরোনাম */}
         <div className="max-w-3xl mx-auto text-center">
@@ -101,24 +101,16 @@ export default function PricingSection() {
               className={`relative rounded-2xl p-px transition-all duration-300
               ${plan.isHighlighted ? "lg:scale-110 z-10" : "lg:scale-95"}`}
             >
-              {/* হাইলাইটেড কার্ডের জন্য ঘোরানো বর্ডার এবং গ্লো */}
-              {plan.isHighlighted ? (
-                <>
-                  <div className="animated-border"></div>
-                  <div className="absolute top-0 left-0 w-48 h-48 bg-purple-600/30 blur-3xl -translate-x-1/2 -translate-y-1/2 z-0"></div>
-                </>
-              ) : (
-                // পাশের কার্ডগুলোর জন্য কর্নার বর্ডার
-                <div className="side-card-borders"></div>
+              {plan.isHighlighted && (
+                <div className="absolute inset-0 bg-purple-500/20 blur-3xl rounded-2xl"></div>
               )}
 
-              {/* কার্ডের মূল কন্টেন্ট */}
               <div
-                className={`relative z-10 h-full rounded-[15px] p-8
+                className={`relative z-10 h-full rounded-[15px] p-8 overflow-hidden
                 ${
                   plan.isHighlighted
-                    ? "bg-black/60 backdrop-blur-sm" // ফ্রস্টেড গ্লাস ইফেক্ট
-                    : "bg-gradient-to-b from-[#121212] to-black"
+                    ? "bg-black/60 backdrop-blur-sm border border-purple-500/50"
+                    : "side-card-styling"
                 }`}
               >
                 <h3 className="text-4xl font-bold">{plan.price}</h3>
@@ -150,9 +142,8 @@ export default function PricingSection() {
         </div>
 
         {/* বোনাস সেকশন */}
-        <div className="relative mt-24 rounded-2xl p-px bg-black/20">
-          <div className="animated-border-bonus"></div>
-          <div className="relative z-10 rounded-[15px] p-8 bg-black">
+        <div className="relative mt-24 rounded-2xl p-8 border border-green-400/30 bg-black/20">
+          <div className="relative z-10">
             <h3 className="text-4xl font-bold">
               Bonuses Worth Over{" "}
               <span className="text-green-400">$2,500-Yours Free!</span>
@@ -161,7 +152,7 @@ export default function PricingSection() {
               {bonuses.map((bonus, i) => (
                 <div
                   key={i}
-                  className="relative rounded-xl p-6 bg-[#121212] transition-all duration-300 hover:bg-white/5"
+                  className="relative rounded-xl p-6 bg-[#121212] transition-all duration-300 hover:bg-white/5 border border-white/10"
                 >
                   <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center">
                     {bonus.icon}
@@ -178,62 +169,35 @@ export default function PricingSection() {
       </div>
 
       <style jsx>{`
-        .animated-border {
+        /* পাশের কার্ডগুলোর জন্য কর্নার বর্ডার এবং গ্র্যাডিয়েন্ট */
+        .side-card-styling {
+          background: #0a0a0a;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          position: relative;
+        }
+        .side-card-styling::before,
+        .side-card-styling::after {
           content: "";
           position: absolute;
-          inset: 0;
-          border-radius: 1rem; /* 16px */
-          padding: 1px; /* বর্ডারের প্রস্থ */
-          background: conic-gradient(
-            from 180deg at 50% 50%,
-            #8b5cf6,
-            #4f46e5,
-            #d946ef,
-            #8b5cf6
+          width: 80px;
+          height: 80px;
+          background: radial-gradient(
+            circle at center,
+            rgba(79, 70, 229, 0.5) 0%,
+            transparent 70%
           );
-          -webkit-mask: linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          /* অ্যানিমেশন রিমুভ করা হয়েছে */
+          z-index: -1;
+        }
+        .side-card-styling::before {
+          top: -40px;
+          left: -40px;
+        }
+        .side-card-styling::after {
+          bottom: -40px;
+          right: -40px;
         }
 
-        .side-card-borders {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: 1rem;
-          background: linear-gradient(
-              135deg,
-              rgba(79, 70, 229, 0.4) 0%,
-              transparent 25%
-            ),
-            linear-gradient(315deg, rgba(79, 70, 229, 0.4) 0%, transparent 25%);
-          pointer-events: none;
-        }
-
-        .animated-border-bonus {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: 1rem; /* 16px */
-          padding: 2px; /* বর্ডারের প্রস্থ */
-          background: conic-gradient(
-            from 180deg at 50% 50%,
-            #10b981,
-            #34d399,
-            #6ee7b7,
-            #10b981,
-            #10b981
-          );
-          -webkit-mask: linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          /* অ্যানিমেশন রিমুভ করা হয়েছে */
-        }
-
-        /* @keyframes spin এখন আর দরকার নেই */
+        /* অ্যানিমেশনের কোডগুলো সরিয়ে দেওয়া হয়েছে */
       `}</style>
     </section>
   );

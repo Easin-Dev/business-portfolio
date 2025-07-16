@@ -22,8 +22,8 @@ export default function Home() {
       <PricingSection />
       <TestimonialSection />
       <FaqSection />
-      <MarqueeSection />
-      <Footer />
+      {/* <MarqueeSection /> */}
+      {/* <Footer /> */}
     </main>
   );
 }
