@@ -1,8 +1,64 @@
 "use client";
-
-import React from "react";
+import React, { useState, useEffect, useId, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Spotlight } from "./ui/spotlight";
 import { BackgroundGradient } from "./ui/background-gradient";
+
+// Helper Component for Text Flip Animation
+const ContainerTextFlip = ({
+  words = ["E-commerce", "Portfolios", "SaaS Apps", "Landing Pages"],
+  interval = 2500,
+  className,
+}) => {
+  const id = useId();
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [width, setWidth] = useState(100);
+  const textRef = useRef(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (textRef.current) {
+        setWidth(textRef.current.offsetWidth + 40); // Add padding
+      }
+    };
+    updateWidth();
+  }, [currentWordIndex]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
+    }, interval);
+    return () => clearInterval(intervalId);
+  }, [words, interval]);
+
+  return (
+    <motion.div
+      layout
+      animate={{ width }}
+      transition={{ duration: 0.4, ease: "circOut" }}
+      // UPDATED: Background changed to transparent with blur
+      className={`relative inline-flex items-center justify-center rounded-lg px-4 py-2 text-center align-middle bg-black/20 backdrop-blur-sm border border-white/10 ${className}`}
+      key={words[currentWordIndex]}
+    >
+      <AnimatePresence mode="popLayout">
+        <motion.div
+          key={words[currentWordIndex]}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="absolute"
+          ref={textRef}
+        >
+          {words[currentWordIndex]}
+        </motion.div>
+      </AnimatePresence>
+      {/* Invisible text to maintain layout width */}
+      <span className="opacity-0" ref={textRef}>{words[currentWordIndex]}</span>
+    </motion.div>
+  );
+};
+
 
 export default function Hero_section() {
   return (
@@ -43,16 +99,19 @@ export default function Hero_section() {
         <p className="mt-3 md:mt-4 text-emerald-400 font-medium text-sm md:text-base">
           A Full-Stack Web Studio for Ambitious Brands
         </p>
-        <h1 className="mt-4 font-bold text-4xl sm:text-5xl md:text-6xl max-w-4xl">
-          We Build Web Experiences That Drive{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-            Growth
-          </span>{" "}
-          &{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">
-            Results
-          </span>
+
+        {/* Animated H1 Tag */}
+        <h1 className="mt-4 font-bold text-4xl sm:text-5xl md:text-6xl max-w-5xl leading-tight md:leading-snug">
+          We build stunning
+          <br className="sm:hidden" />
+          <ContainerTextFlip
+            words={["E-commerce", "Portfolios", "SaaS Apps", "Landing Pages"]}
+            className="text-4xl sm:text-5xl md:text-6xl mx-2 md:mx-4"
+          />
+          <br className="sm:hidden" />
+          to boost your business
         </h1>
+
         <div className="mt-6">
           <span className="inline-block bg-gray-800/60 border border-gray-700 rounded-full px-3 py-2 text-xs sm:text-sm text-gray-300 text-center">
             Full-Stack Web Studio • Bangladesh-based • 100% Refund Policy
@@ -111,65 +170,65 @@ export default function Hero_section() {
       </div>
 
       <style jsx global>{`
-        .service-marquee-container {
-          -webkit-mask-image: linear-gradient(
-            to right,
-            transparent,
-            white 10%,
-            white 90%,
-            transparent
-          );
-          mask-image: linear-gradient(
-            to right,
-            transparent,
-            white 10%,
-            white 90%,
-            transparent
-          );
-        }
-        .service-marquee {
-          display: flex;
-          flex-shrink: 0;
-          justify-content: flex-start;
-          width: max-content;
-        }
-        .service-marquee span {
-          white-space: nowrap;
-          font-size: 1.125rem;
-          color: #9ca3af;
-        }
-        /* Shine effect for the text */
-        .shine-text {
-          background: linear-gradient(90deg, #9ca3af, #ffffff, #9ca3af);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: text-shine-anim 5s linear infinite;
-        }
-        .service-marquee.rtl {
-          animation: service-marquee-anim 40s linear infinite;
-        }
-        .service-marquee.ltr {
-          animation: service-marquee-anim 55s linear infinite reverse;
-        }
-        @keyframes service-marquee-anim {
-          from {
-            transform: translateX(0%);
+          .service-marquee-container {
+            -webkit-mask-image: linear-gradient(
+              to right,
+              transparent,
+              white 10%,
+              white 90%,
+              transparent
+            );
+            mask-image: linear-gradient(
+              to right,
+              transparent,
+              white 10%,
+              white 90%,
+              transparent
+            );
           }
-          to {
-            transform: translateX(-30%);
+          .service-marquee {
+            display: flex;
+            flex-shrink: 0;
+            justify-content: flex-start;
+            width: max-content;
           }
-        }
-        @keyframes text-shine-anim {
-          from {
-            background-position: 200% center;
+          .service-marquee span {
+            white-space: nowrap;
+            font-size: 1.125rem;
+            color: #9ca3af;
           }
-          to {
-            background-position: -200% center;
+          /* Shine effect for the text */
+          .shine-text {
+            background: linear-gradient(90deg, #9ca3af, #ffffff, #9ca3af);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: text-shine-anim 5s linear infinite;
           }
-        }
-      `}</style>
+          .service-marquee.rtl {
+            animation: service-marquee-anim 40s linear infinite;
+          }
+          .service-marquee.ltr {
+            animation: service-marquee-anim 55s linear infinite reverse;
+          }
+          @keyframes service-marquee-anim {
+            from {
+              transform: translateX(0%);
+            }
+            to {
+              transform: translateX(-50%);
+            }
+          }
+          @keyframes text-shine-anim {
+            from {
+              background-position: 200% center;
+            }
+            to {
+              background-position: -200% center;
+            }
+          }
+        `}</style>
     </section>
   );
 }
