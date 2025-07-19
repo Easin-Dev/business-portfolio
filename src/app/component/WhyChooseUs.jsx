@@ -31,9 +31,9 @@ const features = [
   },
   {
     icon: <PieChart size={40} className="text-white" />,
-    title: "Custom Design Solutions",
+    title: "Scalable Architecture",
     description:
-      "Our easy payment options are completely flexible. So, you can invest in your success while staying within your budget.",
+      "We build applications on a solid foundation, ensuring they can grow and adapt with your business needs without compromising performance.",
   },
   {
     icon: <Star size={40} className="text-white" />,
@@ -45,8 +45,11 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="w-full bg-white dark:bg-[#f0f0f0] text-black py-20 lg:py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="w-full bg-white dark:bg-[#f0f0f0] rounded-t-4xl text-black py-20 lg:py-32 relative">
+      {/* Dotted background added */}
+      <div className="absolute inset-0 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         {/* সেকশনের শিরোনাম */}
         <div className="max-w-3xl mx-auto text-center">
           <span className="inline-block bg-teal-100 text-teal-800 text-xs font-medium px-3 py-1 rounded-full">
@@ -54,29 +57,52 @@ export default function WhyChooseUs() {
           </span>
           <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl">
             We Design for the{" "}
-            <span className="italic font-serif text-teal-600">Future</span> to
+            <span className="italic font-serif text-blue-500">Future</span> to
             Drive Today’s{" "}
-            <span className="italic font-serif text-teal-600">Success</span>
+            <span className="italic font-serif text-blue-500">Success</span>
           </h2>
         </div>
 
-        {/* ফিচার কার্ডের গ্রিড */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className={`rounded-2xl p-8 bg-white shadow-lg border border-gray-100 ${
-                index === 2 || index === 3 ? "lg:col-span-1" : ""
-              } ${index === 0 ? "lg:col-span-2" : ""}`}
-            >
-              {/* UPDATED: 3D Canvas-এর পরিবর্তে 2D আইকন কন্টেইনার */}
-              <div className="h-24 w-24 rounded-full flex items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600">
-                {feature.icon}
+        {/* ফিচার কার্ডের গ্রিড - UPDATED */}
+        <div className="mt-20 space-y-8">
+          {/* First Row - 2 Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {features.slice(0, 2).map((feature, index) => (
+              <div
+                key={index}
+                className="relative rounded-2xl p-8 bg-white shadow-lg border border-gray-100 overflow-hidden"
+              >
+                {/* UPDATED: Glow color changed to purple */}
+                <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-[radial-gradient(circle_at_top_left,_rgba(168,85,247,0.15),transparent_30%)] pointer-events-none"></div>
+                <div className="relative z-10">
+                  <div className="h-24 w-24 rounded-full flex items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600">
+                    {feature.icon}
+                  </div>
+                  <h3 className="mt-6 text-2xl font-bold">{feature.title}</h3>
+                  <p className="mt-4 text-gray-600">{feature.description}</p>
+                </div>
               </div>
-              <h3 className="mt-6 text-2xl font-bold">{feature.title}</h3>
-              <p className="mt-4 text-gray-600">{feature.description}</p>
-            </div>
-          ))}
+            ))}
+          </div>
+          {/* Second Row - 3 Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.slice(2).map((feature, index) => (
+              <div
+                key={index + 2}
+                className="relative rounded-2xl p-8 bg-white shadow-lg border border-gray-100 overflow-hidden"
+              >
+                {/* UPDATED: Glow color changed to purple */}
+                <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-[radial-gradient(circle_at_top_left,_rgba(168,85,247,0.15),transparent_30%)] pointer-events-none"></div>
+                <div className="relative z-10">
+                  <div className="h-24 w-24 rounded-full flex items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600">
+                    {feature.icon}
+                  </div>
+                  <h3 className="mt-6 text-2xl font-bold">{feature.title}</h3>
+                  <p className="mt-4 text-gray-600">{feature.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

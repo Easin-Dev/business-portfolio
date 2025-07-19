@@ -3,32 +3,32 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
-// প্রশ্ন এবং উত্তরের জন্য ডেমো ডেটা
+// UPDATED: প্রশ্ন এবং উত্তরের জন্য নতুন ডেটা
 const faqData = [
   {
-    question: "How can I start a project with Design Monks?",
+    question: "How do I start a project with you?",
     answer:
-      'Starting a project is easy! Just click the "Start a Project" button on our navigation bar or contact us through our form. We\'ll schedule a free consultation to discuss your needs and goals.',
+      "Starting a project with us is very easy! You can click the 'Start a Project' button to fill out our form, or email us directly. We will then schedule a free consultation meeting to discuss your project in detail.",
   },
   {
-    question: "Why is Design Monks different?",
+    question: "What are your payment terms?",
     answer:
-      "Our focus is on a collaborative partnership. We don't just build what you ask for; we challenge assumptions and provide creative input to ensure the final product exceeds your expectations and drives real results.",
+      "We typically require a 30% to 20% upfront payment to start the project. For larger projects, we are flexible and can divide the payment into several milestones. We accept bank transfers, credit cards, and other popular payment methods.",
   },
   {
-    question: "How Long Does a Design Project Take?",
+    question: "Do you provide support after the project is completed?",
     answer:
-      "The timeline for a project varies depending on its scope and complexity. A typical website design project can take anywhere from 4 to 8 weeks, while larger web/mobile app projects may take longer. We provide a detailed timeline after our initial consultation.",
+      "Absolutely! We provide 30 days of free technical support after each project's completion. If you need further assistance, we also offer affordable maintenance packages.",
   },
   {
-    question: "Is Design Monks a start-up-friendly agency?",
+    question: "Do I need to buy a domain and hosting?",
     answer:
-      "Absolutely! We love working with startups and MVP builders. Our pricing plans are flexible, and we offer dedicated support to help new businesses grow and succeed.",
+      "Yes, a domain and hosting are required for your website. If you'd like, we can assist you in finding and setting up the best providers. We also include domain and hosting in our 'All-in-One Ultimate Package'.",
   },
   {
-    question: "What design tools do you use?",
+    question: "Do you offer SEO (Search Engine Optimization) services?",
     answer:
-      "We primarily use industry-standard tools like Figma for UI/UX design, Adobe Illustrator for branding, and various prototyping tools to bring your vision to life.",
+      "We include basic on-page SEO, such as titles, meta descriptions, and image optimization, with all our web development packages. For advanced SEO services, we can provide them through our partner agencies.",
   },
 ];
 
@@ -46,9 +46,8 @@ function AccordionItem({ item, isOpen, onClick }) {
           transition={{ duration: 0.3 }}
         >
           <ChevronDown
-            className={`h-6 w-6 transition-colors ${
-              isOpen ? "text-purple-400" : "text-neutral-500"
-            }`}
+            className={`h-6 w-6 transition-colors ${isOpen ? "text-purple-400" : "text-neutral-500"
+              }`}
           />
         </motion.div>
       </button>
@@ -87,7 +86,7 @@ export default function FaqSection() {
           </span>
           <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl">
             Your Questions{" "}
-            <span className="italic font-serif text-teal-400">Answered!</span>
+            <span className="italic font-serif text-blue-500">Answered!</span>
           </h2>
         </div>
 

@@ -24,11 +24,11 @@ export default function VideoWithSpinningText() {
         {/* উপরের লেখা */}
         <div className="max-w-3xl mx-auto text-center">
           <span className="inline-block bg-teal-100 text-teal-800 text-xs font-medium px-3 py-1 rounded-full">
-            What Sets Us Apart
+            why Choose us
           </span>
           <h2 className="mt-4 text-4xl font-bold tracking-tight text-black dark:text-white sm:text-6xl">
             Why Us? Because Your{" "}
-            <span className="text-teal-500">Growth Is Our Mission</span>
+            <span className="text-blue-500">Growth Is Our Mission</span>
           </h2>
         </div>
 
@@ -52,11 +52,10 @@ export default function VideoWithSpinningText() {
           <div
             className={`absolute inset-0 m-auto flex items-center justify-center w-28 h-28 z-10 pointer-events-none 
                         transition-all duration-500 ease-in-out 
-                        ${
-                          isMuted
-                            ? "opacity-100 scale-100"
-                            : "opacity-0 scale-75"
-                        }`}
+                        ${isMuted
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-75"
+              }`}
           >
             <img
               src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ae30449566892a169fa179_Video%20Play%5D%20(2).svg"

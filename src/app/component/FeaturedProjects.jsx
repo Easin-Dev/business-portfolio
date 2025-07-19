@@ -13,26 +13,26 @@ const featuredProjects = [
     description:
       "Frontend Development, Backend Development, Full Stack Solutions, Mobile App Development, Custom Web Applications, API Integration.",
     images: [
-      "https://placehold.co/400x600/a7c5ff/333?text=Web+App+1",
-      "https://placehold.co/400x600/c0f6ff/333?text=Web+App+2",
+      "https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac78084947770a14f1eb7c_Project%20Cards.avif",
+      "https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac78089c9a93e810fbfa6e_Project%20Cards-1.avif",
     ],
   },
   {
-    title: "Logo & Branding",
+    title: "E-commerce Development",
     description:
-      "Logo Design, Full Branding, Business Branding, 3d logo, Custom Logo, Visual Identity, Brand Strategy, Social Media Branding, and Brand Guidelines.",
+      "Custom E-commerce Stores, Payment Gateway Setup, Product Management Systems, and Secure Checkout Solutions.",
     images: [
-      "https://placehold.co/400x600/ffd1d1/333?text=Branding+1",
-      "https://placehold.co/400x600/fdfab1/333?text=Branding+2",
+      "https://placehold.co/400x600/7c3aed/ffffff?text=E-commerce+1",
+      "https://placehold.co/400x600/a21caf/ffffff?text=E-commerce+2",
     ],
   },
   {
-    title: "Webflow & Framer",
+    title: "Landing Page Development",
     description:
-      "Custom Webflow Websites, Webflow Plugin, Framer Prototypes, Framer Material, Framer App, CMS Integration, Rapid Development.",
+      "High-Converting Landing Pages, A/B Testing, Lead Generation Forms, Fast Load Times, SEO Optimization, and Analytics Integration.",
     images: [
-      "https://placehold.co/400x600/d1ffd3/333?text=Webflow+Site",
-      "https://placehold.co/400x600/e0e9ff/333?text=Framer+Site",
+      "https://placehold.co/400x600/16a34a/ffffff?text=Landing+Page+1",
+      "https://placehold.co/400x600/059669/ffffff?text=Landing+Page+2",
     ],
   },
 ];
@@ -90,13 +90,11 @@ export default function FeaturedProjects() {
       {/* Section Header */}
       <div className="max-w-7xl mx-auto text-center px-8 mb-20 lg:mb-32">
         <span className="inline-block border border-emerald-400 text-emerald-400 text-sm font-medium px-4 py-1.5 rounded-full">
-          What We Do
+          Our Services
         </span>
         <h2 className="mt-6 text-5xl lg:text-7xl font-bold">
-          We Design{" "}
-          <span className="italic font-serif text-neutral-300">Brands</span>{" "}
-          That <span className="italic font-serif text-neutral-300">Speak</span>{" "}
-          To Audiences
+          We Turn <span className="italic font-serif text-blue-500">Complex</span> Ideas Into Flawless
+          <span className="italic font-serif text-blue-500">   Web Applications</span>
         </h2>
       </div>
 
@@ -109,15 +107,17 @@ export default function FeaturedProjects() {
               key={index}
               className="text-section h-96 mt-20 flex flex-col justify-center px-8"
             >
-              <h2 className="text-5xl lg:text-7xl font-bold italic">
+              <h2 className="text-5xl lg:text-7xl font-bold italic"
+              >
                 {project.title}
               </h2>
+              <hr className="text-blue-500 mt-3" />
               <p className="mt-6 text-lg text-neutral-400 max-w-md">
                 {project.description}
               </p>
               <a
                 href="#"
-                className="flex items-center mt-8 text-emerald-400 font-semibold hover:text-emerald-300 transition-colors"
+                className="flex items-center mt-8 text-blue-500 font-semibold hover:text-emerald-300 transition-colors"
               >
                 See More <ArrowRight className="ml-2" size={20} />
               </a>
