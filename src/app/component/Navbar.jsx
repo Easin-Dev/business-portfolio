@@ -16,29 +16,19 @@ function ServicesMenu() {
   const [activeService, setActiveService] = useState(0);
   const services = [
     {
-      title: "UI UX Design",
-      description: "Creating user-friendly digital experiences.",
-      image: "https://cdn.dribbble.com/userupload/12448193/file/original-275571c33405282927993836d76a911b.png?resize=1024x768",
+      title: "Landing Page Development",
+      description: "High-converting landing pages to boost your campaigns.",
+      image: "https://placehold.co/600x800/10b981/ffffff?text=Landing+Page",
     },
     {
-      title: "Web Design",
-      description: "Building visually-appealing & functional websites.",
-      image: "https://cdn.dribbble.com/userupload/4022233/file/original-cb431057535138a2a9642ea45031914a.png?resize=1024x768",
+      title: "E-commerce Solution",
+      description: "Complete and scalable solutions for your online store.",
+      image: "https://placehold.co/600x800/8b5cf6/ffffff?text=E-commerce",
     },
     {
-      title: "Webflow Design",
-      description: "Developing responsive websites effortlessly.",
-      image: "https://cdn.dribbble.com/userupload/12448193/file/original-275571c33405282927993836d76a911b.png?resize=1024x768",
-    },
-    {
-      title: "Framer Design",
-      description: "Interactive web designs are made simple.",
-      image: "https://cdn.dribbble.com/userupload/4022233/file/original-cb431057535138a2a9642ea45031914a.png?resize=1024x768",
-    },
-    {
-      title: "Logo & Branding",
-      description: "Creating memorable identities for brands.",
-      image: "https://cdn.dribbble.com/userupload/12448193/file/original-275571c33405282927993836d76a911b.png?resize=1024x768",
+      title: "Custom Web Development",
+      description: "Bespoke web applications tailored to your business needs.",
+      image: "https://placehold.co/600x800/3b82f6/ffffff?text=Web+App",
     },
   ];
 
@@ -46,10 +36,12 @@ function ServicesMenu() {
     <div className="w-[700px] h-auto rounded-2xl bg-white p-8 shadow-2xl text-black grid grid-cols-2 gap-8">
       <div className="flex flex-col justify-center">
         <h2 className="text-3xl font-bold text-black">
-          Level Up Like Player 456
+          Level Up <br /> <span className="text-blue-500">Your Business</span>{" "}
+          and Stay one step ahead of{" "}
+          <span className="text-blue-500">Everyone</span> else.
         </h2>
-        <p className="mt-2 text-neutral-500">
-          Our services will help you win the business success game.
+        <p className="mt-2 text-neutral-400">
+          Our services will help you grow and boost the business success.
         </p>
         <div className="mt-6 space-y-1">
           {services.map((service, index) => (
@@ -58,7 +50,9 @@ function ServicesMenu() {
               onMouseEnter={() => setActiveService(index)}
               className="p-3 rounded-lg cursor-pointer transition-colors duration-300 hover:bg-neutral-100"
             >
-              <h3 className="font-semibold text-neutral-800">{service.title}</h3>
+              <h3 className="font-semibold text-neutral-800">
+                {service.title}
+              </h3>
               <p className="text-neutral-500 text-sm">{service.description}</p>
             </div>
           ))}
@@ -82,16 +76,30 @@ function ServicesMenu() {
   );
 }
 
-
 // "More" বাটনের হোভার মেনুর জন্য নতুন কম্পোনেন্ট
 function MoreMenu() {
   const menuItems = [
     { title: "Home", description: "Home is where the monk lives", href: "/" },
-    { title: "About us", description: "The journey of Design Monks", href: "/about" },
-    { title: "Meet the team", description: "An overview of the Monk family", href: "/team" },
-    { title: "Blogs", description: "A collection of informative blogs", href: "/blogs" },
-    { title: "Career", description: "Work with top global brands, grow your skills", href: "/career" },
-    { title: "Contact us", description: "Start your dream design journey from here", href: "/contact" },
+    {
+      title: "About us",
+      description: "The journey of Design Monks",
+      href: "/about",
+    },
+    {
+      title: "Meet the team",
+      description: "An overview of the Monk family",
+      href: "/team",
+    },
+    {
+      title: "Blogs",
+      description: "A collection of informative blogs",
+      href: "/blogs",
+    },
+    {
+      title: "Contact us",
+      description: "Start your dream design journey from here",
+      href: "/contact",
+    },
   ];
 
   return (
@@ -104,7 +112,8 @@ function MoreMenu() {
             <ArrowRight size={16} className="ml-2" />
           </h3>
           <p className="text-sm text-neutral-500 mt-2">
-            We've recently worked on some amazing projects. Let's have a glance over the case studies.
+            We've recently worked on some amazing projects. Let's have a glance
+            over the case studies.
           </p>
           <div className="rounded-lg overflow-hidden mt-4">
             <img
@@ -132,7 +141,6 @@ function MoreMenu() {
   );
 }
 
-
 // Main Responsive Navbar Component
 export default function Navbar() {
   const [isServicesMenuOpen, setServicesMenuOpen] = useState(false);
@@ -150,14 +158,20 @@ export default function Navbar() {
 
     if (href) {
       return (
-        <a href={href} className="flex flex-col items-center gap-1 text-neutral-300 hover:text-white transition-colors">
+        <a
+          href={href}
+          className="flex flex-col items-center gap-1 text-neutral-300 hover:text-white transition-colors"
+        >
           {content}
         </a>
       );
     }
 
     return (
-      <button onClick={onClick} className="flex flex-col items-center gap-1 text-neutral-300 hover:text-white transition-colors">
+      <button
+        onClick={onClick}
+        className="flex flex-col items-center gap-1 text-neutral-300 hover:text-white transition-colors"
+      >
         {content}
       </button>
     );
@@ -165,11 +179,31 @@ export default function Navbar() {
 
   const moreMenuItems = [
     { title: "Home", description: "Home is where the monk lives", href: "/" },
-    { title: "About us", description: "The journey of Design Monks", href: "/about" },
-    { title: "Meet the team", description: "An overview of the Monk family", href: "/team" },
-    { title: "Blogs", description: "A collection of informative blogs", href: "/blogs" },
-    { title: "Career", description: "Work with top global brands, grow your skills", href: "/career" },
-    { title: "Contact us", description: "Start your dream design journey from here", href: "/contact" },
+    {
+      title: "About us",
+      description: "The journey of Design Monks",
+      href: "/about",
+    },
+    {
+      title: "Meet the team",
+      description: "An overview of the Monk family",
+      href: "/team",
+    },
+    {
+      title: "Blogs",
+      description: "A collection of informative blogs",
+      href: "/blogs",
+    },
+    {
+      title: "Career",
+      description: "Work with top global brands, grow your skills",
+      href: "/career",
+    },
+    {
+      title: "Contact us",
+      description: "Start your dream design journey from here",
+      href: "/contact",
+    },
   ];
 
   return (
@@ -180,7 +214,10 @@ export default function Navbar() {
 
           {/* Desktop Navbar */}
           <div className="hidden md:flex items-center justify-center rounded-full border border-white/10 bg-black/50 p-2.5 shadow-2xl shadow-black/40 backdrop-blur-md">
-            <a href="/work" className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors">
+            <a
+              href="/work"
+              className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors"
+            >
               Work
             </a>
             <div
@@ -188,7 +225,10 @@ export default function Navbar() {
               onMouseLeave={() => setServicesMenuOpen(false)}
               className="relative"
             >
-              <a href="/services" className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors">
+              <a
+                href="/services"
+                className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors"
+              >
                 Services
               </a>
               <AnimatePresence>
@@ -205,7 +245,10 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
-            <a href="/pricing" className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors">
+            <a
+              href="/pricing"
+              className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors"
+            >
               Pricing
             </a>
             {/* UPDATED: More button with hover menu */}
@@ -231,7 +274,10 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
-            <a href="/contact" className="ml-2 rounded-full border-2 border-purple-500/50 bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-2.5 text-base font-semibold text-white shadow-lg shadow-purple-500/20 transition-transform duration-300 hover:scale-105">
+            <a
+              href="/contact"
+              className="ml-2 rounded-full border-2 border-purple-500/50 bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-2.5 text-base font-semibold text-white shadow-lg shadow-purple-500/20 transition-transform duration-300 hover:scale-105"
+            >
               Start a Project
             </a>
           </div>
@@ -242,11 +288,18 @@ export default function Navbar() {
             <MobileNavItem icon={Puzzle} label="Services" href="/services" />
             <div className="w-12 h-12"></div>
             <MobileNavItem icon={DollarSign} label="Pricing" href="/pricing" />
-            <MobileNavItem icon={Menu} label="More" onClick={() => setMobileMoreMenuOpen(true)} />
+            <MobileNavItem
+              icon={Menu}
+              label="More"
+              onClick={() => setMobileMoreMenuOpen(true)}
+            />
           </div>
 
           <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[calc(50%+10px)]">
-            <a href="#" className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30 transition-transform duration-300 hover:scale-110">
+            <a
+              href="#"
+              className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30 transition-transform duration-300 hover:scale-110"
+            >
               <MessageCircle size={30} />
             </a>
           </div>
@@ -265,14 +318,25 @@ export default function Navbar() {
             style={{ paddingBottom: "100px" }}
           >
             <div className="bg-white rounded-3xl p-4 pt-6 relative border border-neutral-200 shadow-2xl">
-              <button onClick={() => setMobileMoreMenuOpen(false)} className="absolute top-4 right-4 text-neutral-500 hover:text-black transition-colors">
+              <button
+                onClick={() => setMobileMoreMenuOpen(false)}
+                className="absolute top-4 right-4 text-neutral-500 hover:text-black transition-colors"
+              >
                 <X size={20} />
               </button>
               <div className="mt-4">
                 {moreMenuItems.map((item) => (
-                  <a key={item.href} href={item.href} className="block py-3 border-b border-neutral-200 last:border-b-0">
-                    <h3 className="text-lg font-semibold text-black">{item.title}</h3>
-                    <p className="text-sm text-neutral-500">{item.description}</p>
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="block py-3 border-b border-neutral-200 last:border-b-0"
+                  >
+                    <h3 className="text-lg font-semibold text-black">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-neutral-500">
+                      {item.description}
+                    </p>
                   </a>
                 ))}
               </div>
@@ -283,7 +347,9 @@ export default function Navbar() {
 
       {/* Blurred Background */}
       <AnimatePresence>
-        {(isServicesMenuOpen || isDesktopMoreMenuOpen || isMobileMoreMenuOpen) && (
+        {(isServicesMenuOpen ||
+          isDesktopMoreMenuOpen ||
+          isMobileMoreMenuOpen) && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

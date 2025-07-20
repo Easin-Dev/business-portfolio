@@ -77,7 +77,7 @@ export default function WorkPage() {
 
   return (
     <div className="w-full bg-white text-black">
-      <div className="relative w-full h-[70vh] bg-black flex items-center justify-center overflow-hidden rounded-b-[40px]">
+      <div className="relative w-full h-[70vh] bg-black  flex items-center justify-center overflow-hidden rounded-b-[40px]">
         {/* ব্যাকগ্রাউন্ড গ্রিড */}
         <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)]"></div>
 
@@ -108,22 +108,24 @@ export default function WorkPage() {
         </BackgroundGradient>
 
         <div className="relative z-20 text-center px-4">
-          <h2 className="text-2xl font-semibold tracking-widest uppercase text-white">
-            ScaleUp Web
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+              ScaleUp Web
+            </span>
           </h2>
-
-          <div className="text-neutral-300 mt-4">
+          <div className="text-neutral-300 mt-4 bg-white/30 backdrop-blur-none w-40 p-2 rounded-r-full rounded-l-full mx-auto">
             <Link href="/" className="hover:text-white transition-colors">
               Home
             </Link>
             <span className="mx-2">/</span>
             <span className="text-white">Work</span>
           </div>
-
+          bg-clip-text
           <h1 className="text-5xl lg:text-7xl mt-2 text-white">
-            Designs That Speak <br />{" "}
-            <span className="italic font-serif text-neutral-400">
-              Results that Matter
+            <span className="font-bold"> Building Digital Experiences,</span>
+            <br />{" "}
+            <span className="italic font-serif text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+              That Drive Engagement
             </span>
           </h1>
         </div>

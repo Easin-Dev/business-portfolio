@@ -6,29 +6,19 @@ import { ArrowRight } from "lucide-react";
 // সার্ভিসগুলোর জন্য ডেমো ডেটা
 const services = [
   {
-    title: "UI UX",
-    description: "Creating user-friendly digital experiences.",
-    image: "https://placehold.co/600x800/8b5cf6/ffffff?text=UI/UX+Project",
+    title: "Landing Page Development",
+    description: "High-converting landing pages to boost your campaigns.",
+    image: "https://placehold.co/600x800/10b981/ffffff?text=Landing+Page",
   },
   {
-    title: "Web Design",
-    description: "Building visually-appealing & functional websites.",
-    image: "https://placehold.co/600x800/ec4899/ffffff?text=Web+Design+Project",
+    title: "E-commerce Solution",
+    description: "Complete and scalable solutions for your online store.",
+    image: "https://placehold.co/600x800/8b5cf6/ffffff?text=E-commerce",
   },
   {
-    title: "Webflow Design",
-    description: "Developing responsive websites effortlessly.",
-    image: "https://placehold.co/600x800/10b981/ffffff?text=Webflow+Project",
-  },
-  {
-    title: "Framer Design",
-    description: "Interactive web designs are made simple.",
-    image: "https://placehold.co/600x800/f59e0b/ffffff?text=Framer+Project",
-  },
-  {
-    title: "Logo & Branding",
-    description: "Creating memorable identities for brands.",
-    image: "https://placehold.co/600x800/3b82f6/ffffff?text=Branding+Project",
+    title: "Custom Web Development",
+    description: "Bespoke web applications tailored to your business needs.",
+    image: "https://placehold.co/600x800/3b82f6/ffffff?text=Web+App",
   },
 ];
 
@@ -45,7 +35,7 @@ export default function ServicesMenu() {
             Level Up Like Player 456
           </h2>
           <p className="mt-2 text-neutral-500">
-            Our services will help you win the business success game.
+            Our services will help you grow and boost the business success.
           </p>
 
           <div className="mt-6 space-y-2">

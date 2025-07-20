@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useEffect } from "react";
-import { Check, ArrowRight, Package, TrendingUp } from "lucide-react";
+import { Check, ArrowRight, Bot } from "lucide-react"; // Package icon replaced with Bot
 
 // আপনার দেওয়া নতুন প্রাইসিং প্ল্যানের ডেটা
 const pricingPlans = [
@@ -25,6 +25,7 @@ const pricingPlans = [
       "All E-commerce Features",
       "Custom API Development",
       "Product Management System",
+      "Easy Dashboard Manipulation", // UPDATED
       "Secure Payments",
       "Full Technical Support",
       "Scalable Architecture",
@@ -48,10 +49,11 @@ const pricingPlans = [
 
 // আপনার দেওয়া নতুন বোনাস সেকশনের ডেটা
 const bonusPackage = {
-  icon: <Package size={32} />,
-  title: "The All-in-One Ultimate Package",
+  icon: <Bot size={32} />, // UPDATED
+  title: "The Super Saver AI Package", // UPDATED
   price: "$20,000",
-  description: "Our super-saver deal that covers everything from A to Z. Get a complete, hosted, and supported web solution without any hassle."
+  description:
+    "Our ultimate deal that covers everything from web design to hosting, now including AI integration to automate and enhance your business.", // UPDATED
 };
 
 // নতুন প্রাইসিং কার্ড কম্পোনেন্ট
@@ -66,12 +68,12 @@ const PricingCard = ({ plan, isHighlighted }) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      card.style.setProperty('--glow-x', `${x}px`);
-      card.style.setProperty('--glow-y', `${y}px`);
+      card.style.setProperty("--glow-x", `${x}px`);
+      card.style.setProperty("--glow-y", `${y}px`);
     };
 
-    card.addEventListener('mousemove', handleMouseMove);
-    return () => card.removeEventListener('mousemove', handleMouseMove);
+    card.addEventListener("mousemove", handleMouseMove);
+    return () => card.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
@@ -86,13 +88,18 @@ const PricingCard = ({ plan, isHighlighted }) => {
 
       <div
         className={`relative z-10 h-full rounded-[15px] p-8 overflow-hidden flex flex-col
-                ${isHighlighted ? "bg-black/60 backdrop-blur-sm border border-purple-500/50" : "bg-[#0a0a0a] border border-white/10"}`}
+                ${
+                  isHighlighted
+                    ? "bg-black/60 backdrop-blur-sm border border-purple-500/50"
+                    : "bg-[#0a0a0a] border border-white/10"
+                }`}
       >
         <h3 className="text-4xl font-bold">{plan.price}</h3>
         <p className="mt-2 text-neutral-400">{plan.description}</p>
         <h4
-          className={`mt-6 text-2xl font-semibold ${isHighlighted ? "text-green-400" : ""
-            }`}
+          className={`mt-6 text-2xl font-semibold ${
+            isHighlighted ? "text-green-400" : ""
+          }`}
         >
           {plan.title}
         </h4>
@@ -124,11 +131,11 @@ export default function CustomPricingSection() {
           <span className="inline-block border border-green-400 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full">
             Pricing plans
           </span>
-          <h2 className="mt-6 text-5xl lg:text-7xl font-bold ">
+          <h2 className="mt-6 text-5xl lg:text-7xl font-bold">
             Unbeatable{" "}
-            <span className="italic font-serif text-blue-400">Value</span>
+            <span className="italic font-serif text-neutral-300">Value</span>
           </h2>
-          <h3 className="mt-2 text-5xl lg:text-7xl font-serif italic text-blue-500">
+          <h3 className="mt-2 text-5xl lg:text-7xl font-serif italic text-neutral-400">
             Unmatched Quality
           </h3>
         </div>
@@ -136,7 +143,11 @@ export default function CustomPricingSection() {
         {/* প্রাইসিং কার্ডের গ্রিড */}
         <div className="mt-20 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           {pricingPlans.map((plan, index) => (
-            <PricingCard key={index} plan={plan} isHighlighted={plan.isHighlighted} />
+            <PricingCard
+              key={index}
+              plan={plan}
+              isHighlighted={plan.isHighlighted}
+            />
           ))}
         </div>
 
@@ -150,17 +161,20 @@ export default function CustomPricingSection() {
               <h3 className="text-3xl lg:text-4xl font-bold">
                 {bonusPackage.title}
               </h3>
-              <p className="mt-2 text-neutral-400 max-w-2xl">{bonusPackage.description}</p>
+              <p className="mt-2 text-neutral-400 max-w-2xl">
+                {bonusPackage.description}
+              </p>
             </div>
             <div className="text-center">
-              <p className="text-4xl lg:text-5xl font-bold text-green-400">{bonusPackage.price}</p>
-              <a href="/contact" className="ml-2 rounded-md mt-3 border-2 border-purple-500/50 flex justify-center item-center gap-4 bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-1 text-base font-semibold text-white shadow-lg shadow-purple-500/20 transition-transform duration-300 hover:scale-105">
+              <p className="text-4xl lg:text-5xl font-bold text-green-400">
+                {bonusPackage.price}
+              </p>
+              <a
+                href="#"
+                className="mt-2 inline-block text-white font-semibold hover:text-green-300 transition-colors"
+              >
                 Get Started Now
-                <TrendingUp />
               </a>
-              {/* <a href="#" className="mt-2 inline-block text-white font-semibold hover:text-green-300 transition-colors">
-                Start a Project
-              </a> */}
             </div>
           </div>
         </div>
@@ -168,18 +182,22 @@ export default function CustomPricingSection() {
 
       <style jsx>{`
         .pricing-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            padding: 1px;
-            background: radial-gradient(400px circle at var(--glow-x) var(--glow-y), rgba(132, 0, 255, 0.5), transparent 40%);
-            z-index: 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          padding: 1px;
+          background: radial-gradient(
+            400px circle at var(--glow-x) var(--glow-y),
+            rgba(132, 0, 255, 0.5),
+            transparent 40%
+          );
+          z-index: 0;
+          opacity: 0;
+          transition: opacity 0.3s ease;
         }
         .pricing-card:hover::before {
-            opacity: 1;
+          opacity: 1;
         }
       `}</style>
     </section>

@@ -10,53 +10,78 @@ import { Plus, Minus } from "lucide-react";
 const servicesData = [
   {
     id: 1,
-    title: "UI UX Design",
+    title: "Landing Page Development",
     description:
-      "When it comes to UI/UX design, we create experiences that are simple to navigate. Our goal is to deliver user-friendly interactions that engage with your brand and fulfill user needs.",
-    image: "https://placehold.co/1200x600/e0e7ff/333?text=UI/UX+Showcase",
+      "We create high-converting, fast-loading, and SEO-friendly landing pages designed to capture leads and boost your marketing campaigns effectively.",
+    image:
+      "https://placehold.co/1200x600/10b981/ffffff?text=Landing+Page+Showcase",
     features: [
-      { title: "UI/UX Design", content: "Detailed UI/UX design process." },
-      { title: "Visual UI Design", content: "Stunning visual designs." },
       {
-        title: "User Research",
-        content: "In-depth user research and analysis.",
+        title: "High Conversion Design",
+        content: "Designs focused on maximizing user action.",
       },
       {
-        title: "Usability Testing",
-        content: "Rigorous usability testing sessions.",
+        title: "Fast Loading Speed",
+        content: "Optimized for the best performance and user experience.",
       },
       {
-        title: "Wireframe & Prototyping",
-        content: "Interactive wireframes and prototypes.",
+        title: "SEO Friendly",
+        content: "Built with search engine best practices in mind.",
       },
       {
-        title: "Interaction Design",
-        content: "Smooth and engaging interaction design.",
+        title: "Payment Gateway Integration",
+        content: "Securely process payments through your landing page.",
       },
     ],
   },
   {
     id: 2,
-    title: "Web Development",
+    title: "E-commerce Solution",
     description:
-      "We build robust and scalable web applications using modern technologies. From front-end to back-end, we ensure your website is fast, secure, and reliable.",
-    image: "https://placehold.co/1200x600/d1fae5/333?text=Web+Dev+Showcase",
+      "We build robust and scalable e-commerce platforms with all the features you need to run a successful online store, from product management to secure payments.",
+    image:
+      "https://placehold.co/1200x600/8b5cf6/ffffff?text=E-commerce+Showcase",
     features: [
       {
-        title: "Frontend Development",
-        content: "React, Next.js, and Vue.js development.",
+        title: "Secure Payment Gateway",
+        content: "Integration with popular and secure payment solutions.",
       },
       {
-        title: "Backend Development",
-        content: "Node.js, Python, and database management.",
+        title: "Product Management",
+        content: "Easy-to-use systems for managing your inventory.",
       },
       {
-        title: "E-commerce Solutions",
-        content: "Custom e-commerce platform development.",
+        title: "Custom API Development",
+        content: "Tailored APIs to connect with third-party services.",
       },
       {
-        title: "CMS Development",
-        content: "Headless CMS and custom solutions.",
+        title: "Scalable Architecture",
+        content: "Solutions that grow with your business.",
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Custom Web Development",
+    description:
+      "From complex web applications to bespoke business tools, we provide custom development solutions tailored precisely to your unique requirements.",
+    image: "https://placehold.co/1200x600/3b82f6/ffffff?text=Web+App+Showcase",
+    features: [
+      {
+        title: "Bespoke Solutions",
+        content: "Web applications built from scratch for your needs.",
+      },
+      {
+        title: "Advanced Backend",
+        content: "Powerful and secure server-side development.",
+      },
+      {
+        title: "Scalable & Secure",
+        content: "Built to handle growth and protect user data.",
+      },
+      {
+        title: "Dedicated Support",
+        content: "Ongoing support and maintenance for your application.",
       },
     ],
   },
@@ -122,10 +147,12 @@ export default function ServicesPage() {
 
         <div className="relative z-20 text-center px-4">
           {/* UPDATED: Agency name added */}
-          <h2 className="text-2xl font-semibold tracking-widest uppercase text-white mb-4">
-            ScaleUp Web
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+              ScaleUp Web
+            </span>
           </h2>
-          <div className="text-neutral-300 mb-4">
+          <div className="text-neutral-300 mb-4  bg-white/30 backdrop-blur-none w-40 p-2 rounded-r-full rounded-l-full mx-auto mt-2">
             <Link href="/" className="hover:text-white transition-colors">
               {" "}
               Home{" "}
@@ -134,9 +161,10 @@ export default function ServicesPage() {
             <span className="text-white">Services</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white max-w-4xl">
-            We turn great ideas into <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
-              Excellent Products
+            From Code to Commerce,
+            <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+              Building Your Digital Success
             </span>
           </h1>
         </div>
