@@ -1,33 +1,92 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Spotlight } from "../component/ui/spotlight";
 import Link from "next/link";
 import { BackgroundGradient } from "../component/ui/background-gradient";
-// UPDATED: নতুন আইকন যোগ করা হয়েছে
 import {
   CheckCircle2,
-  Gift,
-  Code,
   Bot,
-  MessageSquare,
   ChevronDown,
+  ArrowRight,
+  Check,
 } from "lucide-react";
 
-// Pricing ডেটা
+// Pricing ডেটা (UPDATED)
 const pricingData = {
+  "Regular Plan": [
+    {
+      plan: "Landing Page",
+      price: "$5,000",
+      description: "High-impact pages to convert visitors into customers.",
+      features: [
+        "Custom, Responsive Design",
+        "Lead Capture Form Integration",
+        "Blazing Fast Load Speed",
+        "A/B Testing Setup",
+        "SEO On-Page Optimization",
+        "Analytics Integration",
+        "Interactive Animations",
+        "Social Media Integration",
+      ],
+      isHighlighted: false,
+    },
+    {
+      plan: "E-commerce Solution",
+      price: "$12,000",
+      description: "A complete, feature-rich package for your online store.",
+      features: [
+        "Custom Storefront Design",
+        "Full Product Catalogue System",
+        "Secure Shopping Cart & Checkout",
+        "Multiple Payment Gateways (Stripe, PayPal)",
+        "User Account & Order History",
+        "Advanced Inventory Management",
+        "Discount & Coupon Code Engine",
+        "Customer Reviews & Ratings",
+        "Easy-to-use Admin Dashboard",
+        "Product & Category SEO",
+        "Third-Party API Integration",
+        "Automated Email Notifications",
+        "SSL Security Setup",
+        "Mobile & Tablet Responsive",
+        "Full Technical Support",
+      ],
+      isHighlighted: true,
+    },
+    {
+      plan: "Custom Web Application",
+      price: "$15,000+",
+      description: "Bespoke solutions for unique business challenges.",
+      features: [
+        "In-depth Requirement Analysis",
+        "Custom UI/UX Design & Prototyping",
+        "Scalable Backend Architecture (Node.js/Python)",
+        "Secure Database Management (SQL/NoSQL)",
+        "User Authentication (OAuth, JWT)",
+        "Real-time Features (WebSockets)",
+        "Admin Dashboard & Analytics",
+        "Third-party API Integrations",
+        "Cloud Deployment (AWS/Vercel)",
+        "CI/CD Pipeline Setup",
+        "Unit & Integration Testing",
+        "Dedicated Project Manager",
+      ],
+      isHighlighted: false,
+    },
+  ],
   Website: {
     "1-4 Pages": [
       {
         plan: "Basic Package",
-        price: "$1,850",
-        delivery: "15-day delivery",
+        price: "$2,000",
+        delivery: "4-day delivery",
         features: ["UX Research", "UI Design", "Prototyping", "2 Revisions"],
       },
       {
         plan: "Standard Package",
-        price: "$2,800",
-        delivery: "22-day delivery",
+        price: "$4,800",
+        delivery: "7-day delivery",
         popular: true,
         features: [
           "UX Research & Analysis",
@@ -39,8 +98,8 @@ const pricingData = {
       },
       {
         plan: "Premium Package",
-        price: "$3,950",
-        delivery: "30-day delivery",
+        price: "$5,950",
+        delivery: "10-day delivery",
         features: [
           "Everything in Standard",
           "Advanced Animations",
@@ -53,14 +112,14 @@ const pricingData = {
     "5-9 Pages": [
       {
         plan: "Basic Plus",
-        price: "$4,500",
-        delivery: "35-day delivery",
+        price: "$6,500",
+        delivery: "12-day delivery",
         features: ["UX Research & UI Design", "5-9 Pages", "Design System"],
       },
       {
         plan: "Standard Plus",
-        price: "$6,200",
-        delivery: "45-day delivery",
+        price: "$8,200",
+        delivery: "15-day delivery",
         popular: true,
         features: [
           "All Basic Plus Features",
@@ -70,8 +129,8 @@ const pricingData = {
       },
       {
         plan: "Premium Plus",
-        price: "$8,000",
-        delivery: "60-day delivery",
+        price: "$10,000",
+        delivery: "17-day delivery",
         features: [
           "All Standard Plus Features",
           "Full Style Guide",
@@ -82,8 +141,8 @@ const pricingData = {
     "10-15 Pages": [
       {
         plan: "Pro",
-        price: "$9,500",
-        delivery: "65-day delivery",
+        price: "$12,500",
+        delivery: "20-day delivery",
         features: [
           "UX Research & UI Design",
           "10-15 Pages",
@@ -132,98 +191,20 @@ const pricingData = {
       },
     ],
   },
-  "Web App": [
-    {
-      plan: "Web App Basic",
-      price: "$7,000",
-      delivery: "60-day delivery",
-      features: ["Core Features", "Database Setup", "Basic UI/UX"],
-    },
-    {
-      plan: "Web App Pro",
-      price: "$12,000",
-      delivery: "90-day delivery",
-      popular: true,
-      features: ["All Basic Features", "API Integration", "Admin Panel"],
-    },
-  ],
-  "Mobile App": [
-    {
-      plan: "Mobile App Basic",
-      price: "$8,000",
-      delivery: "70-day delivery",
-      features: ["iOS or Android", "UI/UX Design"],
-    },
-    {
-      plan: "Mobile App Pro",
-      price: "$15,000",
-      delivery: "100-day delivery",
-      popular: true,
-      features: ["iOS & Android", "Backend Integration"],
-    },
-  ],
-  Branding: [
-    {
-      plan: "Logo & Style",
-      price: "$3,500",
-      delivery: "20-day delivery",
-      features: ["Logo Design", "Color Palette", "Typography"],
-    },
-    {
-      plan: "Full Branding Kit",
-      price: "$6,000",
-      delivery: "40-day delivery",
-      popular: true,
-      features: ["Logo & Style", "Brand Guidelines", "Social Media Kit"],
-    },
-  ],
-  Subscription: [
-    {
-      plan: "Monthly Design",
-      price: "$4,995/mo",
-      delivery: "Ongoing",
-      features: [
-        "Unlimited Requests",
-        "Pause or Cancel Anytime",
-        "Dedicated Designer",
-      ],
-    },
-  ],
 };
 
-const bonuses = [
-  {
-    icon: <Gift size={28} />,
-    title: "Free Design Prototype",
-    description: "Experience your design in action before development.",
-  },
-  {
-    icon: <Code size={28} />,
-    title: "Developer Handoff",
-    description: "We ensure what we design is exactly what gets built.",
-  },
-  {
-    icon: <Bot size={28} />,
-    title: "Project Management",
-    description: "Stay on track with our expert project management.",
-  },
-  {
-    icon: <MessageSquare size={28} />,
-    title: "Project Consultation",
-    description: "Get professional advice to enhance your project.",
-  },
-];
+// UPDATED: Bonus package data
+const bonusPackage = {
+  icon: <Bot size={32} />,
+  title: "The Super Saver AI Package",
+  price: "$20,000",
+  description: "Our ultimate deal that covers everything from web design to hosting, now including AI integration to automate and enhance your business."
+};
 
-const mainCategories = [
-  "Website",
-  "Web App",
-  "Mobile App",
-  "Branding",
-  "Subscription",
-];
+const mainCategories = ["Regular Plan", "Website"];
 const pageCategories = ["1-4 Pages", "5-9 Pages", "10-15 Pages", "16-25 Pages"];
 
-// FAQ ডেটা
+// FAQ ডেটা (UPDATED)
 const faqData = [
   {
     question: "How can I start a project with Design Monks?",
@@ -266,9 +247,8 @@ function AccordionItem({ item, isOpen, onClick }) {
           transition={{ duration: 0.3 }}
         >
           <ChevronDown
-            className={`h-6 w-6 transition-colors ${
-              isOpen ? "text-purple-600" : "text-gray-500"
-            }`}
+            className={`h-6 w-6 transition-colors ${isOpen ? "text-purple-600" : "text-gray-500"
+              }`}
           />
         </motion.div>
       </button>
@@ -324,14 +304,54 @@ function FaqSection() {
   );
 }
 
+// Pricing Card Component
+const PricingCard = ({ plan }) => {
+  return (
+    <div
+      className={`relative rounded-2xl p-8 flex flex-col text-white
+            ${plan.isHighlighted ? "bg-black/60 backdrop-blur-sm border border-purple-500/50 scale-105 z-10" : "bg-[#0a0a0a] border border-white/10"}`}
+    >
+      {plan.isHighlighted && (
+        <div className="absolute top-0 right-6 -translate-y-1/2 bg-green-400 text-black text-xs font-bold px-3 py-1 rounded-full">
+          Popular
+        </div>
+      )}
+      <h3 className="text-4xl font-bold">{plan.price}</h3>
+      <p className="mt-2 text-neutral-400">{plan.description}</p>
+      <h4
+        className={`mt-6 text-2xl font-semibold ${plan.isHighlighted ? "text-green-400" : "text-white"
+          }`}
+      >
+        {plan.plan}
+      </h4>
+      <div className="border-t border-purple-500/20 my-6"></div>
+      <ul className="space-y-3 flex-grow">
+        {plan.features.map((feature, i) => (
+          <li key={i} className="flex items-start gap-3">
+            <Check className="text-green-400 flex-shrink-0 mt-1" size={18} />
+            <span className="text-neutral-300">{feature}</span>
+          </li>
+        ))}
+      </ul>
+      <a
+        href="#"
+        className="mt-8 inline-flex items-center justify-center w-full rounded-lg px-6 py-3 font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-90 transition-opacity"
+      >
+        Start a Project <ArrowRight className="ml-2" size={20} />
+      </a>
+    </div>
+  );
+};
+
+
 export default function PricingPage() {
-  const [activeMainCat, setActiveMainCat] = useState("Website");
+  const [activeMainCat, setActiveMainCat] = useState("Regular Plan");
   const [activePageCat, setActivePageCat] = useState("1-4 Pages");
 
   const plans =
-    pricingData[activeMainCat]?.[activePageCat] ||
-    pricingData[activeMainCat] ||
-    [];
+    activeMainCat === "Website"
+      ? pricingData[activeMainCat]?.[activePageCat] || []
+      : pricingData[activeMainCat] || [];
 
   return (
     <div className="w-full bg-[#050709]">
@@ -343,7 +363,6 @@ export default function PricingPage() {
           fill="hsl(259, 80%, 50%)"
         />
         <Spotlight className="top-20 right-full" fill="hsl(190, 80%, 50%)" />
-        {/* UPDATED: Floating images with hover effect */}
         <BackgroundGradient containerClassName="hidden lg:block absolute top-20 -left-24 w-96 z-10 transform -rotate-[25deg] transition-transform duration-500 hover:rotate-[-15deg] hover:scale-105">
           <img
             src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758837d0dffb8e32f63_137e4404fe981fb7e0f2f0db1f9ec8e1_3.avif"
@@ -351,7 +370,7 @@ export default function PricingPage() {
             className="w-full h-full object-contain rounded-lg"
           />
         </BackgroundGradient>
-        <BackgroundGradient containerClassName="hidden lg:block absolute bottom-20 -right-24 w-96 z-10 transform rotate-[25deg] transition-transform duration-500 hover:rotate-[15deg] hover:scale-105">
+        <BackgroundGradient containerClassName="hidden lg:block absolute bottom-20 -right-24 w-96 z-10 transform rotate-[25deg] transition-transform duration-500 hover:rotate-[-15deg] hover:scale-105">
           <img
             src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif"
             alt="Project Mockup 2"
@@ -360,10 +379,12 @@ export default function PricingPage() {
         </BackgroundGradient>
 
         <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
-          <h2 className="text-xl font-semibold tracking-widest uppercase text-white mb-2">
-            ScaleUp Web
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+              ScaleUp Web
+            </span>
           </h2>
-          <div className="text-neutral-300 mb-4 text-sm bg-white/30 backdrop-blur-sm p-2 rounded-r-full rounded-l-full">
+          <div className="text-neutral-300 mb-4 mt-4 text-sm bg-white/30 backdrop-blur-sm p-2 rounded-r-full rounded-l-full">
             <Link href="/" className="hover:text-white transition-colors">
               {" "}
               Home{" "}
@@ -372,14 +393,14 @@ export default function PricingPage() {
             <span className="text-white">Pricing</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white max-w-4xl mt-2">
-            Premium Quality With <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">
-              Affordability & Flexibility
+            Pricing That Fits Your Needs,
+            <br />
+            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+              Solutions That Exceed Them
             </span>
           </h1>
           <p className="mt-6 text-neutral-300 max-w-2xl">
-            Personalize your plan for custom solutions according to your
-            business needs
+            Let's find the perfect package to bring your ideas to life.
           </p>
 
           <div className="mt-12 space-y-6 w-full max-w-4xl">
@@ -389,11 +410,10 @@ export default function PricingPage() {
                   key={category}
                   onClick={() => setActiveMainCat(category)}
                   className={`px-4 py-2 text-sm rounded-md transition-colors duration-300
-                            ${
-                              activeMainCat === category
-                                ? "bg-white text-black font-semibold"
-                                : "bg-white/10 text-neutral-300 hover:bg-white/20"
-                            }`}
+                            ${activeMainCat === category
+                      ? "bg-white text-black font-semibold"
+                      : "bg-white/10 text-neutral-300 hover:bg-white/20"
+                    }`}
                 >
                   {category}
                 </button>
@@ -412,11 +432,10 @@ export default function PricingPage() {
                       key={category}
                       onClick={() => setActivePageCat(category)}
                       className={`px-4 py-2 text-sm rounded-md transition-colors duration-300
-                                ${
-                                  activePageCat === category
-                                    ? "bg-purple-600 text-white font-semibold"
-                                    : "bg-white/10 text-neutral-300 hover:bg-white/20"
-                                }`}
+                                ${activePageCat === category
+                          ? "bg-purple-600 text-white font-semibold"
+                          : "bg-white/10 text-neutral-300 hover:bg-white/20"
+                        }`}
                     >
                       {category}
                     </button>
@@ -426,7 +445,7 @@ export default function PricingPage() {
             </AnimatePresence>
           </div>
 
-          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 px-4">
+          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 px-4 items-center">
             <AnimatePresence>
               {plans.map((plan, index) => (
                 <motion.div
@@ -439,49 +458,8 @@ export default function PricingPage() {
                     transition: { delay: index * 0.1 },
                   }}
                   exit={{ opacity: 0, y: 30, scale: 0.95 }}
-                  className="relative w-full bg-[#110E1A]/80 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8 text-left flex flex-col"
                 >
-                  {plan.popular && (
-                    <div className="absolute top-0 right-6 -translate-y-1/2 bg-green-400 text-black text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M3.85 8.62a4 4 0 0 1 4.78-4.78l.24.02c.27.04.54.1.8.18l.25.08.26.08c.27.09.53.2.79.32l.24.1c.5.24 1 .54 1.48.9l.25.18.24.18a4 4 0 0 1 1.36 1.36l.18.24.18.25c.36.48.66.98.9 1.48l.1.24c.12.26.23.52.32.79l.08.26.08.25c.08.26.14.53.18.8l.02.24a4 4 0 0 1-4.78 4.78l-.24-.02a3.5 3.5 0 0 0-.8-.18l-.25-.08-.26-.08a4.5 4.5 0 0 1-1.1-1.1l-.18-.24-.18-.25a4.5 4.5 0 0 1-1.1-1.1l-.08-.26-.08-.25a3.5 3.5 0 0 0-.18-.8l-.02-.24Z" />
-                        <path d="m12 15-1.9-1.9a2.2 2.2 0 0 1 0-3.2A2.3 2.3 0 0 1 12 9.9a2.3 2.3 0 0 1 1.6 1.6 2.2 2.2 0 0 1 0 3.2L12 15Z" />
-                      </svg>
-                      Popular
-                    </div>
-                  )}
-                  <p className="text-4xl font-bold text-white">{plan.price}</p>
-                  <p className="text-sm text-neutral-400 mt-1">
-                    {plan.delivery}
-                  </p>
-                  <p className="mt-4 text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-teal-300">
-                    {plan.plan}
-                  </p>
-                  <div className="border-t border-purple-500/20 my-6"></div>
-                  <ul className="space-y-3 text-neutral-300 flex-grow">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-3">
-                        <CheckCircle2
-                          size={18}
-                          className="text-green-400 flex-shrink-0"
-                        />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="w-full mt-8 bg-purple-600 text-white font-semibold py-3 rounded-lg hover:bg-purple-700 transition-colors">
-                    Start a Project
-                  </button>
+                  <PricingCard plan={plan} />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -489,35 +467,30 @@ export default function PricingPage() {
 
           <div className="w-full max-w-6xl mx-auto mt-24">
             <div className="relative rounded-2xl p-8 border border-green-400/30 bg-black/20">
-              <div className="relative z-10 text-left">
-                <h3 className="text-3xl md:text-4xl font-bold">
-                  Bonuses Worth Over{" "}
-                  <span className="text-green-400">$2,500-Yours Free!</span>
-                </h3>
-                <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                  {bonuses.map((bonus, i) => (
-                    <div
-                      key={i}
-                      className="relative rounded-xl p-6 bg-[#121212] transition-all duration-300 hover:bg-white/5 border border-white/10"
-                    >
-                      <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center text-green-400">
-                        {bonus.icon}
-                      </div>
-                      <h4 className="mt-4 font-semibold text-lg text-white">
-                        {bonus.title}
-                      </h4>
-                      <p className="mt-2 text-neutral-400 text-sm">
-                        {bonus.description}
-                      </p>
-                    </div>
-                  ))}
+              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="flex-shrink-0 w-20 h-20 rounded-full bg-green-400/10 flex items-center justify-center text-green-400">
+                  {bonusPackage.icon}
+                </div>
+                <div className="flex-grow text-center md:text-left">
+                  <h3 className="text-3xl lg:text-4xl text-white font-bold">
+                    {bonusPackage.title}
+                  </h3>
+                  <p className="mt-2 text-neutral-400 max-w-2xl">{bonusPackage.description}</p>
+                </div>
+                <div className="text-center flex flex-col justify-center item-center">
+                  <p className="text-4xl lg:text-5xl font-bold text-green-400">{bonusPackage.price}</p>
+                  <a
+                    href="/contact"
+                    className=" border-2 border-purple-500/50 bg-gradient-to-r from-purple-600 mt-5 to-indigo-600 px-5 rounded-sm py-1 text-base font-semibold text-white shadow-lg shadow-purple-500/20 transition-transform duration-300 hover:scale-105"
+                  >
+                    Start a Project
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* UPDATED: FAQ সেকশন যোগ করা হয়েছে */}
       <FaqSection />
     </div>
   );

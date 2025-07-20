@@ -124,7 +124,7 @@ export default function WorkPage() {
           <h1 className="text-5xl lg:text-7xl mt-2 text-white">
             <span className="font-bold"> Building Digital Experiences,</span>
             <br />{" "}
-            <span className="italic font-serif text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+            <span className="italic  font-serif text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
               That Drive Engagement
             </span>
           </h1>
