@@ -105,9 +105,9 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* UPDATED: Footer-এর নিচে বড় করে এজেন্সির নাম */}
-      <div className="w-full bg-white pb-10 lg:pb-40 flex justify-center items-center">
-        <h1 className="text-6xl lg:text-[300px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-500">
+      {/* UPDATED: Footer-এর নিচে বড় করে এজেন্সির নাম */}
+      <div className="w-full bg-white pb-10 lg:pb-40 flex justify-center items-center overflow-hidden">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[300px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-500 whitespace-nowrap min-w-0">
           ScaleUp Web
         </h1>
       </div>

@@ -107,7 +107,7 @@ export default function StickyScrollSection() {
           <h2 className="mt-6 text-5xl lg:text-7xl font-bold">
             Proven Success In
           </h2>
-          <h3 className="mt-2 text-5xl lg:text-7xl font-serif italic text-neutral-600">
+          <h3 className="mt-2 text-5xl lg:text-7xl font-serif italic text-blue-600">
             Every Industry
           </h3>
         </div>

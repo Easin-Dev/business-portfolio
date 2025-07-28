@@ -133,9 +133,9 @@ export default function CustomPricingSection() {
           </span>
           <h2 className="mt-6 text-5xl lg:text-7xl font-bold">
             Unbeatable{" "}
-            <span className="italic font-serif text-neutral-300">Value</span>
+            <span className="italic font-serif text-blue-300">Value</span>
           </h2>
-          <h3 className="mt-2 text-5xl lg:text-7xl font-serif italic text-neutral-400">
+          <h3 className="mt-2 text-5xl lg:text-7xl font-serif italic text-blue-500">
             Unmatched Quality
           </h3>
         </div>

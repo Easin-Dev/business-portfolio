@@ -118,15 +118,15 @@ export default function AboutUsPage() {
                             ScaleUp Web
                         </span>
                     </h2>
-                    <div className="text-neutral-300 mb-4 text-sm">
+                    <div className="text-neutral-300 mb-4 text-sm bg-white/30 backdrop-blur-sm p-2 rounded-r-full rounded-l-full mt-4">
                         <Link href="/" className="hover:text-white transition-colors">
                             Home
                         </Link>
                         <span className="mx-2">/</span>
                         <span className="text-white">About Us</span>
                     </div>
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white max-w-4xl mt-2">
-                        The Story Behind The Code,
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl text-white max-w-5xl mt-2">
+                        <span className="font-bold">The Story Behind The Code,</span>
                         <br />
                         <span className="italic font-serif text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
                             The Team Behind The Success

@@ -65,7 +65,7 @@ export default function TestimonialSection() {
   const testimonial = testimonials[page];
 
   return (
-    <section className="w-full bg-white dark:bg-[#f0f0f0] text-black rounded-t-4xl py-20 lg:py-32">
+    <section className="w-full bg-white dark:bg-[#f0f0f0] text-black rounded-t-4xl pb-62 pt-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* সেকশনের শিরোনাম */}
         <div className="max-w-3xl mx-auto text-center">
@@ -74,7 +74,7 @@ export default function TestimonialSection() {
           </span>
           <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl">
             Our Clients Love to{" "}
-            <span className="italic font-serif text-teal-600">
+            <span className="italic font-serif text-blue-600">
               Recommend Us
             </span>
           </h2>

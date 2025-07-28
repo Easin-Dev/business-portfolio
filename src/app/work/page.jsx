@@ -77,29 +77,21 @@ export default function WorkPage() {
 
   return (
     <div className="w-full bg-white text-black">
-      <div className="relative w-full h-[70vh] bg-black  flex items-center justify-center overflow-hidden rounded-b-[40px]">
-        {/* ব্যাকগ্রাউন্ড গ্রিড */}
-        <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.1)_1px,transparent_1px)]"></div>
-
-        {/* স্পটলাইট ইফেক্ট */}
+      <div className="relative w-full h-[60vh] md:h-[70vh] bg-black flex items-center justify-center overflow-hidden rounded-b-[40px]">
+        <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]"></div>
         <Spotlight
           className="-top-40 left-0 md:left-60 md:-top-20"
-          fill="rgba(30, 58, 138, 0.8)"
+          fill="hsl(158, 89%, 30%)"
         />
-        <Spotlight
-          className="top-10 left-full"
-          fill="rgba(124, 58, 237, 0.7)"
-        />
-
-        {/* UPDATED: ভাসমান ছবি (Hero Section-এর মতো) */}
-        <BackgroundGradient containerClassName="absolute top-10 -left-24 md:left-5 lg:left-10 w-64 md:w-80 lg:w-96 z-10 transform rotate-[-15deg] hover:rotate-[-10deg] transition-transform duration-500">
+        <Spotlight className="top-10 left-full" fill="hsl(259, 80%, 60%)" />
+        <BackgroundGradient containerClassName="hidden lg:block absolute top-20 -left-24 w-96 z-10 transform rotate-[-15deg]">
           <img
             src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758837d0dffb8e32f63_137e4404fe981fb7e0f2f0db1f9ec8e1_3.avif"
             alt="Project Mockup 1"
             className="w-full h-full object-contain rounded-lg"
           />
         </BackgroundGradient>
-        <BackgroundGradient containerClassName="absolute bottom-10 -right-24 md:right-5 lg:right-10 w-64 md:w-80 lg:w-96 z-10 transform rotate-[15deg] hover:rotate-[10deg] transition-transform duration-500">
+        <BackgroundGradient containerClassName="hidden lg:block absolute bottom-20 -right-24 w-96 z-10 transform rotate-[15deg]">
           <img
             src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif"
             alt="Project Mockup 2"
@@ -139,10 +131,9 @@ export default function WorkPage() {
               key={category}
               onClick={() => setActiveCategory(category)}
               className={`px-5 py-2 text-sm lg:text-base rounded-full transition-colors duration-300
-                ${
-                  activeCategory === category
-                    ? "bg-purple-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ${activeCategory === category
+                  ? "bg-purple-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
             >
               {category}

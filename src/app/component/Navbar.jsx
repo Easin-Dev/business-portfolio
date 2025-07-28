@@ -35,7 +35,7 @@ function ServicesMenu() {
     },
   ];
 
-  return (     
+  return (
     <div className="w-[700px] h-auto rounded-2xl bg-white p-8 shadow-2xl text-black grid grid-cols-2 gap-8">
       <div className="flex flex-col justify-center">
         <h2 className="text-3xl font-bold text-black">
@@ -96,11 +96,6 @@ function MoreMenu() {
       title: "About us",
       description: "The journey of Design Monks",
       href: "/about-us",
-    },
-    {
-      title: "Meet the team",
-      description: "An overview of the Monk family",
-      href: "/team",
     },
     {
       title: "Blogs",
@@ -195,11 +190,6 @@ export default function Navbar() {
       title: "About us",
       description: "The journey of Design Monks",
       href: "/about-us",
-    },
-    {
-      title: "Meet the team",
-      description: "An overview of the Monk family",
-      href: "/team",
     },
     {
       title: "Blogs",
@@ -303,7 +293,7 @@ export default function Navbar() {
 
           <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[calc(50%+10px)]">
             <a
-              href="#"
+              href="/contact"
               className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30 transition-transform duration-300 hover:scale-110"
             >
               <MessageCircle size={30} />

@@ -229,7 +229,11 @@ export default function ContactPage() {
                     <img src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif" alt="Project Mockup 2" className="w-full h-full object-contain rounded-lg" />
                 </BackgroundGradient>
                 <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
-                    <h2 className="text-xl font-semibold tracking-widest uppercase text-white mb-2">designmonks</h2>
+                    <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+                            ScaleUp Web
+                        </span>
+                    </h2>
                     <div className="text-neutral-300 mb-4 text-sm">
                         <Link href="/" className="hover:text-white transition-colors"> Home </Link>
                         <span className="mx-2">/</span>

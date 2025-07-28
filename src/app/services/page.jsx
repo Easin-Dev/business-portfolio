@@ -160,10 +160,10 @@ export default function ServicesPage() {
             <span className="mx-2">/</span>
             <span className="text-white">Services</span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white max-w-4xl">
-            From Code to Commerce,
+          <h1 className="text-4xl md:text-5xl lg:text-6xl text-white max-w-5xl">
+            <span className="font-bold">From Code to Commerce,</span>
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
               Building Your Digital Success
             </span>
           </h1>
