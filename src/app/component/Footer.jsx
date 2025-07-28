@@ -13,7 +13,7 @@ export default function Footer() {
               Let's build your next big thing.
             </h2>
             <a
-              href="#"
+              href="/contact"
               className="mt-8 inline-flex items-center gap-x-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-purple-500/20 transition-transform duration-300 hover:scale-105"
             >
               Start a Project <ArrowRight size={20} />
@@ -36,11 +36,6 @@ export default function Footer() {
                 </li>
                 <li>
                   <a href="#" className="text-neutral-600 hover:text-black">
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-neutral-600 hover:text-black">
                     Blog
                   </a>
                 </li>
@@ -52,17 +47,17 @@ export default function Footer() {
               <ul className="mt-4 space-y-3">
                 <li>
                   <a href="#" className="text-neutral-600 hover:text-black">
-                    Web Design
+                    Web Development
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-neutral-600 hover:text-black">
-                    App Design
+                    E-commerce Solution
                   </a>
                 </li>
                 <li>
                   <a href="#" className="text-neutral-600 hover:text-black">
-                    Branding
+                    Landing Page Development
                   </a>
                 </li>
               </ul>
@@ -116,8 +111,6 @@ export default function Footer() {
           ScaleUp Web
         </h1>
       </div>
-
-      {/* অ্যানিমেশনের জন্য style ট্যাগটি আর দরকার নেই */}
     </>
   );
 }

@@ -35,7 +35,7 @@ function ServicesMenu() {
     },
   ];
 
-  return (
+  return (     
     <div className="w-[700px] h-auto rounded-2xl bg-white p-8 shadow-2xl text-black grid grid-cols-2 gap-8">
       <div className="flex flex-col justify-center">
         <h2 className="text-3xl font-bold text-black">
@@ -95,7 +95,7 @@ function MoreMenu() {
     {
       title: "About us",
       description: "The journey of Design Monks",
-      href: "/about",
+      href: "/about-us",
     },
     {
       title: "Meet the team",
@@ -194,7 +194,7 @@ export default function Navbar() {
     {
       title: "About us",
       description: "The journey of Design Monks",
-      href: "/about",
+      href: "/about-us",
     },
     {
       title: "Meet the team",
@@ -205,11 +205,6 @@ export default function Navbar() {
       title: "Blogs",
       description: "A collection of informative blogs",
       href: "/blogs",
-    },
-    {
-      title: "Career",
-      description: "Work with top global brands, grow your skills",
-      href: "/career",
     },
     {
       title: "Contact us",
