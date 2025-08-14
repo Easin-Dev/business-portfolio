@@ -3,7 +3,8 @@ import React, { useState, useEffect, useId, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Spotlight } from "./ui/spotlight";
 import { BackgroundGradient } from "./ui/background-gradient";
-import { Verified, Rocket, Navigation, TrendingUp } from "lucide-react";
+import { Verified, Rocket, Navigation, TrendingUp, BadgeCheck } from "lucide-react";
+import Image from "next/image";
 // Utility function for combining class names
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 
@@ -146,7 +147,7 @@ const ContainerTextFlip = ({
           ref={textRef}
         >
           {words[currentWordIndex]}
-        </motion.div>
+        </motion.div>P
       </AnimatePresence>
       <span className="opacity-0" ref={textRef}>
         {words[currentWordIndex]}
@@ -186,23 +187,26 @@ export default function Hero_section() {
 
       <div className="relative z-20 text-center px-4 flex flex-col items-center w-full max-w-7xl mx-auto">
         <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
-            ScaleUp Web
-          </span>
+          <img
+            src="https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png"
+            alt="Project Mockup 1"
+            className="w-[300px] h-[100px]"
+          />
         </h2>
+
         <p className="mt-3 md:mt-4 text-emerald-400 font-medium text-sm md:text-2xl shine-subheadline">
           Custom Web Application Build Agency
         </p>
 
-        <h1 className="mt-4 font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-5xl leading-tight md:leading-snug font-merienda">
-          We Build{" "}
-          <span className="text-transparent italic bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+        <h1 className="mt-4  text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-5xl leading-tight md:leading-snug font-merienda">
+          <span className="font-bold">We Build</span>
+          <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
             {" "}
             Web Application
           </span>{" "}
-          for your{" "}
+          <span className="font-bold">for your</span>
           <PointerHighlight>
-            <span className="text-transparent italic bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+            <span className="text-transparent font-serif italic bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
               Business
             </span>
           </PointerHighlight>
@@ -210,18 +214,18 @@ export default function Hero_section() {
           {/* Keep for small screens to break line */}
           <ContainerTextFlip
             words={["E-commerce", "Portfolios", "SaaS Apps", "Landing", "Software"]}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl mx-2 md:mx-4"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl mx-2 md:mx-4 font-bold"
           />
         </h1>
-        <h1 className="font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-5xl leading-tight md:leading-snug">
-          <span className="text-transparent italic bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+        <h1 className=" text-4xl sm:text-5xl md:text-6xl lg:text-7xl max-w-5xl leading-tight md:leading-snug">
+          <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
             Grow Your Sales
           </span>
         </h1>
 
         <div className="mt-6">
           <span className="inline-flex items-center gap-2 bg-gray-800/60 border border-gray-700 rounded-full px-3 py-2 text-xs sm:text-sm text-gray-300 text-center">
-            <Verified size={16} className="text-emerald-400" />
+            <BadgeCheck size={25} color="#644dd8ff" strokeWidth={3} />
             Full-Stack Web Studio • Bangladesh-Based • 100% Refund Policy
           </span>
         </div>

@@ -24,9 +24,10 @@ export default function VideoWithSpinningText() {
             Why Choose Us
           </span>
           {/* 👇 dark:text-white ক্লাসটি এখান থেকে সরিয়ে দেওয়া হয়েছে */}
-          <h2 className="mt-4 text-4xl font-bold tracking-tight text-black sm:text-6xl">
-            Why Us? Because Your{" "}
-            <span className="text-blue-500">Growth Is Our Mission</span>
+          <h2 className="mt-4 text-4xl  tracking-tight text-black sm:text-6xl">
+            <span className="font-bold">Why Us? Because Your</span>
+            <br />
+            <span className="text-blue-500 font-serif italic">Growth Is Our Mission</span>
           </h2>
         </div>
 
