@@ -3,18 +3,17 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-// সার্ভিসগুলোর জন্য ডেমো ডেটা (UPDATED with path)
 const services = [
   {
     title: "Landing Page Development",
     description: "High-converting landing pages to boost your campaigns.",
-    image: "https://placehold.co/600x800/10b981/ffffff?text=Landing+Page",
+    image: "https://i.ibb.co.com/yFbgJ1g9/Untitled-design.png",
     path: "/services/landing-page",
   },
   {
     title: "E-commerce Solution",
     description: "Complete and scalable solutions for your online store.",
-    image: "https://placehold.co/600x800/8b5cf6/ffffff?text=E-commerce",
+    image: "",
     path: "/services/ecommerce",
   },
   {
@@ -29,10 +28,8 @@ export default function ServicesMenu() {
   const [activeService, setActiveService] = useState(0);
 
   return (
-    // মূল কার্ড কন্টেইনার
     <div className="w-[700px] h-auto rounded-2xl bg-white p-8 shadow-2xl">
       <div className="grid grid-cols-2 gap-8">
-        {/* বাম দিকের লেখা */}
         <div className="flex flex-col justify-center">
           <h2 className="text-3xl font-bold text-black">
             Level Up Like Player 456
@@ -43,7 +40,6 @@ export default function ServicesMenu() {
 
           <div className="mt-6 space-y-2">
             {services.map((service, index) => (
-              // UPDATED: div replaced with <a> tag to make it clickable
               <a
                 key={index}
                 href={service.path}
@@ -61,7 +57,6 @@ export default function ServicesMenu() {
           </div>
         </div>
 
-        {/* ডান দিকের ছবি */}
         <div className="relative w-full h-96 rounded-lg overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.img
@@ -75,7 +70,6 @@ export default function ServicesMenu() {
               className="absolute inset-0 w-full h-full object-cover"
             />
           </AnimatePresence>
-          {/* UPDATED: Dynamic link added */}
           <a
             href={`/${services[activeService].path}`}
             className="absolute bottom-4 right-4 bg-white/80 text-black p-3 rounded-full hover:bg-white transition-colors"

@@ -18,19 +18,19 @@ function ServicesMenu() {
     {
       title: "Landing Page Development",
       description: "High-converting landing pages to boost your campaigns.",
-      image: "https://placehold.co/600x800/10b981/ffffff?text=Landing+Page",
+      image: "https://i.ibb.co.com/dwWbz6V3/Untitled-design-3.png",
       path: "/services/landing-page", // Path added
     },
     {
       title: "E-commerce Solution",
       description: "Complete and scalable solutions for your online store.",
-      image: "https://placehold.co/600x800/8b5cf6/ffffff?text=E-commerce",
+      image: "https://i.ibb.co.com/s9yynRSD/Untitled-design-4.png",
       path: "/services/ecommerce", // Path added
     },
     {
       title: "Custom Web Development",
       description: "Bespoke web applications tailored to your business needs.",
-      image: "https://placehold.co/600x800/3b82f6/ffffff?text=Web+App",
+      image: "https://i.ibb.co.com/JWxfYpB6/Untitled-design-6.png",
       path: "/services/custom-dev", // Path added
     },
   ];
@@ -63,7 +63,7 @@ function ServicesMenu() {
           ))}
         </div>
       </div>
-      <div className="relative w-full h-96 rounded-lg overflow-hidden">
+      <div className="relative w-full h-96 rounded-lg mt-16 overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
             key={activeService}

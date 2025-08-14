@@ -169,14 +169,14 @@ export default function Hero_section() {
       {/* Background gradients for laptop mockups - adjust visibility and positioning for smaller screens */}
       <BackgroundGradient containerClassName="hidden lg:block absolute top-10 -left-24 lg:left-10 w-64 lg:w-96 z-10 transform rotate-[-15deg] hover:rotate-[-10deg] transition-transform duration-500">
         <img
-          src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758837d0dffb8e32f63_137e4404fe981fb7e0f2f0db1f9ec8e1_3.avif"
+          src="https://i.ibb.co.com/6cRsyXKY/3695086.png"
           alt="Project Mockup 1"
           className="w-full h-full object-contain rounded-lg opacity-80"
         />
       </BackgroundGradient>
       <BackgroundGradient containerClassName="hidden lg:block absolute bottom-10 -right-24 lg:right-10 w-64 lg:w-96 z-10 transform rotate-[15deg] hover:rotate-[10deg] transition-transform duration-500">
         <img
-          src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif"
+          src="https://i.ibb.co.com/YVJg41M/original-6b3cbcfc75fd59c832fa7d26904f3562.png"
           alt="Project Mockup 2"
           className="w-full h-full object-contain rounded-lg opacity-80"
         />
