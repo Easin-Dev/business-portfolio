@@ -31,11 +31,13 @@ export default function blogs() {
                 </BackgroundGradient>
 
                 <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
-                    <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
-                            ScaleUp Web
-                        </span>
-                    </h2>
+                   <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
+          <img
+            src="https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png"
+            alt="Project Mockup 1"
+            className="w-[300px] h-[100px]"
+          />
+        </h2>
                     <div className="text-neutral-300 mb-4 text-sm">
                         <Link href="/" className="hover:text-white transition-colors">
                             Home

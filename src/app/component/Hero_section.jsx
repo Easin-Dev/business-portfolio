@@ -4,11 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Spotlight } from "./ui/spotlight";
 import { BackgroundGradient } from "./ui/background-gradient";
 import { Verified, Rocket, Navigation, TrendingUp, BadgeCheck } from "lucide-react";
-import Image from "next/image";
-// Utility function for combining class names
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 
-// Pointer Highlight Component (Now using Lucide icon)
 const PointerHighlight = ({
   children,
   rectangleClassName,
@@ -160,7 +157,7 @@ export default function Hero_section() {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-screen flex items-center justify-center pt-28 pb-16 md:pt-36 lg:pt-40 overflow-hidden bg-[#050709] text-white"
+      className="relative w-full min-h-screen flex items-center justify-center pt-28 pb-16 md:pt-36 lg:pt-8 overflow-hidden bg-[#050709] text-white"
     >
       <Spotlight
         className="-top-20 left-0 md:left-40 md:-top-20"

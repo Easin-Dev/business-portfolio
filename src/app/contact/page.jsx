@@ -80,13 +80,13 @@ const WorldMapSection = memo(() => {
     return (
         <div className="w-full bg-[#050709] py-20 lg:py-24">
             <div className="max-w-7xl mx-auto px-4 text-center">
-                <span className="inline-block border border-green-400 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full">
+                <span className="inline-block border border-blue-400 text-white text-sm font-medium px-4 py-1.5 rounded-full">
                     Connect Now
                 </span>
-                <h2 className="mt-6 text-4xl md:text-5xl font-bold text-white">
-                    Get In Touch Now For Business Or
+                <h2 className="mt-6 text-4xl md:text-5xl text-white">
+                  <span className="font-bold">  Get In Touch Now For Business Or</span>
                     <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">
+                    <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
                         Career Opportunities!
                     </span>
                 </h2>
@@ -177,11 +177,11 @@ function FaqSection() {
         <section className="w-full bg-white text-black py-20 lg:py-24">
             <div className="max-w-4xl mx-auto px-6 lg:px-8">
                 <div className="max-w-3xl mx-auto text-center">
-                    <span className="inline-block border border-teal-500 bg-teal-50 text-teal-700 text-xs font-medium px-3 py-1 rounded-full">
+                    <span className="inline-block border border-blue-500 bg-teal-50 text-blue-400 text-xs font-medium px-3 py-1 rounded-full">
                         Frequently Asked Questions
                     </span>
                     <h2 className="mt-4 text-4xl font-bold tracking-tight text-black sm:text-6xl">
-                        Your Questions <span className="italic font-serif text-teal-600">Answered!</span>
+                        Your Questions <span className="italic font-serif text-blue-600">Answered!</span>
                     </h2>
                 </div>
                 <div className="mt-16">
@@ -229,19 +229,21 @@ export default function ContactPage() {
                     <img src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif" alt="Project Mockup 2" className="w-full h-full object-contain rounded-lg" />
                 </BackgroundGradient>
                 <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
-                    <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
-                            ScaleUp Web
-                        </span>
-                    </h2>
-                    <div className="text-neutral-300 mb-4 text-sm">
+                   <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
+          <img
+            src="https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png"
+            alt="Project Mockup 1"
+            className="w-[300px] h-[100px]"
+          />
+        </h2>
+                    <div className="text-neutral-300 mt-4 bg-white/30 backdrop-blur-none w-44 p-2 rounded-r-full rounded-l-full mx-auto">
                         <Link href="/" className="hover:text-white transition-colors"> Home </Link>
                         <span className="mx-2">/</span>
                         <span className="text-white">Contact Us</span>
                     </div>
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white max-w-4xl mt-2">
-                        Have A Question Or <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">Just Want To Chat?</span>
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl  text-white max-w-4xl mt-2">
+                       <span className="font-bold"> Have A Question Or</span> <br />
+                        <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Just Want To Chat?</span>
                     </h1>
                 </div>
             </div>
@@ -290,7 +292,7 @@ export default function ContactPage() {
                         </motion.div>
                         <motion.div variants={formVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} custom={3}>
                             <label htmlFor="details" className="block text-sm font-medium text-gray-700">Project Details</label>
-                            <textarea id="details" rows="4" placeholder="I want to redesign my website..." className="mt-1 block w-full bg-gray-100 border-transparent rounded-lg focus:ring-purple-600 focus:border-purple-600 transition"></textarea>
+                            <textarea id="details" rows="4" placeholder="I want to redesign my website..." className="mt-1 block p-5 w-full bg-gray-100 border-transparent rounded-lg focus:ring-purple-600 focus:border-purple-600 transition"></textarea>
                         </motion.div>
                         <motion.div variants={formVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} custom={4}>
                             <button type="submit" className="w-full flex items-center justify-center bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-purple-700 transition-colors duration-300">
@@ -301,7 +303,6 @@ export default function ContactPage() {
                 </div>
             </div>
             <WorldMapSection />
-            {/* FAQ সেকশন যোগ করা হয়েছে */}
             <FaqSection />
         </div>
     );

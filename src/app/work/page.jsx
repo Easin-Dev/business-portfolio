@@ -101,9 +101,11 @@ export default function WorkPage() {
 
         <div className="relative z-20 text-center px-4">
           <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
-              ScaleUp Web
-            </span>
+            <img
+              src="https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png"
+              alt="Project Mockup 1"
+              className="w-[300px] h-[100px] mx-auto"
+            />
           </h2>
           <div className="text-neutral-300 mt-4 bg-white/30 backdrop-blur-none w-40 p-2 rounded-r-full rounded-l-full mx-auto">
             <Link href="/" className="hover:text-white transition-colors">
