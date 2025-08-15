@@ -36,10 +36,10 @@ const projects = [
   },
   {
     title: "Revolutionize Fitness Goals",
-    category: "Healthcare",
+    category: "Nursery Shop",
     description:
       "Fitmate transforms fitness in Australia with flexible gym access, personalised schedules, and AI-driven insights to solve common workout limitations for users.",
-    image: "https://placehold.co/600x400/c0f6ff/333?text=Fitness+App",
+    image: "https://i.ibb.co.com/DfctFkfb/Screenshot-2025-08-15-062855.png",
     bgColor: "bg-[#c0f6ff]",
     textColor: "text-cyan-900",
   },

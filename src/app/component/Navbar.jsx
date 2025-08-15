@@ -124,7 +124,7 @@ function MoreMenu() {
           </p>
           <div className="rounded-lg overflow-hidden mt-4">
             <img
-              src="https://cdn.dribbble.com/userupload/4022233/file/original-cb431057535138a2a9642ea45031914a.png?resize=1024x768"
+              src="https://i.ibb.co.com/tT6CNrhV/Blue-Gradient-Graphic-Design-Youtube-Ad-Video.png"
               alt="Latest Work"
               className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
             />

@@ -50,12 +50,12 @@ export default function AboutUsPage() {
         {
             name: "Easin Arafat",
             role: "Founder, Web Design & Full-Stack Developer",
-            image: "https://placehold.co/400x400/8b5cf6/ffffff?text=EA",
+            image: "https://i.ibb.co.com/PsHs5gk5/WIN-20250731-13-56-16-Pro.jpg",
             bio: "With a passion for creating seamless digital experiences, Easin leads ScaleUp Web with a vision to merge cutting-edge technology with user-centric design. His expertise in both front-end and back-end development ensures that every project is not only beautiful but also robust and scalable.",
             socials: {
-                linkedin: "#",
-                fiverr: "#",
-                facebook: "#",
+                linkedin: "https://www.linkedin.com/in/easinarafatdev/",
+                fiverr: "https://www.fiverr.com/easin_dev",
+                facebook: "https://www.facebook.com/easin.arafat.dev",
             },
         },
         {
@@ -87,7 +87,7 @@ export default function AboutUsPage() {
     return (
         <div className="w-full bg-black text-white">
             {/* Hero Section */}
-            <div className="relative w-full min-h-[70vh] flex items-center justify-center overflow-hidden pt-20 pb-10">
+            <div className="relative w-full min-h-[70vh] flex items-center justify-center overflow-hidden pb-10">
                 <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]"></div>
                 <Spotlight
                     className="-top-40 left-0 md:left-60 md:-top-20"
