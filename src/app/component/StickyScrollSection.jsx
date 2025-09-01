@@ -5,7 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// প্রকল্পের জন্য ডেমো ডেটা
 const projects = [
   {
     title: "Easy Booking for Dream Trips",

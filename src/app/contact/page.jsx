@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useMemo, memo } from "react";
+import React, { useState, useRef, useMemo, memo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Spotlight } from "../component/ui/spotlight";
 import Link from "next/link";
@@ -41,7 +41,7 @@ const faqData = [
     },
 ];
 
-// World Map Component
+// World Map Component (unchanged)
 const WorldMapSection = memo(() => {
     const locations = [
         {
@@ -84,7 +84,7 @@ const WorldMapSection = memo(() => {
                     Connect Now
                 </span>
                 <h2 className="mt-6 text-4xl md:text-5xl text-white">
-                  <span className="font-bold">  Get In Touch Now For Business Or</span>
+                    <span className="font-bold">  Get In Touch Now For Business Or</span>
                     <br />
                     <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
                         Career Opportunities!
@@ -140,7 +140,7 @@ const WorldMapSection = memo(() => {
 });
 WorldMapSection.displayName = 'WorldMapSection';
 
-// FAQ Accordion Item Component
+// FAQ Accordion Item Component (unchanged)
 function AccordionItem({ item, isOpen, onClick }) {
     return (
         <div className="border-b border-gray-200 py-6">
@@ -167,7 +167,7 @@ function AccordionItem({ item, isOpen, onClick }) {
     );
 }
 
-// FAQ Section Component
+// FAQ Section Component (unchanged)
 function FaqSection() {
     const [openIndex, setOpenIndex] = useState(null);
     const handleToggle = (index) => {
@@ -194,10 +194,20 @@ function FaqSection() {
     );
 }
 
+// Updated ContactPage component
 export default function ContactPage() {
     const [selectedBudget, setSelectedBudget] = useState(null);
     const videoRef = useRef(null);
     const [isMuted, setIsMuted] = useState(true);
+    const [formData, setFormData] = useState({
+        fullName: "",
+        whatsapp: "",
+        email: "",
+        details: "",
+    });
+    const [submissionStatus, setSubmissionStatus] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
     const toggleMute = () => {
         if (videoRef.current) {
@@ -216,6 +226,56 @@ export default function ContactPage() {
         }),
     };
 
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData((prev) => ({ ...prev, [id]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setSubmissionStatus(null);
+        setShowSuccessAlert(false);
+
+        const dataToSend = {
+            ...formData,
+            budget: selectedBudget,
+        };
+
+        if (!dataToSend.fullName || !dataToSend.email || !dataToSend.budget || !dataToSend.details) {
+            setSubmissionStatus('error');
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSend),
+            });
+
+            if (response.ok) {
+                setSubmissionStatus('success');
+                setShowSuccessAlert(true);
+                setFormData({ fullName: "", whatsapp: "", email: "", details: "" });
+                setSelectedBudget(null);
+
+                setTimeout(() => {
+                    setShowSuccessAlert(false);
+                }, 5000); // 5 seconds
+
+            } else {
+                setSubmissionStatus('error');
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            setSubmissionStatus('error');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="w-full bg-[#050709] text-white">
             <div className="relative w-full min-h-[70vh] flex items-start justify-center overflow-hidden pt-28 md:pt-32">
@@ -229,20 +289,20 @@ export default function ContactPage() {
                     <img src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif" alt="Project Mockup 2" className="w-full h-full object-contain rounded-lg" />
                 </BackgroundGradient>
                 <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
-                   <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
-          <img
-            src="https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png"
-            alt="Project Mockup 1"
-            className="w-[300px] h-[100px]"
-          />
-        </h2>
+                    <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
+                        <img
+                            src="https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png"
+                            alt="Project Mockup 1"
+                            className="w-[300px] h-[100px]"
+                        />
+                    </h2>
                     <div className="text-neutral-300 mt-4 bg-white/30 backdrop-blur-none w-44 p-2 rounded-r-full rounded-l-full mx-auto">
                         <Link href="/" className="hover:text-white transition-colors"> Home </Link>
                         <span className="mx-2">/</span>
                         <span className="text-white">Contact Us</span>
                     </div>
                     <h1 className="text-4xl md:text-5xl lg:text-6xl  text-white max-w-4xl mt-2">
-                       <span className="font-bold"> Have A Question Or</span> <br />
+                        <span className="font-bold"> Have A Question Or</span> <br />
                         <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Just Want To Chat?</span>
                     </h1>
                 </div>
@@ -265,20 +325,20 @@ export default function ContactPage() {
                             </div>
                         </div>
                     </div>
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <motion.div variants={formVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} custom={0} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label htmlFor="full-name" className="block text-sm font-medium text-gray-700">Full Name</label>
-                                <input type="text" id="full-name" placeholder="John Doe" className="mt-1 block w-full bg-transparent border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-purple-600 transition" />
+                                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="fullName" value={formData.fullName} onChange={handleChange} placeholder="John Doe" className="mt-1 block w-full bg-transparent border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-purple-600 transition" />
                             </div>
                             <div>
                                 <label htmlFor="whatsapp" className="block text-sm font-medium text-gray-700">Whatsapp Number <span className="text-gray-400">(Optional)</span></label>
-                                <input type="text" id="whatsapp" placeholder="1123 1234567" className="mt-1 block w-full bg-transparent border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-purple-600 transition" />
+                                <input type="text" id="whatsapp" value={formData.whatsapp} onChange={handleChange} placeholder="1123 1234567" className="mt-1 block w-full bg-transparent border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-purple-600 transition" />
                             </div>
                         </motion.div>
                         <motion.div variants={formVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} custom={1}>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Your Email</label>
-                            <input type="email" id="email" placeholder="yourmail@gmail.com" className="mt-1 block w-full bg-transparent border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-purple-600 transition" />
+                            <input type="email" id="email" value={formData.email} onChange={handleChange} placeholder="yourmail@gmail.com" className="mt-1 block w-full bg-transparent border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-purple-600 transition" />
                         </motion.div>
                         <motion.div variants={formVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} custom={2}>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Project Budget</label>
@@ -292,16 +352,41 @@ export default function ContactPage() {
                         </motion.div>
                         <motion.div variants={formVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} custom={3}>
                             <label htmlFor="details" className="block text-sm font-medium text-gray-700">Project Details</label>
-                            <textarea id="details" rows="4" placeholder="I want to redesign my website..." className="mt-1 block p-5 w-full bg-gray-100 border-transparent rounded-lg focus:ring-purple-600 focus:border-purple-600 transition"></textarea>
+                            <textarea id="details" value={formData.details} onChange={handleChange} rows="4" placeholder="I want to redesign my website..." className="mt-1 block p-5 w-full bg-gray-100 border-transparent rounded-lg focus:ring-purple-600 focus:border-purple-600 transition"></textarea>
                         </motion.div>
                         <motion.div variants={formVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} custom={4}>
-                            <button type="submit" className="w-full flex items-center justify-center bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-purple-700 transition-colors duration-300">
-                                Let's Connect <ArrowRight className="ml-2" size={20} />
+                            <button type="submit" disabled={isLoading} className={`w-full flex items-center justify-center font-semibold py-3 px-6 rounded-lg transition-colors duration-300 ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-purple-600 text-white hover:bg-purple-700'}`}>
+                                {isLoading ? 'Sending...' : 'Let\'s Connect'}
+                                <ArrowRight className="ml-2" size={20} />
                             </button>
                         </motion.div>
+                        {submissionStatus === 'error' && (
+                            <div className="mt-4 text-center text-red-600">
+                                There was an error sending your message. Please try again.
+                            </div>
+                        )}
                     </form>
                 </div>
             </div>
+
+            {/* Animated Success Alert (Glassmorphism Effect) */}
+            <AnimatePresence>
+                {showSuccessAlert && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 50 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="fixed bottom-8 right-8 z-50 p-5 rounded-lg bg-white/30 backdrop-blur-md border border-white/20 text-white shadow-xl flex items-center gap-3 max-w-sm"
+                    >
+                        <CheckCircle2 size={24} className="text-green-300" /> {/* Changed icon color for contrast */}
+                        <span className="font-medium">
+                            আপনার বার্তা সফলভাবে পাঠানো হয়েছে!
+                        </span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <WorldMapSection />
             <FaqSection />
         </div>
