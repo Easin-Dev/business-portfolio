@@ -45,18 +45,11 @@ const faqData = [
 const WorldMapSection = memo(() => {
     const locations = [
         {
-            lat: 33.8323,
-            lng: -118.2851,
-            title: "USA",
-            address: "17700 Avalon BLVD Carson California, USA",
-            phone: "+1(714) 903-6333",
-        },
-        {
             lat: 23.8103,
             lng: 90.4125,
             title: "Bangladesh",
-            address: "Ventura Iconia, Level 3, Plot 37, Road 11, Banani 1213, Dhaka, Bangladesh",
-            phone: "+880179 815 5521",
+            address: "Jhalokathi, Barisal, Bangladesh",
+            phone: "+8801645650504",
         },
     ];
 
@@ -93,14 +86,14 @@ const WorldMapSection = memo(() => {
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     <div>
                         <p className="font-semibold text-neutral-300">Project Inquiries? Let's Team Up</p>
-                        <a href="mailto:hello@designmonks.co" className="text-purple-400 hover:text-purple-300 transition-colors break-all">
-                            hello@designmonks.co
+                        <a href="mailto:contact.scaleupweb@gmail.com" className="text-purple-400 hover:text-purple-300 transition-colors break-all">
+                            contact.scaleupweb@gmail.com
                         </a>
                     </div>
                     <div>
                         <p className="font-semibold text-neutral-300">Be a Monk! Be a Part of the Leading Team!</p>
-                        <a href="mailto:career@designmonks.co" className="text-purple-400 hover:text-purple-300 transition-colors break-all">
-                            career@designmonks.co
+                        <a href="mailto:mdeasinarafat016456@gmail.com" className="text-purple-400 hover:text-purple-300 transition-colors break-all">
+                            career@scaleupweb.co
                         </a>
                     </div>
                 </div>
@@ -278,7 +271,7 @@ export default function ContactPage() {
 
     return (
         <div className="w-full bg-[#050709] text-white">
-            <div className="relative w-full min-h-[70vh] flex items-start justify-center overflow-hidden pt-28 md:pt-32">
+            <div className="relative w-full min-h-[70vh] flex items-start justify-center overflow-hidden pt-28 md:pt-24">
                 <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]"></div>
                 <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="hsl(259, 80%, 50%)" />
                 <Spotlight className="top-20 right-full" fill="hsl(190, 80%, 50%)" />
@@ -377,11 +370,11 @@ export default function ContactPage() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 50 }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="fixed bottom-8 right-8 z-50 p-5 rounded-lg bg-white/30 backdrop-blur-md border border-white/20 text-white shadow-xl flex items-center gap-3 max-w-sm"
+                        className="fixed bottom-8 right-8 z-50 p-5 rounded-lg bg-white backdrop-blur border border-white/20 text-black shadow-xl flex items-center gap-3 max-w-sm"
                     >
-                        <CheckCircle2 size={24} className="text-green-300" /> {/* Changed icon color for contrast */}
+                        <CheckCircle2 size={24} className="text-blue-500" /> {/* Changed icon color for contrast */}
                         <span className="font-medium">
-                            আপনার বার্তা সফলভাবে পাঠানো হয়েছে!
+                            Your message has been sent successfully!
                         </span>
                     </motion.div>
                 )}
