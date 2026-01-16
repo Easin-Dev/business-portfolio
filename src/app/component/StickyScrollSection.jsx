@@ -7,38 +7,38 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
-    title: "Easy Booking for Dream Trips",
-    category: "Travel",
+    title: "Trusted Export & Import Partner",
+    category: "Global Trade Services",
     description:
-      "Triply is a hassle-free & effective tour solution for travelers. It's an all-inclusive booking and planning website that helps people make their dream trips easier.",
-    image: "https://placehold.co/600x400/a7c5ff/333?text=Travel+App",
+      "A professional export and import agency website providing global trade support, supplier sourcing, and international business solutions.",
+    image: "https://i.postimg.cc/bJ5xsFD9/Chat-GPT-Image-Jan-16-2026-03-02-06-PM.png",
     bgColor: "bg-[#e0e9ff]",
     textColor: "text-blue-900",
   },
   {
-    title: "Transform Your Dining",
-    category: "Restaurant",
+    title: "Leadership Development Organization Website",
+    category: "Social Organization Website",
     description:
-      "At Plate, we bring you a handpicked selection of premium restaurants that offer not just meals, but memorable dining experiences you'll cherish.",
-    image: "https://placehold.co/600x400/ffd1d1/333?text=Food+App",
+      "An organization website dedicated to youth leadership training and community development.",
+    image: "https://i.postimg.cc/dtJJXQSB/Chat-GPT-Image-Jan-16-2026-03-15-44-PM.png",
     bgColor: "bg-[#ffd1d1]",
     textColor: "text-red-900",
   },
   {
-    title: "Reducing Carbon Footprints",
-    category: "SaaS",
+    title: "Political Portfolio Website",
+    category: "Portfolio",
     description:
-      "Yenex is a smart and sustainable energy platform. It empowers users with distributed energy solutions to reduce carbon footprints effortlessly.",
-    image: "https://placehold.co/600x400/fdfab1/333?text=SaaS+App",
+      "A political portfolio website showcasing vision, public service, initiatives, and engagement with the community.",
+    image: "https://i.postimg.cc/R0JmfWNz/Chat-GPT-Image-Jan-16-2026-03-18-00-PM.png",
     bgColor: "bg-[#fdfab1]",
     textColor: "text-yellow-900",
   },
   {
-    title: "Revolutionize Fitness Goals",
-    category: "Nursery Shop",
+    title: "Developer Portfolio ",
+    category: "Portfolio",
     description:
-      "Fitmate transforms fitness in Australia with flexible gym access, personalised schedules, and AI-driven insights to solve common workout limitations for users.",
-    image: "https://i.ibb.co.com/DfctFkfb/Screenshot-2025-08-15-062855.png",
+      "A developer portfolio showcasing skills, projects, and professional journey.",
+    image: "https://i.postimg.cc/85FHBrvT/Chat-GPT-Image-Jan-16-2026-03-31-49-PM.png",
     bgColor: "bg-[#c0f6ff]",
     textColor: "text-cyan-900",
   },

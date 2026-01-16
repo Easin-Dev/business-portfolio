@@ -7,27 +7,27 @@ import { ArrowLeft, ArrowRight, Quote } from "lucide-react";
 const testimonials = [
   {
     quote:
-      "Design Monks was a pleasure to work with. They were proactive, and efficient, and never hesitated to challenge me in my assumptions. The design they built for me was beautiful, and I would not hesitate to retain them again in the future.",
-    name: "Jenna Carvalho",
-    title: "Principal @ Guardian Estate Company",
-    image: "https://placehold.co/300x300/c7d2fe/333?text=Jenna",
-    logo: "https://placehold.co/150x50/e0e7ff/333?text=GUARDIAN",
+      "Scaleup web was a pleasure to work with. They were proactive, and efficient, and never hesitated to challenge me in my assumptions. The design they built for me was beautiful, and I would not hesitate to retain them again in the future.",
+    name: "Kishor Chandra Bala",
+    title: "co-founder of Salinnyo",
+    image: "https://scontent.fdac99-1.fna.fbcdn.net/v/t39.30808-6/577497509_1160500629620545_8555406647823235800_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=ZOMRNbIIHkEQ7kNvwHO6ThA&_nc_oc=AdmIKBnoR7ciwTf2hsXFEjRssmBFnmlIg1JwiW3ydvMvtZdWr5iFilUWxBUp8ykILW8&_nc_zt=23&_nc_ht=scontent.fdac99-1.fna&_nc_gid=FrSyYEJYaZ7CIpyKq2p4fg&oh=00_Afow3pjKOGREexl1wUTdAcLPDWJs2Kvef-JGcnEd3AqHmw&oe=696FDD33",
+    logo: "https://placehold.co/150x50/e0e7ff/333?text=salinnyo",
   },
   {
     quote:
       "The team's attention to detail is second to none. They delivered a product that exceeded our expectations and our users love the new interface. A truly remarkable experience from start to finish.",
-    name: "John Doe",
-    title: "CEO @ Tech Innovators",
-    image: "https://placehold.co/300x300/fecaca/333?text=John",
-    logo: "https://placehold.co/150x50/fee2e2/333?text=INNOVATE",
+    name: "Mahadi Hasan",
+    title: "Founder & CEO of Dinabitt",
+    image: "https://i.postimg.cc/yxdbKY3K/Generated-Image-September-20-2025-10-44-PM.png",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWkGCqfMUd-q_ZnTFIKidr6zoGUT3LQyD1hQ&s",
   },
   {
     quote:
       "Working with them felt like a true partnership. Their creative input and technical expertise were invaluable. We saw a significant increase in user engagement after the redesign.",
-    name: "Emily Smith",
-    title: "Marketing Head @ Creative Solutions",
-    image: "https://placehold.co/300x300/bbf7d0/333?text=Emily",
-    logo: "https://placehold.co/150x50/dcfce7/333?text=CREATIVE",
+    name: "Ahads Hikder",
+    title: "",
+    image: "https://i.postimg.cc/RZv3dLtR/aha-da-sa-kada-ra.png",
+    logo: "https://placehold.co/150x50/dcfce7/333?text=NCP",
   },
 ];
 
