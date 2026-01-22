@@ -19,7 +19,7 @@
     "lucide-react": "^0.525.0",
     "maath": "^0.10.8",
     "motion": "^12.23.3",
-    "next": "15.3.5",
+    "next": "^16.1.4",
     "nodemailer": "^7.0.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
