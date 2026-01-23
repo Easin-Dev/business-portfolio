@@ -49,12 +49,6 @@ const allProjects = [
     category: "Entertainment",
     image: "https://i.postimg.cc/90PL6rhj/Chat-GPT-Image-Jan-16-2026-07-46-27-PM.png",
   },
-  {
-    id: 8,
-    title: "High-Fashion E-commerce Store",
-    category: "Fashion & Apparel",
-    image: "https://placehold.co/600x400/bbf7d0/333?text=Fashion+Store",
-  },
 ];
 
 const categories = [

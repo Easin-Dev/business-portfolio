@@ -14,7 +14,7 @@ const servicesData = [
     description:
       "We create high-converting, fast-loading, and SEO-friendly landing pages designed to capture leads and boost your marketing campaigns effectively.",
     image:
-      "https://placehold.co/1200x600/10b981/ffffff?text=Landing+Page+Showcase",
+      "https://cdn.dribbble.com/userupload/16467705/file/original-fc58292a73b9ea8abf6f37f68d793ea6.mp4",
     features: [
       {
         title: "High Conversion Design",
@@ -40,7 +40,7 @@ const servicesData = [
     description:
       "We build robust and scalable e-commerce platforms with all the features you need to run a successful online store, from product management to secure payments.",
     image:
-      "https://placehold.co/1200x600/8b5cf6/ffffff?text=E-commerce+Showcase",
+      "https://cdn.dribbble.com/userupload/10640472/file/original-c81c56245856e105c75424cf9a958366.mp4",
     features: [
       {
         title: "Secure Payment Gateway",
@@ -65,7 +65,7 @@ const servicesData = [
     title: "Custom Web Development",
     description:
       "From complex web applications to bespoke business tools, we provide custom development solutions tailored precisely to your unique requirements.",
-    image: "https://placehold.co/1200x600/3b82f6/ffffff?text=Web+App+Showcase",
+    image: "https://cdn.dribbble.com/userupload/45750789/file/9b848a9a9bd01412135ca833731b40ad.mp4",
     features: [
       {
         title: "Bespoke Solutions",
@@ -195,11 +195,15 @@ export default function ServicesPage() {
             </div>
             {/* ডান দিকের ছবি */}
             <div className={service.id % 2 === 0 ? "lg:order-1" : ""}>
-              <img
+              {/* <img
                 src={service.image}
                 alt={service.title}
                 className="rounded-2xl shadow-2xl w-full h-auto"
-              />
+              /> */}
+              <video autoPlay loop className="w-full h-full object-contain rounded-lg ">
+                <source src={service.image} type="video/mp4" />
+
+              </video>
             </div>
           </div>
         ))}

@@ -5,7 +5,7 @@ import { Check, ArrowRight, Bot } from "lucide-react"; // Package icon replaced 
 // আপনার দেওয়া নতুন প্রাইসিং প্ল্যানের ডেটা
 const pricingPlans = [
   {
-    price: "$5,000",
+    price: "$100",
     title: "Landing Page",
     description: "For a powerful online presence.",
     features: [
@@ -18,7 +18,7 @@ const pricingPlans = [
     isHighlighted: false,
   },
   {
-    price: "$12,000",
+    price: "$500",
     title: "E-commerce Solution",
     description: "A complete package for your online store.",
     features: [
@@ -33,7 +33,7 @@ const pricingPlans = [
     isHighlighted: true,
   },
   {
-    price: "$15,000",
+    price: "$1000",
     title: "Custom Web Development",
     description: "For any business, any requirement.",
     features: [

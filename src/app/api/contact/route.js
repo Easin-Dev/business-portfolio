@@ -1,5 +1,3 @@
-// app/api/contact/route.js
-
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
@@ -21,8 +19,10 @@ export async function POST(req) {
             },
         });
 
-        const mailOptions = {
-            from: `"${fullName}" <${email}>`,
+        // 1. Email to Admin (Apnar kase jeta ashbe)
+        const adminMailOptions = {
+            from: `"${fullName}" <${process.env.EMAIL_USER}>`, // Gmail er khetre 'from' field e nijer email thaka valo na hole spam e jete pare
+            replyTo: email,
             to: process.env.EMAIL_TO,
             subject: `New Project Inquiry from ${fullName}`,
             html: `
@@ -38,8 +38,29 @@ export async function POST(req) {
             `,
         };
 
-        await transporter.sendMail(mailOptions);
-        return NextResponse.json({ message: 'Email sent successfully!' }, { status: 200 });
+        // 2. Auto-reply Email to User (User-er kase jeta jabe)
+        const userMailOptions = {
+            from: `"Scaleup Web" <${process.env.EMAIL_USER}>`,
+            to: email, // User er input deya email
+            subject: `Thank you for contacting us, ${fullName}!`,
+            html: `
+                <div style="font-family: sans-serif; line-height: 1.6; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px;">
+                    <h2 style="color: #0070f3;">Hello ${fullName},</h2>
+                    <p>Amader kase email korar jonno dhonnobad. Amra apnar message-ti peyechi.</p>
+                    <p>Amader team khub shiggroi apnar details review korbe ebong apnar sathe contact korbe meeting e bose project niye kotha bolar jonno.</p>
+                    <hr style="border: none; border-top: 1px solid #eee;" />
+                    <p style="font-size: 12px; color: #888;">This is an automated response. Please do not reply directly to this email.</p>
+                </div>
+            `,
+        };
+
+        // Dono email-i eksathe pathano (Promise.all use kora best practice)
+        await Promise.all([
+            transporter.sendMail(adminMailOptions),
+            transporter.sendMail(userMailOptions)
+        ]);
+
+        return NextResponse.json({ message: 'Emails sent successfully!' }, { status: 200 });
 
     } catch (error) {
         console.error('Email sending error:', error);

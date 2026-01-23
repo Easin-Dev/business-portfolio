@@ -10,7 +10,7 @@ const testimonials = [
       "Scaleup web was a pleasure to work with. They were proactive, and efficient, and never hesitated to challenge me in my assumptions. The design they built for me was beautiful, and I would not hesitate to retain them again in the future.",
     name: "Kishor Chandra Bala",
     title: "co-founder of Salinnyo",
-    image: "https://scontent.fdac99-1.fna.fbcdn.net/v/t39.30808-6/577497509_1160500629620545_8555406647823235800_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=ZOMRNbIIHkEQ7kNvwHO6ThA&_nc_oc=AdmIKBnoR7ciwTf2hsXFEjRssmBFnmlIg1JwiW3ydvMvtZdWr5iFilUWxBUp8ykILW8&_nc_zt=23&_nc_ht=scontent.fdac99-1.fna&_nc_gid=FrSyYEJYaZ7CIpyKq2p4fg&oh=00_Afow3pjKOGREexl1wUTdAcLPDWJs2Kvef-JGcnEd3AqHmw&oe=696FDD33",
+    image: "https://i.postimg.cc/fbpcrNJn/577497509-1160500629620545-8555406647823235800-n.jpg",
     logo: "https://placehold.co/150x50/e0e7ff/333?text=salinnyo",
   },
   {
