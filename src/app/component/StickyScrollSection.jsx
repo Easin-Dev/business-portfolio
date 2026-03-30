@@ -1,9 +1,20 @@
-"use client";
-import React, { useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
+// Helper to load external scripts in the preview environment
+const useScript = (url) => {
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = url;
+    script.async = true;
+    script.onload = () => setLoaded(true);
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [url]);
+  return loaded;
+};
 
 const projects = [
   {
@@ -12,112 +23,144 @@ const projects = [
     description:
       "A professional export and import agency website providing global trade support, supplier sourcing, and international business solutions.",
     image: "https://i.postimg.cc/bJ5xsFD9/Chat-GPT-Image-Jan-16-2026-03-02-06-PM.png",
-    bgColor: "bg-[#e0e9ff]",
-    textColor: "text-blue-900",
+    bgColor: "bg-blue-50",
+    accentColor: "text-blue-600",
+    textColor: "text-slate-900",
   },
   {
-    title: "Leadership Development Organization Website",
-    category: "Social Organization Website",
+    title: "Leadership Development Organization",
+    category: "Social Impact",
     description:
-      "An organization website dedicated to youth leadership training and community development.",
+      "An organization website dedicated to youth leadership training and community development. Empowering the next generation of leaders.",
     image: "https://i.postimg.cc/dtJJXQSB/Chat-GPT-Image-Jan-16-2026-03-15-44-PM.png",
-    bgColor: "bg-[#ffd1d1]",
-    textColor: "text-red-900",
+    bgColor: "bg-rose-50",
+    accentColor: "text-rose-600",
+    textColor: "text-slate-900",
   },
   {
     title: "Political Portfolio Website",
-    category: "Portfolio",
+    category: "Personal Branding",
     description:
-      "A political portfolio website showcasing vision, public service, initiatives, and engagement with the community.",
+      "A high-impact political portfolio showcasing vision, public service initiatives, and direct engagement with the community.",
     image: "https://i.postimg.cc/R0JmfWNz/Chat-GPT-Image-Jan-16-2026-03-18-00-PM.png",
-    bgColor: "bg-[#fdfab1]",
-    textColor: "text-yellow-900",
+    bgColor: "bg-amber-50",
+    accentColor: "text-amber-600",
+    textColor: "text-slate-900",
   },
   {
-    title: "Developer Portfolio ",
-    category: "Portfolio",
+    title: "Developer Portfolio Pro",
+    category: "Tech & Software",
     description:
-      "A developer portfolio showcasing skills, projects, and professional journey.",
+      "A minimalist and fast developer portfolio showcasing skills, projects, and a professional journey through tech.",
     image: "https://i.postimg.cc/85FHBrvT/Chat-GPT-Image-Jan-16-2026-03-31-49-PM.png",
-    bgColor: "bg-[#c0f6ff]",
-    textColor: "text-cyan-900",
+    bgColor: "bg-cyan-50",
+    accentColor: "text-cyan-600",
+    textColor: "text-slate-900",
   },
 ];
 
-// একটি কার্ডের জন্য কম্পোনেন্ট
-function ProjectCard({ project }) {
+const ProjectCard = ({ project, index }) => {
   return (
     <div
-      className={`w-full h-screen flex items-center rounded-t-4xl justify-center p-8 lg:p-16 ${project.bgColor} ${project.textColor}`}
+      className={`project-card w-full min-h-[80vh] md:h-[85vh] flex items-center justify-center p-6 md:p-12 lg:p-20 rounded-[2.5rem] md:rounded-[4rem] shadow-xl border border-white/50 sticky top-[8vh] md:top-[10vh] mb-[8vh] overflow-hidden ${project.bgColor} ${project.textColor}`}
+      style={{ zIndex: index + 1 }}
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* বাম দিকের লেখা */}
-        <div>
-          <span className="text-sm font-semibold uppercase tracking-widest">
-            {project.category}
-          </span>
-          <h2 className="text-4xl lg:text-6xl font-bold mt-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        {/* Text Content */}
+        <div className="order-2 lg:order-1">
+          <div className="flex items-center gap-3 mb-6">
+            <span className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-white shadow-sm ${project.accentColor}`}>
+              {project.category}
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] mb-6">
             {project.title}
           </h2>
-          <p className="mt-6 text-lg opacity-80">{project.description}</p>
+          <p className="text-lg md:text-xl opacity-75 leading-relaxed max-w-xl">
+            {project.description}
+          </p>
+          <button className={`mt-8 px-8 py-3 rounded-full font-semibold transition-all hover:scale-105 active:scale-95 bg-white shadow-md border border-slate-100 ${project.accentColor}`}>
+            View Case Study
+          </button>
         </div>
-        {/* ডান দিকের ছবি */}
-        <div className="rounded-2xl overflow-hidden shadow-2xl">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover"
-          />
+
+        {/* Image Display */}
+        <div className="order-1 lg:order-2">
+          <div className="relative group overflow-hidden rounded-3xl shadow-2xl bg-white p-2">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover rounded-2xl transform group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default function StickyScrollSection() {
-  const componentRef = useRef(null);
+export default function App() {
+  const containerRef = useRef(null);
+  const gsapLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js");
+  const scrollLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js");
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const details = gsap.utils.toArray(".desktop-content-section");
+    if (!gsapLoaded || !scrollLoaded || !window.gsap) return;
 
-      details.forEach((detail, index) => {
-        ScrollTrigger.create({
-          trigger: detail,
-          start: "top top",
-          end: "bottom top",
-          pin: true,
-          pinSpacing: index === details.length - 1,
-          scrub: 1,
-        });
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray(".project-card");
+
+      cards.forEach((card, i) => {
+        if (i < cards.length - 1) {
+          gsap.to(card, {
+            scale: 0.9,
+            filter: "blur(2px)",
+            scrollTrigger: {
+              trigger: card,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
+        }
       });
-    }, componentRef);
+    }, containerRef);
+
     return () => ctx.revert();
-  }, []);
+  }, [gsapLoaded, scrollLoaded]);
 
   return (
-    <div ref={componentRef} className="bg-white dark:bg-[#f0f0f0]">
-      {/* ADDED: Section Header */}
-      <div className="w-full text-black pt-20 pb-10 lg:pt-24 lg:pb-16">
-        <div className="max-w-7xl mx-auto text-center px-8">
-          <span className="inline-block border border-green-400 text-green-600 text-sm font-medium px-4 py-1.5 rounded-full">
-            Industry Wins
+    <div ref={containerRef} className="bg-[#fcfcfc] min-h-screen font-sans">
+      {/* Header Section */}
+      <header className="relative w-full py-20 lg:py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="inline-block text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-tighter mb-6 border border-emerald-100">
+            Case Studies
           </span>
-          <h2 className="mt-6 text-5xl lg:text-7xl font-bold">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tight leading-[0.9] mb-4">
             Proven Success In
-          </h2>
-          <h3 className="mt-2 text-5xl lg:text-7xl font-serif italic text-blue-600">
+          </h1>
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif italic text-blue-600 leading-tight">
             Every Industry
-          </h3>
+          </h2>
+          <p className="mt-8 text-slate-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            Exploring our portfolio of high-impact digital solutions across diverse sectors.
+          </p>
         </div>
-      </div>
+      </header>
 
-      {/* Project cards will follow the header */}
-      {projects.map((project, index) => (
-        <div key={index} className="desktop-content-section">
-          <ProjectCard project={project} />
+      {/* Sticky Cards Section */}
+      <section className="px-4 md:px-8 pb-32">
+        <div className="max-w-7xl mx-auto flex flex-col items-center">
+          {projects.map((project, index) => (
+            <ProjectCard key={index} project={project} index={index} />
+          ))}
         </div>
-      ))}
+      </section>
     </div>
   );
 }

@@ -1,152 +1,191 @@
-"use client";
-import React, { useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight } from "lucide-react";
+import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
+// External Script Loader for GSAP
+const useScript = (url) => {
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = url;
+    script.async = true;
+    script.onload = () => setLoaded(true);
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [url]);
+  return loaded;
+};
 
-// প্রকল্পের জন্য ডেমো ডেটা
 const featuredProjects = [
   {
     title: "Web Development",
+    category: "Full-Stack Solutions",
     description:
-      "Frontend Development, Backend Development, Full Stack Solutions, Mobile App Development, Custom Web Applications, API Integration.",
+      "Crafting high-performance digital experiences with cutting-edge technologies. From frontend aesthetics to robust backend architectures.",
     images: [
-      "https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac78084947770a14f1eb7c_Project%20Cards.avif",
-      "https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac78089c9a93e810fbfa6e_Project%20Cards-1.avif",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600",
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600",
     ],
   },
   {
-    title: "E-commerce Development",
+    title: "E-commerce Pro",
+    category: "Retail Tech",
     description:
-      "Custom E-commerce Stores, Payment Gateway Setup, Product Management Systems, and Secure Checkout Solutions.",
+      "Scalable online stores designed to convert. Integrated payment systems, lightning-fast product filtering, and seamless checkouts.",
     images: [
-      "https://placehold.co/400x600/7c3aed/ffffff?text=E-commerce+1",
-      "https://placehold.co/400x600/a21caf/ffffff?text=E-commerce+2",
+      "https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=600",
+      "https://images.unsplash.com/photo-1522204538344-922f76efe0f9?auto=format&fit=crop&q=80&w=600",
     ],
   },
   {
-    title: "Landing Page Development",
+    title: "Landing Pages",
+    category: "Marketing Focus",
     description:
-      "High-Converting Landing Pages, A/B Testing, Lead Generation Forms, Fast Load Times, SEO Optimization, and Analytics Integration.",
+      "High-converting landing pages built for growth. Optimized for SEO, speed, and maximum user engagement.",
     images: [
-      "https://placehold.co/400x600/16a34a/ffffff?text=Landing+Page+1",
-      "https://placehold.co/400x600/059669/ffffff?text=Landing+Page+2",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600",
+      "https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80&w=600",
     ],
   },
 ];
 
+const ArrowIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+    <polyline points="12 5 19 12 12 19"></polyline>
+  </svg>
+);
+
 export default function FeaturedProjects() {
   const componentRef = useRef(null);
+  const gsapLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js");
+  const scrollLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js");
 
   useLayoutEffect(() => {
+    if (!gsapLoaded || !scrollLoaded || !window.gsap) return;
+
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    gsap.registerPlugin(ScrollTrigger);
+
     const ctx = gsap.context(() => {
       const textSections = gsap.utils.toArray(".text-section");
-      const imageSections = gsap.utils.toArray(".image-section");
+      const imageSections = gsap.utils.toArray(".image-group");
 
-      gsap.set(imageSections[0], { autoAlpha: 1 });
+      // Initial state: first image visible
+      gsap.set(imageSections[0], { autoAlpha: 1, scale: 1 });
 
       textSections.forEach((section, index) => {
         ScrollTrigger.create({
           trigger: section,
           start: "top center",
           end: "bottom center",
-          onEnter: () => {
-            gsap.to(imageSections, {
-              autoAlpha: 0,
-              duration: 0.3,
-              overwrite: "auto",
-            });
-            gsap.to(imageSections[index], {
-              autoAlpha: 1,
-              duration: 0.3,
-              overwrite: "auto",
-            });
-          },
-          onEnterBack: () => {
-            gsap.to(imageSections, {
-              autoAlpha: 0,
-              duration: 0.3,
-              overwrite: "auto",
-            });
-            gsap.to(imageSections[index], {
-              autoAlpha: 1,
-              duration: 0.3,
-              overwrite: "auto",
-            });
+          onToggle: (self) => {
+            if (self.isActive) {
+              // Fade in active group
+              gsap.to(imageSections[index], {
+                autoAlpha: 1,
+                duration: 0.5,
+                ease: "none",
+                overwrite: "auto",
+              });
+              // Sublte scale effect inside images
+              gsap.to(imageSections[index].querySelectorAll('.img-item'), {
+                scale: 1,
+                duration: 0.7,
+                ease: "power2.out"
+              });
+            } else {
+              // Fade out inactive groups
+              gsap.to(imageSections[index], {
+                autoAlpha: 0,
+                duration: 0.3,
+                overwrite: "auto",
+              });
+              gsap.to(imageSections[index].querySelectorAll('.img-item'), {
+                scale: 0.95,
+                duration: 0.4
+              });
+            }
           },
         });
       });
     }, componentRef);
+
     return () => ctx.revert();
-  }, []);
+  }, [gsapLoaded, scrollLoaded]);
 
   return (
-    <div
-      ref={componentRef}
-      className="featured-projects-section w-full rounded-t-4xl bg-black text-white py-20 lg:py-40"
-    >
-      {/* Section Header */}
-      <div className="max-w-7xl mx-auto text-center px-8 mb-20 lg:mb-32">
-        <span className="inline-block border border-emerald-400 text-emerald-400 text-sm font-medium px-4 py-1.5 rounded-full">
-          Our Services
-        </span>
-        <h2 className="mt-6 text-5xl lg:text-7xl font-bold">
-          We Turn <span className="italic font-serif text-blue-500">Complex</span> Ideas Into Flawless
-          <span className="italic font-serif text-blue-500">   Web Applications</span>
+    <div ref={componentRef} className="w-full bg-[#050505] text-white selection:bg-blue-500/30 font-sans">
+      {/* --- Section Header --- */}
+      <div className="max-w-7xl mx-auto px-6 py-16 lg:py-32 text-center">
+        <div className="inline-flex items-center gap-2 border border-blue-500/20 bg-blue-500/5 text-blue-400 text-[10px] md:text-xs font-bold px-4 py-2 rounded-full uppercase tracking-[0.2em] mb-6 md:mb-10">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+          Core Expertise
+        </div>
+        <h2 className="text-4xl md:text-6xl lg:text-[5rem] font-bold leading-tight tracking-tight">
+          We Turn <span className="text-blue-500 italic font-serif">Complex</span> Ideas <br className="hidden md:block" />
+          <span className="text-neutral-600">Into Flawless</span>
+          <span className="italic font-serif text-blue-500"> Applications</span>
         </h2>
       </div>
 
-      {/* দুই কলামের গ্রিড */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        {/* বাম দিকের টেক্সট কন্টেইনার */}
-        <div className="text-content-container space-y-48 lg:space-y-96">
+      {/* --- Interactive Content Grid --- */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 px-6 relative">
+
+        {/* Left Side: Scrolling Content */}
+        <div className="space-y-[20vh] lg:space-y-[50vh] py-[5vh] lg:py-[20vh] z-10">
           {featuredProjects.map((project, index) => (
-            <div
-              key={index}
-              className="text-section h-96 mt-20 flex flex-col justify-center px-8"
-            >
-              <h2 className="text-5xl lg:text-7xl font-bold italic"
-              >
+            <div key={index} className="text-section min-h-[40vh] md:min-h-[50vh] flex flex-col justify-center max-w-lg group">
+              <div className="mb-4 flex items-center gap-4">
+                <span className="text-blue-500 font-mono text-lg">0{index + 1}</span>
+                <div className="h-[1px] w-8 md:w-12 bg-blue-500/50 group-hover:w-16 transition-all duration-500" />
+                <span className="text-neutral-500 text-[10px] uppercase tracking-widest">{project.category}</span>
+              </div>
+              <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 group-hover:text-blue-400 transition-colors duration-300">
                 {project.title}
-              </h2>
-              <hr className="text-blue-500 mt-3" />
-              <p className="mt-6 text-lg text-neutral-400 max-w-md">
+              </h3>
+              <p className="text-neutral-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8">
                 {project.description}
               </p>
+
+              {/* Mobile Only: Inline Image for better responsiveness */}
+              <div className="lg:hidden w-full mb-8 grid grid-cols-2 gap-4">
+                <img src={project.images[0]} className="w-full aspect-[3/4] object-cover rounded-xl border border-white/10" alt="Work" />
+                <img src={project.images[1]} className="w-full aspect-[3/4] object-cover rounded-xl border border-white/10 mt-4" alt="Work" />
+              </div>
+
               <a
                 href="#"
-                className="flex items-center mt-8 text-blue-500 font-semibold hover:text-emerald-300 transition-colors"
+                className="inline-flex items-center gap-3 text-blue-500 font-bold hover:gap-5 transition-all duration-300 text-sm md:text-base"
               >
-                See More <ArrowRight className="ml-2" size={20} />
+                EXPLORE CASE STUDY <ArrowIcon />
               </a>
             </div>
           ))}
         </div>
 
-        {/* ডান দিকের স্টিকি ইমেজ কন্টেইনার */}
-        <div className="w-full h-screen sticky top-0 flex items-center">
-          <div className="relative w-full h-full">
+        {/* Right Side: Fixed Visuals (Desktop Only) */}
+        <div className="hidden lg:flex w-full h-screen sticky top-0 items-center justify-center overflow-hidden pointer-events-none">
+          <div className="relative w-full h-full flex items-center justify-center">
             {featuredProjects.map((project, index) => (
               <div
                 key={index}
-                className="image-section absolute inset-0 flex items-center justify-center gap-8 opacity-0"
+                className="image-group absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none"
               >
-                {/* এই দুটি ছবির translate-y এর মান পরিবর্তন করে আপনি ছবিগুলোকে উপরে বা নিচে সরাতে পারবেন।
-                  -translate-y-8: ছবি উপরে যাবে। মান বাড়ালে (যেমন: -translate-y-16) আরও উপরে যাবে।
-                  translate-y-8: ছবি নিচে যাবে। মান বাড়ালে (যেমন: translate-y-16) আরও নিচে যাবে।
-                */}
-                <img
-                  src={project.images[0]}
-                  alt={project.title}
-                  className="w-1/2 max-w-xs rounded-2xl shadow-2xl transform -translate-y-10"
-                />
-                <img
-                  src={project.images[1]}
-                  alt={project.title}
-                  className="w-1/2 max-w-xs rounded-2xl shadow-2xl transform translate-y-10"
-                />
+                <div className="relative w-full max-w-lg flex items-center justify-center">
+                  {/* Image 1 - Top Leftish */}
+                  <div className="img-item absolute w-[240px] xl:w-[280px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border border-white/10 -translate-x-20 -translate-y-16 rotate-[-6deg] scale-95 origin-bottom">
+                    <img src={project.images[0]} className="w-full h-full object-cover" alt="Work" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  </div>
+
+                  {/* Image 2 - Bottom Rightish */}
+                  <div className="img-item absolute w-[260px] xl:w-[300px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border border-white/10 translate-x-20 translate-y-16 rotate-[6deg] scale-95 origin-top">
+                    <img src={project.images[1]} className="w-full h-full object-cover" alt="Work" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
