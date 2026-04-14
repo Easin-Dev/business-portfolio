@@ -8,7 +8,7 @@ const featuredProjects = [
     tag: "Service 01",
     description:
       "We design laser-focused landing pages built to convert visitors into customers. Optimized for speed, SEO, and compelling calls-to-action that drive real business results.",
-    serviceLink: "/services/landing-page",
+    serviceLink: "/services/website-development",
     images: [
       "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600",
       "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -25,7 +25,7 @@ const featuredProjects = [
     tag: "Service 02",
     description:
       "Scalable, feature-rich online stores built to sell. From seamless checkout flows and product management to integrated payment gateways — we build stores that perform.",
-    serviceLink: "/services/ecommerce",
+    serviceLink: "/services/website-development",
     images: [
       "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=600",
       "https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -42,7 +42,7 @@ const featuredProjects = [
     tag: "Service 03",
     description:
       "Bespoke web applications engineered to your exact specifications. From complex dashboards to SaaS platforms — modern architecture, clean code, exceptional performance.",
-    serviceLink: "/services/custom-dev",
+    serviceLink: "/services/website-development",
     images: [
       "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=600",
       "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -59,7 +59,7 @@ const featuredProjects = [
     tag: "Service 04",
     description:
       "Data-driven digital marketing strategies that amplify your brand presence. SEO, social media campaigns, and targeted advertising to grow your audience and revenue.",
-    serviceLink: "/services",
+    serviceLink: "/services/digital-marketing",
     images: [
       "https://images.pexels.com/photos/905163/pexels-photo-905163.jpeg?auto=compress&cs=tinysrgb&w=600",
       "https://images.pexels.com/photos/67112/pexels-photo-67112.jpeg?auto=compress&cs=tinysrgb&w=600",
