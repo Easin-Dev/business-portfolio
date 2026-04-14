@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Spotlight } from "../component/ui/spotlight";
 import Link from "next/link";
 import { BackgroundGradient } from "../component/ui/background-gradient"; // <-- BackgroundGradient ইম্পোর্ট করুন
+import Image from "next/image";
 
 // প্রকল্পের জন্য ডেমো ডেটা
 const allProjects = [

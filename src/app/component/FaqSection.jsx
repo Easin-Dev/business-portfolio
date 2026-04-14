@@ -84,9 +84,12 @@ export default function FaqSection() {
           <span className="inline-block border border-teal-500 text-teal-400 text-xs font-medium px-3 py-1 rounded-full">
             Frequently Asked Questions
           </span>
-          <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl">
+          <h2 className="mt-6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] text-white">
             Your Questions{" "}
-            <span className="italic font-serif text-blue-500">Answered!</span>
+            <span className="italic font-serif text-blue-600 relative inline-block">
+              Answered!
+              <svg className="absolute -bottom-2 md:-bottom-3 left-0 w-full h-3 md:h-4 text-blue-600/80" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/></svg>
+            </span>
           </h2>
         </div>
 

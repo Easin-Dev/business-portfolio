@@ -129,14 +129,18 @@ export default function CustomPricingSection() {
         {/* সেকশনের শিরোনাম */}
         <div className="max-w-3xl mx-auto text-center">
           <span className="inline-block border border-green-400 text-green-400 text-sm font-medium px-4 py-1.5 rounded-full">
-            Pricing plans
+            Web Development & Marketing Pricing
           </span>
-          <h2 className="mt-6 text-5xl lg:text-7xl font-bold">
-            Unbeatable{" "}
-            <span className="italic font-serif text-blue-300">Value</span>
+          <h2 className="mt-6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] text-white">
+            Transparent{" "}
+            <span className="italic font-serif text-blue-600 relative inline-block">
+              Pricing
+              <svg className="absolute -bottom-2 md:-bottom-3 left-0 w-full h-3 md:h-4 text-blue-600/80" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/></svg>
+            </span>
           </h2>
-          <h3 className="mt-2 text-5xl lg:text-7xl font-serif italic text-blue-500">
-            Unmatched Quality
+          <h3 className="mt-2 text-4xl sm:text-5xl md:text-6xl font-serif italic text-blue-600/90 relative inline-block">
+            For Your Growth
+            <svg className="absolute -bottom-2 md:-bottom-3 left-0 w-full h-3 md:h-4 text-blue-600/80" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/></svg>
           </h3>
         </div>
 

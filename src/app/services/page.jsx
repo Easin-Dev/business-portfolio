@@ -1,91 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Spotlight } from "../component/ui/spotlight";
+import Image from "next/image";
 import Link from "next/link";
 import { BackgroundGradient } from "../component/ui/background-gradient";
-import { Plus, Minus } from "lucide-react";
-
-// Services ডেটা
-const servicesData = [
-  {
-    id: 1,
-    title: "Landing Page Development",
-    description:
-      "We create high-converting, fast-loading, and SEO-friendly landing pages designed to capture leads and boost your marketing campaigns effectively.",
-    image:
-      "https://cdn.dribbble.com/userupload/16467705/file/original-fc58292a73b9ea8abf6f37f68d793ea6.mp4",
-    features: [
-      {
-        title: "High Conversion Design",
-        content: "Designs focused on maximizing user action.",
-      },
-      {
-        title: "Fast Loading Speed",
-        content: "Optimized for the best performance and user experience.",
-      },
-      {
-        title: "SEO Friendly",
-        content: "Built with search engine best practices in mind.",
-      },
-      {
-        title: "Payment Gateway Integration",
-        content: "Securely process payments through your landing page.",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "E-commerce Solution",
-    description:
-      "We build robust and scalable e-commerce platforms with all the features you need to run a successful online store, from product management to secure payments.",
-    image:
-      "https://cdn.dribbble.com/userupload/10640472/file/original-c81c56245856e105c75424cf9a958366.mp4",
-    features: [
-      {
-        title: "Secure Payment Gateway",
-        content: "Integration with popular and secure payment solutions.",
-      },
-      {
-        title: "Product Management",
-        content: "Easy-to-use systems for managing your inventory.",
-      },
-      {
-        title: "Custom API Development",
-        content: "Tailored APIs to connect with third-party services.",
-      },
-      {
-        title: "Scalable Architecture",
-        content: "Solutions that grow with your business.",
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: "Custom Web Development",
-    description:
-      "From complex web applications to bespoke business tools, we provide custom development solutions tailored precisely to your unique requirements.",
-    image: "https://cdn.dribbble.com/userupload/45750789/file/9b848a9a9bd01412135ca833731b40ad.mp4",
-    features: [
-      {
-        title: "Bespoke Solutions",
-        content: "Web applications built from scratch for your needs.",
-      },
-      {
-        title: "Advanced Backend",
-        content: "Powerful and secure server-side development.",
-      },
-      {
-        title: "Scalable & Secure",
-        content: "Built to handle growth and protect user data.",
-      },
-      {
-        title: "Dedicated Support",
-        content: "Ongoing support and maintenance for your application.",
-      },
-    ],
-  },
-];
+import { Spotlight } from "../component/ui/spotlight";
+import { Briefcase, ArrowRight, Minus, Plus } from "lucide-react";
+import FaqSection from "../component/FaqSection";
+import { servicesData } from "../../data/servicesData";
 
 // Accordion Item Component
 const AccordionItem = ({ feature }) => {
@@ -103,69 +24,40 @@ const AccordionItem = ({ feature }) => {
           <Plus className="text-gray-500" />
         )}
       </button>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="mt-2 text-gray-600"
-          >
-            {feature.content}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          isOpen ? "max-h-40 mt-2" : "max-h-0"
+        }`}
+      >
+        <p className="text-gray-600 pb-2">{feature.description}</p>
+      </div>
     </div>
   );
 };
 
 export default function ServicesPage() {
   return (
-    <div className="w-full bg-white text-black">
-      {/* পেইজের হেডার (Hero Section-এর মতো) */}
-      <div className="relative w-full h-[60vh] md:h-[70vh] bg-black flex items-center justify-center overflow-hidden rounded-b-[40px]">
+    <div className="bg-white min-h-screen">
+      {/* হিরো সেকশন */}
+      <div className="relative w-full bg-[#050709] min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]"></div>
         <Spotlight
           className="-top-40 left-0 md:left-60 md:-top-20"
-          fill="hsl(158, 89%, 30%)"
+          fill="hsl(210, 80%, 50%)"
         />
-        <Spotlight className="top-10 left-full" fill="hsl(259, 80%, 60%)" />
-        <BackgroundGradient containerClassName="hidden lg:block absolute top-20 -left-24 w-96 z-10 transform rotate-[-15deg]">
-          <img
-            src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758837d0dffb8e32f63_137e4404fe981fb7e0f2f0db1f9ec8e1_3.avif"
-            alt="Project Mockup 1"
-            className="w-full h-full object-contain rounded-lg"
-          />
-        </BackgroundGradient>
-        <BackgroundGradient containerClassName="hidden lg:block absolute bottom-20 -right-24 w-96 z-10 transform rotate-[15deg]">
-          <img
-            src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif"
-            alt="Project Mockup 2"
-            className="w-full h-full object-contain rounded-lg"
-          />
-        </BackgroundGradient>
 
-        <div className="relative z-20 text-center px-4">
-          {/* UPDATED: Agency name added */}
-          <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
-            <img
-              src="https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png"
-              alt="Project Mockup 1"
-              className="w-[300px] h-[100px] mx-auto"
-            />
-          </h2>
-          <div className="text-neutral-300 mb-4  bg-white/30 backdrop-blur-none w-40 p-2 rounded-r-full rounded-l-full mx-auto mt-2">
+        <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
+          <div className="text-neutral-300 mb-6 mt-4 text-sm bg-white/10 backdrop-blur-md px-4 py-1.5 border border-white/10 rounded-full flex items-center justify-center">
             <Link href="/" className="hover:text-white transition-colors">
-              {" "}
-              Home{" "}
+              Home
             </Link>
             <span className="mx-2">/</span>
             <span className="text-white">Services</span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl text-white max-w-5xl">
-            <span className="font-bold">From Code to Commerce,</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl text-white max-w-5xl font-bold tracking-tight">
+            From Code to Commerce,
             <br />
-            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500">
               Building Your Digital Success
             </span>
           </h1>
@@ -173,37 +65,50 @@ export default function ServicesPage() {
       </div>
 
       {/* সার্ভিসেস কন্টেন্ট */}
-      <main className="max-w-5xl mx-auto px-6 lg:px-8 py-16 lg:py-24 space-y-20 lg:space-y-28">
-        {servicesData.map((service) => (
+      <main className="max-w-6xl mx-auto px-6 lg:px-8 py-16 lg:py-24 space-y-24 lg:space-y-32">
+        {servicesData.map((service, index) => (
           <div
             key={service.id}
             className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
           >
             {/* বাম দিকের কন্টেন্ট */}
-            <div className={service.id % 2 === 0 ? "lg:order-2" : ""}>
-              <h2 className="text-3xl lg:text-4xl font-bold text-black">
+            <div className={index % 2 !== 0 ? "lg:order-2" : ""}>
+              <h2 className="text-3xl lg:text-5xl font-bold text-black tracking-tight leading-tight">
                 {service.title}
               </h2>
-              <p className="mt-4 text-lg text-gray-600">
+              <p className="mt-4 text-lg text-gray-600 leading-relaxed">
                 {service.description}
               </p>
               <div className="mt-8">
-                {service.features.map((feature, index) => (
-                  <AccordionItem key={index} feature={feature} />
+                {service.features.map((feature, idx) => (
+                  <AccordionItem key={idx} feature={feature} />
                 ))}
               </div>
+              <div className="mt-10">
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="inline-flex items-center gap-2 bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-1 transition-all"
+                >
+                  Explore Details <ArrowRight size={20} />
+                </Link>
+              </div>
             </div>
-            {/* ডান দিকের ছবি */}
-            <div className={service.id % 2 === 0 ? "lg:order-1" : ""}>
-              {/* <img
-                src={service.image}
-                alt={service.title}
-                className="rounded-2xl shadow-2xl w-full h-auto"
-              /> */}
-              <video autoPlay loop className="w-full h-full object-contain rounded-lg ">
-                <source src={service.image} type="video/mp4" />
-
-              </video>
+            {/* ডান দিকের ছবি বা ভিডিও */}
+            <div className={index % 2 !== 0 ? "lg:order-1" : ""}>
+              <div className="rounded-3xl overflow-hidden shadow-2xl border border-gray-100 aspect-square flex items-center justify-center bg-gray-50">
+                {service.image.endsWith('.mp4') ? (
+                  <video autoPlay loop muted playsInline className="w-full h-full object-cover">
+                    <source src={service.image} type="video/mp4" />
+                  </video>
+                ) : (
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    width={800} height={800}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
             </div>
           </div>
         ))}

@@ -5,6 +5,7 @@ import { Spotlight } from "../component/ui/spotlight";
 import Link from "next/link";
 import { BackgroundGradient } from "../component/ui/background-gradient";
 import { Linkedin, Facebook, Code, Lightbulb, Handshake, Rocket } from "lucide-react";
+import Image from "next/image";
 
 // Helper component for scroll-reveal text animation
 const AnimatedText = ({ text, className }) => {
@@ -164,7 +165,7 @@ export default function AboutUsPage() {
                                 viewport={{ once: true, amount: 0.5 }}
                                 transition={{ duration: 0.8, ease: "easeOut" }}
                             >
-                                <img src={teamMembers[0].image} alt={teamMembers[0].name} className="rounded-2xl shadow-2xl w-full h-auto object-cover" />
+                                <Image width={800} height={800} src={teamMembers[0].image} alt={teamMembers[0].name} className="rounded-2xl shadow-2xl w-full h-auto object-cover" />
                             </motion.div>
                             <div>
                                 <h3 className="text-4xl font-bold">{teamMembers[0].name}</h3>
@@ -190,7 +191,7 @@ export default function AboutUsPage() {
                                     viewport={{ once: true, amount: 0.5 }}
                                     transition={{ duration: 0.8, ease: "easeOut" }}
                                 >
-                                    <img src={teamMembers[1].image} alt={teamMembers[1].name} className="rounded-2xl shadow-2xl w-full h-auto object-cover" />
+                                    <Image width={800} height={800} src={teamMembers[1].image} alt={teamMembers[1].name} className="rounded-2xl shadow-2xl w-full h-auto object-cover" />
                                 </motion.div>
                             </div>
                             <div className="lg:order-1">

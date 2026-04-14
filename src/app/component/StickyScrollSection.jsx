@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+import Image from "next/image";
 
 // Helper to load external scripts in the preview environment
 const useScript = (url) => {
@@ -141,11 +142,12 @@ export default function App() {
           <span className="inline-block text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-tighter mb-6 border border-emerald-100">
             Case Studies
           </span>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tight leading-[0.9] mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-2">
             Proven Success In
           </h1>
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif italic text-blue-600 leading-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif italic text-blue-600 leading-[1.1] relative inline-block mt-2">
             Every Industry
+            <svg className="absolute -bottom-2 md:-bottom-3 left-0 w-full h-3 md:h-4 text-blue-600/80" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/></svg>
           </h2>
           <p className="mt-8 text-slate-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Exploring our portfolio of high-impact digital solutions across diverse sectors.

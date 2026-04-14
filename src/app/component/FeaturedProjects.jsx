@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+import Image from "next/image";
 
 // External Script Loader for GSAP
 const useScript = (url) => {
@@ -121,12 +122,18 @@ export default function FeaturedProjects() {
       <div className="max-w-7xl mx-auto px-6 py-16 lg:py-32 text-center">
         <div className="inline-flex items-center gap-2 border border-blue-500/20 bg-blue-500/5 text-blue-400 text-[10px] md:text-xs font-bold px-4 py-2 rounded-full uppercase tracking-[0.2em] mb-6 md:mb-10">
           <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-          Core Expertise
+          Our Portfolio
         </div>
-        <h2 className="text-4xl md:text-6xl lg:text-[5rem] font-bold leading-tight tracking-tight">
-          We Turn <span className="text-blue-500 italic font-serif">Complex</span> Ideas <br className="hidden md:block" />
-          <span className="text-neutral-600">Into Flawless</span>
-          <span className="italic font-serif text-blue-500"> Applications</span>
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] text-white">
+          Featured <span className="text-blue-600 italic font-serif relative inline-block">
+            Web Development
+            <svg className="absolute -bottom-2 md:-bottom-3 left-0 w-full h-3 md:h-4 text-blue-600/80" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/></svg>
+          </span> <br className="hidden md:block" />
+          <span className="text-neutral-600">& Digital Marketing</span>
+          <span className="text-blue-600 italic font-serif relative inline-block ml-3">
+            Projects
+            <svg className="absolute -bottom-1 md:-bottom-2 left-0 w-full h-2 md:h-3 text-blue-600/80" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/></svg>
+          </span>
         </h2>
       </div>
 
@@ -151,8 +158,8 @@ export default function FeaturedProjects() {
 
               {/* Mobile Only: Inline Image for better responsiveness */}
               <div className="lg:hidden w-full mb-8 grid grid-cols-2 gap-4">
-                <img src={project.images[0]} className="w-full aspect-[3/4] object-cover rounded-xl border border-white/10" alt="Work" />
-                <img src={project.images[1]} className="w-full aspect-[3/4] object-cover rounded-xl border border-white/10 mt-4" alt="Work" />
+                <Image width={800} height={800} src={project.images[0]} className="w-full aspect-[3/4] object-cover rounded-xl border border-white/10" alt="Work" />
+                <Image width={800} height={800} src={project.images[1]} className="w-full aspect-[3/4] object-cover rounded-xl border border-white/10 mt-4" alt="Work" />
               </div>
 
               <a
@@ -176,13 +183,13 @@ export default function FeaturedProjects() {
                 <div className="relative w-full max-w-lg flex items-center justify-center">
                   {/* Image 1 - Top Leftish */}
                   <div className="img-item absolute w-[240px] xl:w-[280px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border border-white/10 -translate-x-20 -translate-y-16 rotate-[-6deg] scale-95 origin-bottom">
-                    <img src={project.images[0]} className="w-full h-full object-cover" alt="Work" />
+                    <Image width={800} height={800} src={project.images[0]} className="w-full h-full object-cover" alt="Work" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
 
                   {/* Image 2 - Bottom Rightish */}
                   <div className="img-item absolute w-[260px] xl:w-[300px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border border-white/10 translate-x-20 translate-y-16 rotate-[6deg] scale-95 origin-top">
-                    <img src={project.images[1]} className="w-full h-full object-cover" alt="Work" />
+                    <Image width={800} height={800} src={project.images[1]} className="w-full h-full object-cover" alt="Work" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
                 </div>

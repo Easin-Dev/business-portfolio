@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
@@ -16,22 +17,22 @@ function ServicesMenu() {
   const [activeService, setActiveService] = useState(0);
   const services = [
     {
-      title: "Landing Page Development",
-      description: "High-converting landing pages to boost your campaigns.",
-      image: "https://i.ibb.co.com/dwWbz6V3/Untitled-design-3.png",
-      path: "/services/landing-page", // Path added
+      title: "Website Development",
+      description: "Responsive, fast & SEO-friendly solutions, from Landing Pages to Full-Stack Web Apps.",
+      image: "https://cdn.dribbble.com/userupload/16467705/file/original-fc58292a73b9ea8abf6f37f68d793ea6.mp4",
+      path: "/services/website-development", 
     },
     {
-      title: "E-commerce Solution",
-      description: "Complete and scalable solutions for your online store.",
-      image: "https://i.ibb.co.com/s9yynRSD/Untitled-design-4.png",
-      path: "/services/ecommerce", // Path added
+      title: "Digital Marketing",
+      description: "Data-driven Meta Ads and Google Ads strategies for maximum brand growth and sales.",
+      image: "https://cdn.dribbble.com/userupload/10640472/file/original-c81c56245856e105c75424cf9a958366.mp4",
+      path: "/services/digital-marketing", 
     },
     {
-      title: "Custom Web Development",
-      description: "Bespoke web applications tailored to your business needs.",
-      image: "https://i.ibb.co.com/JWxfYpB6/Untitled-design-6.png",
-      path: "/services/custom-dev", // Path added
+      title: "WhatsApp Chatbots",
+      description: "Deploy 24/7 smart automation, API integrations, and Advanced AI Chatbots.",
+      image: "https://cdn.dribbble.com/userupload/45750789/file/9b848a9a9bd01412135ca833731b40ad.mp4",
+      path: "/services/whatsapp-chatbots", 
     },
   ];
 
@@ -65,16 +66,29 @@ function ServicesMenu() {
       </div>
       <div className="relative w-full h-96 rounded-lg mt-16 overflow-hidden">
         <AnimatePresence mode="wait">
-          <motion.img
+          <motion.div
             key={activeService}
-            src={services[activeService].image}
-            alt={services[activeService].title}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+            className="absolute inset-0 w-full h-full"
+          >
+            {services[activeService].image.endsWith('.mp4') ? (
+              <video 
+                src={services[activeService].image}
+                autoPlay loop muted playsInline
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Image
+                src={services[activeService].image}
+                alt={services[activeService].title}
+                width={800} height={800}
+                className="w-full h-full object-cover"
+              />
+            )}
+          </motion.div>
         </AnimatePresence>
         {/* UPDATED: This arrow also links to the active service path */}
         <a
@@ -123,9 +137,10 @@ function MoreMenu() {
             over the case studies.
           </p>
           <div className="rounded-lg overflow-hidden mt-4">
-            <img
+            <Image
               src="https://i.ibb.co.com/tT6CNrhV/Blue-Gradient-Graphic-Design-Youtube-Ad-Video.png"
               alt="Latest Work"
+              width={800} height={800}
               className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BackgroundGradient } from "../component/ui/background-gradient";
 import { Spotlight } from "../component/ui/spotlight";
+import Image from "next/image";
 
 export default function blogs() {
     return (

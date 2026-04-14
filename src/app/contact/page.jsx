@@ -6,6 +6,7 @@ import Link from "next/link";
 import { BackgroundGradient } from "../component/ui/background-gradient";
 import { CheckCircle2, ArrowRight, Volume2, VolumeX, ChevronDown } from "lucide-react";
 import DottedMap from "dotted-map";
+import Image from "next/image";
 
 // Budget options
 const budgetOptions = [
@@ -276,10 +277,10 @@ export default function ContactPage() {
                 <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="hsl(259, 80%, 50%)" />
                 <Spotlight className="top-20 right-full" fill="hsl(190, 80%, 50%)" />
                 <BackgroundGradient containerClassName="hidden lg:block absolute top-20 -left-24 w-96 z-10 transform -rotate-[15deg] transition-transform duration-500 hover:rotate-[-10deg] hover:scale-105">
-                    <img src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758837d0dffb8e32f63_137e4404fe981fb7e0f2f0db1f9ec8e1_3.avif" alt="Project Mockup 1" className="w-full h-full object-contain rounded-lg" />
+                    <Image width={800} height={800} src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758837d0dffb8e32f63_137e4404fe981fb7e0f2f0db1f9ec8e1_3.avif" alt="Project Mockup 1" className="w-full h-full object-contain rounded-lg" />
                 </BackgroundGradient>
                 <BackgroundGradient containerClassName="hidden lg:block absolute bottom-20 -right-24 w-96 z-10 transform rotate-[15deg] transition-transform duration-500 hover:rotate-[10deg] hover:scale-105">
-                    <img src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif" alt="Project Mockup 2" className="w-full h-full object-contain rounded-lg" />
+                    <Image width={800} height={800} src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif" alt="Project Mockup 2" className="w-full h-full object-contain rounded-lg" />
                 </BackgroundGradient>
                 <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
                     <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">

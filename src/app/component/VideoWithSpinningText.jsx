@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
 export default function VideoWithSpinningText() {
   const [isMuted, setIsMuted] = useState(true);
@@ -24,10 +25,13 @@ export default function VideoWithSpinningText() {
             Why Choose Us
           </span>
           {/* 👇 dark:text-white ক্লাসটি এখান থেকে সরিয়ে দেওয়া হয়েছে */}
-          <h2 className="mt-4 text-4xl  tracking-tight text-black sm:text-6xl">
+          <h2 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 leading-[1.1]">
             <span className="font-bold">Why Us? Because Your</span>
             <br />
-            <span className="text-blue-500 font-serif italic">Growth Is Our Mission</span>
+            <span className="text-blue-600 font-serif italic relative inline-block">
+              Growth Is Our Mission
+              <svg className="absolute -bottom-2 md:-bottom-3 left-0 w-full h-3 md:h-4 text-blue-600/80" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/></svg>
+            </span>
           </h2>
         </div>
 

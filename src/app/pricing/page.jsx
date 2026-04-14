@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Spotlight } from "../component/ui/spotlight";
 import Link from "next/link";
@@ -12,207 +13,128 @@ import {
   Check,
 } from "lucide-react";
 
-// Pricing ডেটা (UPDATED)
+// Dual-Market Pricing Data
 const pricingData = {
-  "Regular Plan": [
-    {
-      plan: "Landing Page",
-      price: "$5,000",
-      description: "High-impact pages to convert visitors into customers.",
-      features: [
-        "Custom, Responsive Design",
-        "Lead Capture Form Integration",
-        "Blazing Fast Load Speed",
-        "A/B Testing Setup",
-        "SEO On-Page Optimization",
-        "Analytics Integration",
-        "Interactive Animations",
-        "Social Media Integration",
-      ],
-      isHighlighted: false,
-    },
-    {
-      plan: "E-commerce Solution",
-      price: "$12,000",
-      description: "A complete, feature-rich package for your online store.",
-      features: [
-        "Custom Storefront Design",
-        "Full Product Catalogue System",
-        "Secure Shopping Cart & Checkout",
-        "Multiple Payment Gateways (Stripe, PayPal)",
-        "User Account & Order History",
-        "Advanced Inventory Management",
-        "Discount & Coupon Code Engine",
-        "Customer Reviews & Ratings",
-        "Easy-to-use Admin Dashboard",
-        "Product & Category SEO",
-        "Third-Party API Integration",
-        "Automated Email Notifications",
-        "SSL Security Setup",
-        "Mobile & Tablet Responsive",
-        "Full Technical Support",
-      ],
-      isHighlighted: true,
-    },
-    {
-      plan: "Custom Web Application",
-      price: "$15,000+",
-      description: "Bespoke solutions for unique business challenges.",
-      features: [
-        "In-depth Requirement Analysis",
-        "Custom UI/UX Design & Prototyping",
-        "Scalable Backend Architecture (Node.js/Python)",
-        "Secure Database Management (SQL/NoSQL)",
-        "User Authentication (OAuth, JWT)",
-        "Real-time Features (WebSockets)",
-        "Admin Dashboard & Analytics",
-        "Third-party API Integrations",
-        "Cloud Deployment (AWS/Vercel)",
-        "CI/CD Pipeline Setup",
-        "Unit & Integration Testing",
-        "Dedicated Project Manager",
-      ],
-      isHighlighted: false,
-    },
-  ],
-  Website: {
-    "1-4 Pages": [
+  International: {
+    "Web Dev": [
       {
-        plan: "Basic Package",
-        price: "$2,000",
-        delivery: "4-day delivery",
-        features: ["UX Research", "UI Design", "Prototyping", "2 Revisions"],
+        plan: "Landing Page",
+        price: "$100",
+        description: "High-converting single page for marketing campaigns.",
+        features: ["Custom Design Layout", "Mobile Responsive", "Lead Capture Form", "Fast Loading < 2s"],
+        isHighlighted: false,
       },
       {
-        plan: "Standard Package",
-        price: "$4,800",
-        delivery: "7-day delivery",
-        popular: true,
-        features: [
-          "UX Research & Analysis",
-          "UI Design",
-          "Interactive Prototyping",
-          "Design System",
-          "4 Revisions",
-        ],
+        plan: "WordPress / Shopify",
+        price: "$500 - $1,200",
+        description: "Best for Personal blogs, Corporate sites, or E-commerce stores.",
+        features: ["Everything in Landing Page", "Full Store Setup & Theme Design", "Payment Gateway Integration", "Advanced SEO Optimization", "Admin Dashboard & Control", "1 Month Free Maintenance", "Google Analytics Setup", "Premium Security Plugins"],
+        isHighlighted: true,
       },
       {
-        plan: "Premium Package",
-        price: "$5,950",
-        delivery: "10-day delivery",
-        features: [
-          "Everything in Standard",
-          "Advanced Animations",
-          "Mobile & Tablet Design",
-          "Style Guide",
-          "Unlimited Revisions",
-        ],
+        plan: "Custom Full-Stack",
+        price: "$1,000+",
+        description: "MERN or Next.js advanced web applications.",
+        features: ["Bespoke Architecture", "Custom API Integrations", "Advanced Security", "Scalable Performance", "Dedicated Cloud Hosting"],
+        isHighlighted: false,
       },
     ],
-    "5-9 Pages": [
+    "Marketing": [
       {
-        plan: "Basic Plus",
-        price: "$6,500",
-        delivery: "12-day delivery",
-        features: ["UX Research & UI Design", "5-9 Pages", "Design System"],
-      },
-      {
-        plan: "Standard Plus",
-        price: "$8,200",
-        delivery: "15-day delivery",
-        popular: true,
-        features: [
-          "All Basic Plus Features",
-          "Advanced Prototyping",
-          "Interaction Design",
-        ],
-      },
-      {
-        plan: "Premium Plus",
-        price: "$10,000",
-        delivery: "17-day delivery",
-        features: [
-          "All Standard Plus Features",
-          "Full Style Guide",
-          "Motion Design",
-        ],
-      },
+        plan: "Meta / Google Ads",
+        price: "$200 / Month",
+        description: "Data-driven marketing to maximize ROI.",
+        features: ["Target Audience Research", "Creative Ad Copies & Banners", "Advanced Retargeting Campaigns", "Pixel & Server-Side Tracking", "Google Search & Video Ads", "A/B Testing Creatives", "Weekly Growth Reports", "Dedicated Account Manager"],
+        isHighlighted: true,
+      }
     ],
-    "10-15 Pages": [
+    "Chatbot": [
       {
-        plan: "Pro",
-        price: "$12,500",
-        delivery: "20-day delivery",
-        features: [
-          "UX Research & UI Design",
-          "10-15 Pages",
-          "Component Library",
-        ],
-      },
-      {
-        plan: "Pro Max",
-        price: "$12,800",
-        delivery: "75-day delivery",
-        popular: true,
-        features: ["All Pro Features", "User Testing", "Full Design System"],
-      },
-      {
-        plan: "Enterprise Lite",
-        price: "$15,000",
-        delivery: "90-day delivery",
-        features: [
-          "All Pro Max Features",
-          "Dedicated Project Manager",
-          "Brand Guidelines",
-        ],
-      },
-    ],
-    "16-25 Pages": [
-      {
-        plan: "Business",
-        price: "$16,500",
-        delivery: "100-day delivery",
-        features: [
-          "Extensive UX Research",
-          "16-25 Pages",
-          "Comprehensive UI/UX",
-        ],
-      },
-      {
-        plan: "Enterprise",
-        price: "$22,000",
-        delivery: "120-day delivery",
-        popular: true,
-        features: [
-          "All Business Features",
-          "Full Scale Design & Dev Support",
-          "API Design",
-        ],
-      },
-    ],
+        plan: "WhatsApp Automation",
+        price: "$200 - $400",
+        description: "24/7 smart automation for customer support & sales.",
+        features: ["Interactive FAQ Bot Menu", "Official Business API Access", "Real-Time Lead Collection", "Automated Order Tracking", "Live CRM Database Syncing", "Abandoned Cart Recovery", "Secure Payment Links", "Mass Broadcasting Tools"],
+        isHighlighted: true,
+      }
+    ]
   },
+  Bangladesh: {
+    "Web Dev": [
+      {
+        plan: "Landing Page",
+        price: "৳ 5,000 - ৳ 7k",
+        description: "High-converting single page for marketing campaigns.",
+        features: ["Custom Design Layout", "Mobile Responsive", "Lead Capture Form", "Fast Loading < 2s"],
+        isHighlighted: false,
+      },
+      {
+        plan: "WordPress / Shopify",
+        price: "৳ 15k - ৳ 20k",
+        description: "Best for Personal blogs, Corporate sites, or E-commerce stores.",
+        features: ["Everything in Landing Page", "Full Store Setup & Theme Design", "Payment Gateway (bKash/SSL)", "Advanced SEO Optimization", "Admin Dashboard & Control", "1 Month Free Maintenance", "Google Analytics Setup", "Premium Security Plugins"],
+        isHighlighted: true,
+      },
+      {
+        plan: "Custom Full-Stack",
+        price: "৳ 30,000+",
+        description: "MERN or Next.js advanced web applications.",
+        features: ["Bespoke Architecture", "Custom API Integrations", "Advanced Security", "Scalable Performance", "Dedicated Cloud Hosting"],
+        isHighlighted: false,
+      },
+    ],
+    "Marketing": [
+      {
+        plan: "Meta / Google Ads",
+        price: "৳ 2,000 / week",
+        description: "Data-driven marketing to maximize ROI.",
+        features: ["Target Audience Research", "Creative Ad Copies & Banners", "Advanced Retargeting Campaigns", "Pixel & Server-Side Tracking", "Google Search & Video Ads", "A/B Testing Creatives", "Weekly Growth Reports", "Dedicated Account Manager"],
+        isHighlighted: true,
+      }
+    ],
+    "Chatbot": [
+      {
+        plan: "WhatsApp Automation",
+        price: "৳ 4,000 - ৳ 8,000",
+        description: "24/7 smart automation for customer support & sales.",
+        features: ["Interactive FAQ Bot Menu", "Official Business API Access", "Real-Time Lead Collection", "Automated Order Tracking", "Live CRM Database Syncing", "Abandoned Cart Recovery", "Secure Payment Links", "Mass Broadcasting Tools"],
+        isHighlighted: true,
+      }
+    ]
+  }
 };
 
-// UPDATED: Bonus package data
-const bonusPackage = {
-  icon: <Bot size={32} />,
-  title: "The Super Saver AI Package",
-  price: "$20,000",
-  description: "Our ultimate deal that covers everything from web design to hosting, now including AI integration to automate and enhance your business."
-};
+const agencyBundles = [
+  {
+    title: "Startup Kickstart",
+    description: "Perfect for quick launches.",
+    features: ["Landing Page Development", "Meta Ads Setup", "Basic FAQ Chatbot"],
+    icon: "🚀"
+  },
+  {
+    title: "E-commerce Pro",
+    description: "Ready-to-sell machine.",
+    features: ["Shopify Store Setup", "Google Ads Management", "WhatsApp Order Bot"],
+    icon: "🛍️"
+  },
+  {
+    title: "Enterprise Digital",
+    description: "The ultimate 360 solution.",
+    features: ["Full-Stack Web App", "360 Degree Marketing", "Advanced API Bot"],
+    icon: "👑"
+  }
+];
 
-const mainCategories = ["Regular Plan", "Website"];
-const pageCategories = ["1-4 Pages", "5-9 Pages", "10-15 Pages", "16-25 Pages"];
+const categoryTabs = ["Web Dev", "Marketing", "Chatbot"];
 
-// FAQ ডেটা (UPDATED)
+// FAQ ডেটা
 const faqData = [
   {
-    question: "How can I start a project with Design Monks?",
+    question: "How can I start a project with ScaleUp Web?",
     answer:
       'Starting a project is easy! Just click the "Start a Project" button on our navigation bar or contact us through our form. We\'ll schedule a free consultation to discuss your needs and goals.',
   },
   {
-    question: "Why is Design Monks different?",
+    question: "Why is ScaleUp Web different?",
     answer:
       "Our focus is on a collaborative partnership. We don't just build what you ask for; we challenge assumptions and provide creative input to ensure the final product exceeds your expectations and drives real results.",
   },
@@ -222,7 +144,7 @@ const faqData = [
       "The timeline for a project varies depending on its scope and complexity. A typical website design project can take anywhere from 4 to 8 weeks, while larger web/mobile app projects may take longer. We provide a detailed timeline after our initial consultation.",
   },
   {
-    question: "Is Design Monks a start-up-friendly agency?",
+    question: "Is ScaleUp Web a start-up-friendly agency?",
     answer:
       "Absolutely! We love working with startups and MVP builders. Our pricing plans are flexible, and we offer dedicated support to help new businesses grow and succeed.",
   },
@@ -241,14 +163,13 @@ function AccordionItem({ item, isOpen, onClick }) {
         onClick={onClick}
         className="w-full flex justify-between items-center text-left"
       >
-        <h3 className="text-lg font-medium text-black">{item.question}</h3>
+        <h3 className="text-lg font-medium text-white">{item.question}</h3>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
         >
           <ChevronDown
-            className={`h-6 w-6 transition-colors ${isOpen ? "text-purple-600" : "text-gray-500"
-              }`}
+            className={`h-6 w-6 transition-colors ${isOpen ? "text-purple-600" : "text-gray-500"}`}
           />
         </motion.div>
       </button>
@@ -281,7 +202,7 @@ function FaqSection() {
     <section className="w-full bg-white text-black py-20 lg:py-32 rounded-t-[40px] -mt-10 relative z-10">
       <div className="max-w-4xl mx-auto px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
-          <span className="inline-block border border-teal-500 bg-teal-50 text-teal-700 text-xs font-medium px-3 py-1 rounded-full">
+          <span className="inline-block border border-blue-500 bg-blue-500/10 text-blue-600 text-xs font-medium px-3 py-1 rounded-full">
             Frequently Asked Questions
           </span>
           <h2 className="mt-4 text-4xl font-bold tracking-tight text-black sm:text-6xl">
@@ -305,53 +226,93 @@ function FaqSection() {
 }
 
 // Pricing Card Component
+// Pricing Card Component
+// Pricing Card Component
 const PricingCard = ({ plan }) => {
   return (
     <div
-      className={`relative rounded-2xl p-8 flex flex-col text-white
-            ${plan.isHighlighted ? "bg-black/60 backdrop-blur-sm border border-purple-500/50 scale-105 z-10" : "bg-[#0a0a0a] border border-white/10"}`}
+      className={`relative rounded-[32px] p-8 mt-4 flex flex-col text-left transition-all duration-300
+            ${plan.isHighlighted 
+               ? "bg-[#0d1020] border border-blue-600/50 shadow-[0_0_80px_rgba(37,99,235,0.2)] scale-[1.04] z-10 py-12" 
+               : "bg-[#14151a] border border-white/5 py-8"}`}
     >
-      {plan.isHighlighted && (
-        <div className="absolute top-0 right-6 -translate-y-1/2 bg-green-400 text-black text-xs font-bold px-3 py-1 rounded-full">
-          Popular
-        </div>
-      )}
-      <h3 className="text-4xl font-bold">{plan.price}</h3>
-      <p className="mt-2 text-neutral-400">{plan.description}</p>
-      <h4
-        className={`mt-6 text-2xl font-semibold ${plan.isHighlighted ? "text-green-400" : "text-white"
-          }`}
+      {/* Top Header Row */}
+      <div className="flex items-center justify-between mb-4">
+         <h4 className="text-lg font-bold text-white tracking-wide">{plan.plan}</h4>
+         {plan.isHighlighted && (
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-white/10 text-white text-xs font-semibold rounded-full border border-white/10">
+               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"/></svg>
+               Popular
+            </div>
+         )}
+      </div>
+
+      {/* Price Row */}
+      <div className="flex items-baseline gap-1 mb-4 flex-wrap">
+        {(() => {
+           const cleanPrice = plan.price.replace(' / Month', '').replace(' / week', '');
+           const isLong = cleanPrice.length > 7;
+           return (
+             <h3 className={`font-extrabold text-white tracking-tight ${isLong ? 'text-3xl' : 'text-5xl'}`}>
+               {cleanPrice}
+             </h3>
+           )
+        })()}
+        <span className="text-sm font-medium text-neutral-400 shrink-0">
+           {plan.price.includes('Month') ? '/ month' : plan.price.includes('week') ? '/ week' : '/ proj'}
+        </span>
+      </div>
+
+      {/* Description */}
+      <p className="text-neutral-400 text-[15px] font-medium leading-relaxed mb-8 h-12 pr-4 text-left">
+         {plan.description}
+      </p>
+
+      {/* Get Started Button (Moved Up according to new design) */}
+      <a
+        href="/contact"
+        className={`w-full flex items-center justify-center rounded-full py-3.5 px-6 font-bold text-sm tracking-wide transition-all duration-300 mb-8
+          ${plan.isHighlighted 
+            ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:shadow-[0_0_40px_rgba(79,70,229,0.7)] hover:scale-[1.02]" 
+            : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20"}`}
       >
-        {plan.plan}
-      </h4>
-      <div className="border-t border-purple-500/20 my-6"></div>
-      <ul className="space-y-3 flex-grow">
+        {plan.isHighlighted ? "Upgrade Now" : "Get Started"}
+      </a>
+
+      {/* Features List */}
+      <ul className="space-y-4 flex-grow">
         {plan.features.map((feature, i) => (
-          <li key={i} className="flex items-start gap-3">
-            <Check className="text-green-400 flex-shrink-0 mt-1" size={18} />
-            <span className="text-neutral-300">{feature}</span>
+          <li key={i} className="flex items-center gap-3">
+            <CheckCircle2 className={`flex-shrink-0 w-4 h-4 ${plan.isHighlighted ? "text-white" : "text-neutral-300"}`} />
+            <span className={`text-sm font-medium ${plan.isHighlighted ? "text-neutral-200" : "text-neutral-400"}`}>{feature}</span>
           </li>
         ))}
       </ul>
-      <a
-        href="#"
-        className="mt-8 inline-flex items-center justify-center w-full rounded-lg px-6 py-3 font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-90 transition-opacity"
-      >
-        Start a Project <ArrowRight className="ml-2" size={20} />
-      </a>
     </div>
   );
 };
-
-
 export default function PricingPage() {
-  const [activeMainCat, setActiveMainCat] = useState("Regular Plan");
-  const [activePageCat, setActivePageCat] = useState("1-4 Pages");
+  const [market, setMarket] = useState("International");
+  const [activeCategory, setActiveCategory] = useState("Web Dev");
+  
+  // IP Geolocation Auto-Detect
+  useEffect(() => {
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if(data.country_code === 'BD') {
+          setMarket("Bangladesh");
+        } else {
+          setMarket("International");
+        }
+      })
+      .catch(err => {
+        console.error('IP fetch error:', err);
+        setMarket("International");
+      });
+  }, []);
 
-  const plans =
-    activeMainCat === "Website"
-      ? pricingData[activeMainCat]?.[activePageCat] || []
-      : pricingData[activeMainCat] || [];
+  const plans = pricingData[market]?.[activeCategory] || [];
 
   return (
     <div className="w-full bg-[#050709]">
@@ -360,106 +321,106 @@ export default function PricingPage() {
         <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]"></div>
         <Spotlight
           className="-top-40 left-0 md:left-60 md:-top-20"
-          fill="hsl(259, 80%, 50%)"
+          fill="hsl(190, 80%, 50%)"
         />
-        <Spotlight className="top-20 right-full" fill="hsl(190, 80%, 50%)" />
+        <Spotlight className="top-20 right-full" fill="hsl(210, 100%, 50%)" />
         <BackgroundGradient containerClassName="hidden lg:block absolute top-20 -left-24 w-96 z-10 transform -rotate-[25deg] transition-transform duration-500 hover:rotate-[-15deg] hover:scale-105">
-          <img
+          <Image
             src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758837d0dffb8e32f63_137e4404fe981fb7e0f2f0db1f9ec8e1_3.avif"
             alt="Project Mockup 1"
+            width={800} height={800}
             className="w-full h-full object-contain rounded-lg"
           />
         </BackgroundGradient>
         <BackgroundGradient containerClassName="hidden lg:block absolute bottom-20 -right-24 w-96 z-10 transform rotate-[25deg] transition-transform duration-500 hover:rotate-[-15deg] hover:scale-105">
-          <img
+          <Image
             src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif"
             alt="Project Mockup 2"
+            width={800} height={800}
             className="w-full h-full object-contain rounded-lg"
           />
         </BackgroundGradient>
 
         <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
           <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
-            <img
+            <Image
               src="https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png"
-              alt="Project Mockup 1"
+              alt="ScaleUp Web Logo"
+              width={300} height={100}
               className="w-[300px] h-[100px]"
             />
           </h2>
-          <div className="text-neutral-300 mb-4 mt-4 text-sm bg-white/30 backdrop-blur-sm p-2 rounded-r-full rounded-l-full">
-            <Link href="/" className="hover:text-white transition-colors">
-              {" "}
-              Home{" "}
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-white">Pricing</span>
+          <div className="text-neutral-300 mb-4 mt-4 text-sm bg-white/10 backdrop-blur-md px-4 py-1.5 border border-white/10 rounded-full flex items-center justify-center">
+            <Link href="/" className="hover:text-white transition-colors"> Home </Link>
+            <span className="mx-2 text-neutral-500">/</span>
+            <span className="text-white font-medium">Pricing</span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl text-white max-w-4xl mt-2">
-            <span className="font-bold ">Pricing That Fits Your Needs,</span>
-            <br />
-            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
-              Solutions That Exceed Them
+          <h1 className="text-4xl md:text-5xl lg:text-6xl text-white max-w-4xl mt-2 font-bold tracking-tight">
+            Transparent {" "}
+            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500">
+              Pricing
             </span>
           </h1>
-          <p className="mt-6 text-neutral-300 max-w-2xl">
-            Let's find the perfect package to bring your ideas to life.
+          <p className="mt-4 text-neutral-400 max-w-2xl text-lg">
+            Guaranteed quality and results, custom-tailored for your market.
           </p>
 
-          <div className="mt-12 space-y-6 w-full max-w-4xl">
-            <div className="flex flex-wrap justify-center gap-2 lg:gap-3">
-              {mainCategories.map((category) => (
+          <div className="mt-12 space-y-8 w-full max-w-4xl flex flex-col items-center">
+            {/* Market Toggle */}
+            <div className="flex flex-wrap justify-center gap-2 p-1 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full">
+              {['International', 'Bangladesh'].map((m) => (
                 <button
-                  key={category}
-                  onClick={() => setActiveMainCat(category)}
-                  className={`px-4 py-2 text-sm rounded-md transition-colors duration-300
-                            ${activeMainCat === category
-                      ? "bg-white text-black font-semibold"
-                      : "bg-white/10 text-neutral-300 hover:bg-white/20"
-                    }`}
+                  key={m}
+                  onClick={() => setMarket(m)}
+                  className={`px-6 py-2.5 text-sm rounded-full transition-all duration-300 font-medium ${
+                    market === m
+                      ? "bg-blue-600 text-white font-bold shadow-[0_0_25px_rgba(37,99,235,0.6)] border border-blue-400"
+                      : "text-neutral-400 hover:text-white"
+                  }`}
                 >
-                  {category}
+                  {m === 'International' ? '🌍 International (USD)' : '🇧🇩 Bangladesh (BDT)'}
                 </button>
               ))}
             </div>
-            <AnimatePresence>
-              {activeMainCat === "Website" && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="flex flex-wrap justify-center gap-2 lg:gap-3"
-                >
-                  {pageCategories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => setActivePageCat(category)}
-                      className={`px-4 py-2 text-sm rounded-md transition-colors duration-300
-                                ${activePageCat === category
-                          ? "bg-purple-600 text-white font-semibold"
-                          : "bg-white/10 text-neutral-300 hover:bg-white/20"
-                        }`}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </motion.div>
-              )}
+            
+            {/* Category Toggle */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={market}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="flex flex-wrap justify-center gap-3 w-full"
+              >
+                {categoryTabs.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-5 py-2 text-sm rounded-lg transition-all duration-300 border ${
+                      activeCategory === cat
+                        ? "bg-white/10 border-blue-500/50 text-white font-semibold backdrop-blur-md"
+                        : "bg-transparent border-white/5 text-neutral-500 hover:text-neutral-300 hover:border-white/20"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </motion.div>
             </AnimatePresence>
           </div>
 
           <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 px-4 items-center">
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
               {plans.map((plan, index) => (
                 <motion.div
-                  key={plan.plan}
-                  initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                  key={plan.plan + market}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{
                     opacity: 1,
                     y: 0,
-                    scale: 1,
                     transition: { delay: index * 0.1 },
                   }}
-                  exit={{ opacity: 0, y: 30, scale: 0.95 }}
+                  exit={{ opacity: 0, y: -30 }}
                 >
                   <PricingCard plan={plan} />
                 </motion.div>
@@ -467,26 +428,46 @@ export default function PricingPage() {
             </AnimatePresence>
           </div>
 
-          <div className="w-full max-w-6xl mx-auto mt-24">
-            <div className="relative rounded-2xl p-8 border border-green-400/30 bg-black/20">
-              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                <div className="flex-shrink-0 w-20 h-20 rounded-full bg-green-400/10 flex items-center justify-center text-green-400">
-                  {bonusPackage.icon}
+          {/* Special Agency Bundles */}
+          <div className="w-full max-w-7xl mx-auto mt-32 px-4 text-center">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-10 tracking-tight">Special Agency <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500">Bundles</span></h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {agencyBundles.map((bundle, idx) => (
+                <div key={idx} className="bg-[#0a0a0a] border border-white/10 p-8 rounded-2xl flex flex-col items-center group hover:border-blue-600/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(37,99,235,0.1)] relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 blur-[50px] -mr-16 -mt-16 rounded-full group-hover:bg-blue-600/20 transition-colors"></div>
+                  <div className="text-5xl mb-6 relative z-10 transform transition-transform group-hover:scale-110">{bundle.icon}</div>
+                  <h3 className="text-2xl font-bold text-white mb-2 relative z-10">{bundle.title}</h3>
+                  <p className="text-neutral-400 mb-8 relative z-10">{bundle.description}</p>
+                  <ul className="text-left space-y-4 mb-8 w-full relative z-10 flex-grow">
+                    {bundle.features.map((feat, i) => (
+                      <li key={i} className="flex items-start gap-3 text-neutral-300">
+                        <CheckCircle2 size={20} className="text-blue-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm">{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a href="/contact" className="mt-auto px-6 py-3 bg-white/5 border border-white/10 text-white rounded-lg font-semibold transition-all hover:bg-blue-600 hover:border-blue-600 hover:text-white hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] w-full text-center relative z-10">Select Bundle</a>
                 </div>
-                <div className="flex-grow text-center md:text-left">
-                  <h3 className="text-3xl lg:text-4xl text-white font-bold">
-                    {bonusPackage.title}
-                  </h3>
-                  <p className="mt-2 text-neutral-400 max-w-2xl">{bonusPackage.description}</p>
-                </div>
-                <div className="text-center flex flex-col justify-center item-center">
-                  <p className="text-4xl lg:text-5xl font-bold text-green-400">{bonusPackage.price}</p>
-                  <a
-                    href="/contact"
-                    className=" border-2 border-purple-500/50 bg-gradient-to-r from-purple-600 mt-5 to-indigo-600 px-5 rounded-sm py-1 text-base font-semibold text-white shadow-lg shadow-purple-500/20 transition-transform duration-300 hover:scale-105"
-                  >
-                    Start a Project
-                  </a>
+              ))}
+            </div>
+            
+            {/* Pro-Tips Note */}
+            <div className="mt-20 bg-blue-950/30 border border-blue-500/20 p-8 rounded-2xl max-w-4xl mx-auto text-left flex flex-col md:flex-row gap-6 items-start shadow-2xl relative overflow-hidden backdrop-blur-sm">
+              <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+              <div className="bg-blue-500/20 p-4 rounded-xl flex-shrink-0">
+                <Bot className="text-blue-400" size={32} />
+              </div>
+              <div>
+                <h4 className="text-blue-400 font-bold text-xl mb-3 flex items-center gap-2">ScaleUp Web Pro-Tips</h4>
+                <div className="text-neutral-300 space-y-3">
+                  <p className="flex items-start gap-2">
+                    <span className="text-blue-500 mt-1">•</span> 
+                    <span><strong>Ad Spend Not Included:</strong> Our marketing management fee covers strategy, execution, and optimization. You provide the ad budget directly to Google/Meta.</span>
+                  </p>
+                  <p className="flex items-start gap-2">
+                    <span className="text-blue-500 mt-1">•</span> 
+                    <span><strong>3 Months Free Maintenance:</strong> Every Website Development project includes complete support and updates for 3 months post-launch, guaranteeing absolute peace of mind.</span>
+                  </p>
                 </div>
               </div>
             </div>
