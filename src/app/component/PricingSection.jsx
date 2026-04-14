@@ -174,12 +174,18 @@ export default function PricingSection() {
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
             Transparent{" "}
-            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 relative inline-block pb-2">
               Pricing
+              <svg className="absolute -bottom-1 left-0 w-full h-3 md:h-4 text-blue-400" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none">
+                <path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+              </svg>
             </span>
           </h2>
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold italic font-serif text-blue-400/80 mt-1 mb-6">
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold italic font-serif text-blue-400/80 mt-3 mb-8 relative inline-block pb-2">
             For Your Growth
+            <svg className="absolute -bottom-1 left-0 w-full h-3 md:h-4 text-blue-400/60" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none">
+              <path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+            </svg>
           </h3>
           <p className="text-neutral-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
             No hidden fees. Guaranteed quality and measurable results — custom-tailored for your market and business goals.
