@@ -4,7 +4,7 @@ export const metadata = {
   openGraph: {
     title: "Premium Digital Agency Services | ScaleUp Web",
     description: "From Code to Commerce, we build your digital success with fast web apps, killer ads, and smart AI chatbots.",
-    url: "https://scaleupweb.com/services",
+    url: "https://scaleupweb.xyz/services",
     siteName: "ScaleUp Web",
     type: "website",
   },
