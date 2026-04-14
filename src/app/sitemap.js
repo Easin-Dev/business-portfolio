@@ -4,7 +4,7 @@
  * @see https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
  */
 export default function sitemap() {
-  const baseUrl = "https://scaleupweb.xyz";
+  const baseUrl = "https://www.scaleupweb.xyz";
   const lastModified = new Date();
 
   return [
