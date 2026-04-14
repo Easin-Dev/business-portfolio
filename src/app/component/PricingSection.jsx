@@ -23,7 +23,7 @@ const popularPlans = [
       "Premium Security Plugins",
     ],
     href: "/services/website-development",
-    isHighlighted: false,
+    isHighlighted: true,
     accent: "#3b82f6",
   },
   {
@@ -44,7 +44,7 @@ const popularPlans = [
       "Dedicated Account Manager",
     ],
     href: "/services/digital-marketing",
-    isHighlighted: true,
+    isHighlighted: false,
     accent: "#6366f1",
   },
   {
