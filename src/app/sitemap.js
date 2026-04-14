@@ -3,11 +3,13 @@
  * Auto-generated for Google & Bing indexing
  * @see https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
  */
+import { servicesData } from "../data/servicesData";
+
 export default function sitemap() {
   const baseUrl = "https://www.scaleupweb.xyz";
   const lastModified = new Date();
 
-  return [
+  const staticPages = [
     {
       url: baseUrl,
       lastModified,
@@ -51,4 +53,14 @@ export default function sitemap() {
       priority: 0.8,
     },
   ];
+
+  const servicePages = servicesData.map((service) => ({
+    url: `${baseUrl}/services/${service.slug}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.85,
+  }));
+
+  return [...staticPages, ...servicePages];
 }
+
