@@ -266,8 +266,8 @@ Google এই তিনটি metric দিয়ে page experience measure ক
 সবচেয়ে বড় performance killer হলো un-optimized images:
 
 - **WebP Format:** JPG-এর তুলনায় ৩০% ছোট, PNG-এর তুলনায় ৬০% ছোট
-- **Lazy Loading:** Viewport-এর বাইরের image পরে load হবে — `loading="lazy"` attribute
-- **Proper Sizing:** Responsive image দিন — `srcset` ব্যবহার করুন
+- **Lazy Loading:** Viewport-এর বাইরের image পরে load হবে — \`loading="lazy"\` attribute
+- **Proper Sizing:** Responsive image দিন — \`srcset\` ব্যবহার করুন
 - **Next.js Image Component:** Automatically optimizes করে
 
 ### ২. JavaScript Optimization
@@ -275,7 +275,7 @@ Google এই তিনটি metric দিয়ে page experience measure ক
 - **Code Splitting:** শুধু যত টুকু দরকার সেটা load করুন
 - **Tree Shaking:** Unused code বাদ দিন
 - **Defer & Async:** Non-critical JS defer করুন
-- **Bundle Analysis:** `next build --profile` দিয়ে big bundles খুঁজুন
+- **Bundle Analysis:** \`next build --profile\` দিয়ে big bundles খুঁজুন
 
 ### ৩. CDN Setup
 

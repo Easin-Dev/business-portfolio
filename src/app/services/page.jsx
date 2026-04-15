@@ -2,11 +2,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BackgroundGradient } from "../component/ui/background-gradient";
-import { Spotlight } from "../component/ui/spotlight";
-import { Briefcase, ArrowRight, Minus, Plus } from "lucide-react";
+import { ArrowRight, Minus, Plus } from "lucide-react";
 import FaqSection from "../component/FaqSection";
 import { servicesData } from "../../data/servicesData";
+import PageHero from "../component/PageHero";
 
 // Accordion Item Component
 const AccordionItem = ({ feature }) => {
@@ -38,31 +37,12 @@ const AccordionItem = ({ feature }) => {
 export default function ServicesPage() {
   return (
     <div className="bg-white min-h-screen">
-      {/* হিরো সেকশন */}
-      <div className="relative w-full bg-[#050709] min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]"></div>
-        <Spotlight
-          className="-top-40 left-0 md:left-60 md:-top-20"
-          fill="hsl(210, 80%, 50%)"
-        />
-
-        <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
-          <div className="text-neutral-300 mb-6 mt-4 text-sm bg-white/10 backdrop-blur-md px-4 py-1.5 border border-white/10 rounded-full flex items-center justify-center">
-            <Link href="/" className="hover:text-white transition-colors">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-white">Services</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl text-white max-w-5xl font-bold tracking-tight">
-            From Code to Commerce,
-            <br />
-            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500">
-              Building Your Digital Success
-            </span>
-          </h1>
-        </div>
-      </div>
+      <PageHero
+        breadcrumb="Services"
+        title="From Code to Commerce,"
+        highlight="Building Your Digital Success"
+        subtitle="We craft high-performance websites, data-driven marketing campaigns, and smart automation systems — tailored to grow your business."
+      />
 
       {/* সার্ভিসেস কন্টেন্ট */}
       <main className="max-w-6xl mx-auto px-6 lg:px-8 py-16 lg:py-24 space-y-24 lg:space-y-32">

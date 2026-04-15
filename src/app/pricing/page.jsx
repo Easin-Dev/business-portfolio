@@ -291,6 +291,8 @@ const PricingCard = ({ plan }) => {
     </div>
   );
 };
+import PageHero from "../component/PageHero";
+
 export default function PricingPage() {
   const [market, setMarket] = useState("International");
   const [activeCategory, setActiveCategory] = useState("Web Dev");
@@ -316,54 +318,17 @@ export default function PricingPage() {
 
   return (
     <div className="w-full bg-[#050709]">
-      {/* পেইজের হেডার */}
-      <div className="relative w-full min-h-[80vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden pt-20 pb-20">
-        <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]"></div>
-        <Spotlight
-          className="-top-40 left-0 md:left-60 md:-top-20"
-          fill="hsl(190, 80%, 50%)"
-        />
-        <Spotlight className="top-20 right-full" fill="hsl(210, 100%, 50%)" />
-        <BackgroundGradient containerClassName="hidden lg:block absolute top-20 -left-24 w-96 z-10 transform -rotate-[25deg] transition-transform duration-500 hover:rotate-[-15deg] hover:scale-105">
-          <Image
-            src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758837d0dffb8e32f63_137e4404fe981fb7e0f2f0db1f9ec8e1_3.avif"
-            alt="Project Mockup 1"
-            width={800} height={800}
-            className="w-full h-full object-contain rounded-lg"
-          />
-        </BackgroundGradient>
-        <BackgroundGradient containerClassName="hidden lg:block absolute bottom-20 -right-24 w-96 z-10 transform rotate-[25deg] transition-transform duration-500 hover:rotate-[-15deg] hover:scale-105">
-          <Image
-            src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ac7758594e31e0312a925f_e0482580c600f74a17f23e4f9a90e82e_1.avif"
-            alt="Project Mockup 2"
-            width={800} height={800}
-            className="w-full h-full object-contain rounded-lg"
-          />
-        </BackgroundGradient>
+      {/* Shared Page Hero */}
+      <PageHero
+        breadcrumb="Pricing"
+        title="Transparent Pricing,"
+        highlight="For Your Growth"
+        subtitle="Guaranteed quality and measurable results — custom-tailored for your market and business goals. No hidden fees."
+      />
 
+      {/* Toggles + Cards section */}
+      <div className="relative z-10 w-full pb-20">
         <div className="relative z-20 text-center px-4 w-full flex flex-col items-center">
-          <h2 className="text-xl md:text-2xl font-semibold text-gray-200 tracking-wider">
-            <Image
-              src="https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png"
-              alt="ScaleUp Web Logo"
-              width={300} height={100}
-              className="w-[300px] h-[100px]"
-            />
-          </h2>
-          <div className="text-neutral-300 mb-4 mt-4 text-sm bg-white/10 backdrop-blur-md px-4 py-1.5 border border-white/10 rounded-full flex items-center justify-center">
-            <Link href="/" className="hover:text-white transition-colors"> Home </Link>
-            <span className="mx-2 text-neutral-500">/</span>
-            <span className="text-white font-medium">Pricing</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl text-white max-w-4xl mt-2 font-bold tracking-tight">
-            Transparent {" "}
-            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-500 to-blue-500">
-              Pricing
-            </span>
-          </h1>
-          <p className="mt-4 text-neutral-400 max-w-2xl text-lg">
-            Guaranteed quality and results, custom-tailored for your market.
-          </p>
 
           <div className="mt-12 space-y-8 w-full max-w-4xl flex flex-col items-center">
             {/* Market Toggle */}

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Clock, ArrowRight, Search, TrendingUp, Code2, Megaphone, Bot, BookOpen } from "lucide-react";
 import { Spotlight } from "../component/ui/spotlight";
 import { blogsData } from "../../data/blogsData";
+import PageHero from "../component/PageHero";
 
 // ── Use shared data (later from MongoDB via Admin Panel) ──────────────────────
 const allBlogs = blogsData;
@@ -126,7 +127,6 @@ export default function BlogsPage() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const featuredBlog = allBlogs.find((b) => b.featured);
   const filtered = allBlogs.filter((b) => {
     const matchCat = activeCategory === "all" || b.tag === activeCategory;
     const matchSearch =
@@ -142,57 +142,15 @@ export default function BlogsPage() {
   return (
     <div className="w-full bg-[#050709] min-h-screen text-white">
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative w-full min-h-[60vh] flex items-center justify-center overflow-hidden pt-24 pb-16">
-        {/* Grid bg */}
-        <div className="absolute inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)]" />
-        {/* Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[200px] bg-indigo-500/8 rounded-full blur-[100px] pointer-events-none" />
+      <PageHero 
+        breadcrumb="Blog"
+        title="The ScaleUp"
+        highlight="Blog"
+        subtitle="Expert insights on web development, digital marketing, SEO, and automation — to help your business grow faster online."
+      />
 
-        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="hsl(220, 80%, 60%)" />
-
-        <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
-          {/* Breadcrumb */}
-          <div className="flex items-center justify-center gap-2 text-neutral-500 text-sm mb-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-white">Blog</span>
-          </div>
-
-          {/* Label */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6"
-          >
-            <BookOpen size={12} /> Insights & Guides
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] mb-6"
-          >
-            The ScaleUp{" "}
-            <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-cyan-400">
-              Blog
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-neutral-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10"
-          >
-            Expert insights on web development, digital marketing, SEO, and automation — to help your business grow faster online.
-          </motion.p>
-
-          {/* Search Bar */}
+      {/* ── SEARCH BAR ─────────────────────────────────────── */}
+      <div className="relative z-30 -mt-10 mb-16 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -205,11 +163,10 @@ export default function BlogsPage() {
               placeholder="Search articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-5 py-3.5 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-neutral-500 text-sm focus:outline-none focus:border-blue-500/60 focus:bg-white/8 transition-all duration-300"
+              className="w-full pl-11 pr-5 py-3.5 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-neutral-500 text-sm focus:outline-none focus:border-blue-500/60 focus:bg-white/8 transition-all duration-300 shadow-2xl backdrop-blur-xl"
             />
           </motion.div>
-        </div>
-      </section>
+      </div>
 
       {/* ── MAIN CONTENT ─────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 lg:px-8 pb-24">

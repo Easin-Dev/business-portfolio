@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import { Github, Twitter, Linkedin, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Facebook, Linkedin, Mail, ArrowRight } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -12,12 +13,12 @@ export default function Footer() {
             <h2 className="text-4xl lg:text-6xl font-bold">
               Let's build your next big thing.
             </h2>
-            <a
+            <Link
               href="/contact"
               className="mt-8 inline-flex items-center gap-x-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-purple-500/20 transition-transform duration-300 hover:scale-105"
             >
               Start a Project <ArrowRight size={20} />
-            </a>
+            </Link>
           </div>
 
           {/* Divider */}
@@ -30,14 +31,19 @@ export default function Footer() {
               <h3 className="font-semibold text-lg text-black">Company</h3>
               <ul className="mt-4 space-y-3">
                 <li>
-                  <a href="#" className="text-neutral-600 hover:text-black">
-                    About
-                  </a>
+                  <Link href="/about-us" className="text-neutral-600 hover:text-black">
+                    About Us
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-neutral-600 hover:text-black">
-                    Blog
-                  </a>
+                  <Link href="/blogs" className="text-neutral-600 hover:text-black">
+                    Blogs
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/work" className="text-neutral-600 hover:text-black">
+                    Our Work
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -46,19 +52,19 @@ export default function Footer() {
               <h3 className="font-semibold text-lg text-black">Services</h3>
               <ul className="mt-4 space-y-3">
                 <li>
-                  <a href="#" className="text-neutral-600 hover:text-black">
-                    Web Development
-                  </a>
+                  <Link href="/services/website-development" className="text-neutral-600 hover:text-black">
+                    Website Development
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-neutral-600 hover:text-black">
-                    E-commerce Solution
-                  </a>
+                  <Link href="/services/digital-marketing" className="text-neutral-600 hover:text-black">
+                    Digital Marketing
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-neutral-600 hover:text-black">
-                    Landing Page Development
-                  </a>
+                  <Link href="/services/whatsapp-chatbots" className="text-neutral-600 hover:text-black">
+                    WhatsApp Chatbots
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -66,30 +72,46 @@ export default function Footer() {
             <div>
               <h3 className="font-semibold text-lg text-black">Connect</h3>
               <div className="flex justify-center md:justify-start space-x-4 mt-4">
-                <a href="#" className="text-neutral-500 hover:text-black">
-                  <Github />
+                <a 
+                  href="https://www.facebook.com/scaleupweb1" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-neutral-500 hover:text-black"
+                >
+                  <Facebook size={24} />
                 </a>
-                <a href="#" className="text-neutral-500 hover:text-black">
-                  <Twitter />
+                <a 
+                  href="https://www.linkedin.com/company/scale-up-web/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-neutral-500 hover:text-black"
+                >
+                  <Linkedin size={24} />
                 </a>
-                <a href="#" className="text-neutral-500 hover:text-black">
-                  <Linkedin />
+                <a 
+                  href="mailto:info@scaleupweb.xyz" 
+                  className="text-neutral-500 hover:text-black"
+                >
+                  <Mail size={24} />
                 </a>
               </div>
+              <p className="mt-4 text-sm text-neutral-600">
+                info@scaleupweb.xyz
+              </p>
             </div>
             {/* Column 4 */}
             <div>
               <h3 className="font-semibold text-lg text-black">Legal</h3>
               <ul className="mt-4 space-y-3">
                 <li>
-                  <a href="#" className="text-neutral-600 hover:text-black">
+                  <Link href="#" className="text-neutral-600 hover:text-black">
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-neutral-600 hover:text-black">
+                  <Link href="#" className="text-neutral-600 hover:text-black">
                     Terms of Service
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -113,4 +135,4 @@ export default function Footer() {
       </div>
     </>
   );
-}
+}

@@ -10,7 +10,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const blog = allBlogs.find((b) => b.slug === params.slug);
+  const { slug } = await params;
+  const blog = allBlogs.find((b) => b.slug === slug);
   if (!blog) return {};
   return {
     title: blog.title,
@@ -19,8 +20,9 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function BlogDetailPage({ params }) {
-  const blog = allBlogs.find((b) => b.slug === params.slug);
+export default async function BlogDetailPage({ params }) {
+  const { slug } = await params;
+  const blog = allBlogs.find((b) => b.slug === slug);
   if (!blog) notFound();
 
   const related = allBlogs.filter((b) => b.tag === blog.tag && b.slug !== blog.slug).slice(0, 2);
