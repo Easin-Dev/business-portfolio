@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://scaleupweb.xyz"),
+  metadataBase: new URL("https://www.scaleupweb.xyz"),
   title: {
     default: "ScaleUp Web — Premium Digital Agency",
     template: "%s | ScaleUp Web",
@@ -39,16 +39,16 @@ export const metadata = {
     "UI UX design",
     "social media marketing",
   ],
-  authors: [{ name: "ScaleUp Web", url: "https://scaleupweb.xyz" }],
+  authors: [{ name: "ScaleUp Web", url: "https://www.scaleupweb.xyz" }],
   creator: "ScaleUp Web",
   publisher: "ScaleUp Web",
   alternates: {
-    canonical: "https://scaleupweb.xyz",
+    canonical: "https://www.scaleupweb.xyz",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://scaleupweb.xyz",
+    url: "https://www.scaleupweb.xyz",
     siteName: "ScaleUp Web",
     title: "ScaleUp Web — Premium Digital Agency",
     description:

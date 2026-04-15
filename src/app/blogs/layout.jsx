@@ -11,13 +11,13 @@ export const metadata = {
     "ScaleUp Web blog",
   ],
   alternates: {
-    canonical: "https://scaleupweb.xyz/blogs",
+    canonical: "https://www.scaleupweb.xyz/blogs",
   },
   openGraph: {
     title: "Blog \u2014 ScaleUp Web Digital Insights",
     description:
       "Expert tips on web dev, digital marketing & automation to scale your business.",
-    url: "https://scaleupweb.xyz/blogs",
+    url: "https://www.scaleupweb.xyz/blogs",
     siteName: "ScaleUp Web",
     type: "website",
   },

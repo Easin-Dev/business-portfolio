@@ -9,13 +9,13 @@ export const metadata = {
     "web agency story",
   ],
   alternates: {
-    canonical: "https://scaleupweb.xyz/about-us",
+    canonical: "https://www.scaleupweb.xyz/about-us",
   },
   openGraph: {
     title: "About ScaleUp Web \u2014 Who We Are",
     description:
       "Meet the team behind ScaleUp Web. We\u2019re a results-driven agency building digital experiences that convert.",
-    url: "https://scaleupweb.xyz/about-us",
+    url: "https://www.scaleupweb.xyz/about-us",
     siteName: "ScaleUp Web",
     type: "website",
   },

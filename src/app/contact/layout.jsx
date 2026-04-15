@@ -10,13 +10,13 @@ export const metadata = {
     "digital marketing contact",
   ],
   alternates: {
-    canonical: "https://scaleupweb.xyz/contact",
+    canonical: "https://www.scaleupweb.xyz/contact",
   },
   openGraph: {
     title: "Contact ScaleUp Web \u2014 Get a Free Consultation",
     description:
       "Let\u2019s talk about your project. Reach out to ScaleUp Web for web, marketing & automation solutions.",
-    url: "https://scaleupweb.xyz/contact",
+    url: "https://www.scaleupweb.xyz/contact",
     siteName: "ScaleUp Web",
     type: "website",
   },

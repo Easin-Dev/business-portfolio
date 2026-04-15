@@ -9,14 +9,14 @@ export default function StructuredData() {
     "@type": "WebSite",
     name: "ScaleUp Web",
     alternateName: "ScaleUp Web Agency",
-    url: "https://scaleupweb.xyz",
+    url: "https://www.scaleupweb.xyz",
     description:
       "ScaleUp Web is a premium digital agency specializing in high-converting website development, ROI-focused digital marketing, and smart WhatsApp chatbot automation.",
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://scaleupweb.xyz/?q={search_term_string}",
+        urlTemplate: "https://www.scaleupweb.xyz/?q={search_term_string}",
       },
       "query-input": "required name=search_term_string",
     },
@@ -26,8 +26,8 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "ScaleUp Web",
-    url: "https://scaleupweb.xyz",
-    logo: "https://scaleupweb.xyz/logo.png",
+    url: "https://www.scaleupweb.xyz",
+    logo: "https://www.scaleupweb.xyz/logo.png",
     description:
       "Premium digital agency offering web development, digital marketing, and WhatsApp chatbot automation services.",
     foundingDate: "2024",
@@ -51,7 +51,7 @@ export default function StructuredData() {
     itemListElement: [
       {
         "@type": "SiteLinksSearchBox",
-        target: "https://scaleupweb.xyz",
+        target: "https://www.scaleupweb.xyz",
       },
       {
         "@type": "ListItem",
@@ -59,7 +59,7 @@ export default function StructuredData() {
         name: "Services",
         description:
           "Explore our expert digital services including Website Development, Digital Marketing & WhatsApp Chatbot Automation.",
-        url: "https://scaleupweb.xyz/services",
+        url: "https://www.scaleupweb.xyz/services",
       },
       {
         "@type": "ListItem",
@@ -67,7 +67,7 @@ export default function StructuredData() {
         name: "Our Work",
         description:
           "Portfolio of successful projects — websites, marketing campaigns, and automation solutions.",
-        url: "https://scaleupweb.xyz/work",
+        url: "https://www.scaleupweb.xyz/work",
       },
       {
         "@type": "ListItem",
@@ -75,7 +75,7 @@ export default function StructuredData() {
         name: "Pricing",
         description:
           "Transparent, flexible pricing plans for web development, digital marketing, and chatbot services.",
-        url: "https://scaleupweb.xyz/pricing",
+        url: "https://www.scaleupweb.xyz/pricing",
       },
       {
         "@type": "ListItem",
@@ -83,7 +83,7 @@ export default function StructuredData() {
         name: "About Us",
         description:
           "Learn about ScaleUp Web — our story, mission, and the passionate team behind your digital success.",
-        url: "https://scaleupweb.xyz/about-us",
+        url: "https://www.scaleupweb.xyz/about-us",
       },
       {
         "@type": "ListItem",
@@ -91,7 +91,7 @@ export default function StructuredData() {
         name: "Blog",
         description:
           "Expert insights on web development, digital marketing, and business growth strategies.",
-        url: "https://scaleupweb.xyz/blogs",
+        url: "https://www.scaleupweb.xyz/blogs",
       },
       {
         "@type": "ListItem",
@@ -99,7 +99,7 @@ export default function StructuredData() {
         name: "Contact Us",
         description:
           "Get in touch with ScaleUp Web for a free consultation on your digital project.",
-        url: "https://scaleupweb.xyz/contact",
+        url: "https://www.scaleupweb.xyz/contact",
       },
     ],
   };
