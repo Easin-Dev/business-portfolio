@@ -2,108 +2,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Clock, Tag, ArrowRight, Search, TrendingUp, Code2, Megaphone, Bot, BookOpen } from "lucide-react";
+import { Clock, ArrowRight, Search, TrendingUp, Code2, Megaphone, Bot, BookOpen } from "lucide-react";
 import { Spotlight } from "../component/ui/spotlight";
+import { blogsData } from "../../data/blogsData";
 
-// ── Static Blog Data ──────────────────────────────────────────────────────────
-const allBlogs = [
-  {
-    id: 1,
-    slug: "how-to-rank-on-google-first-page",
-    category: "SEO",
-    tag: "seo",
-    title: "How to Rank on Google's First Page in 2025 — Complete Roadmap",
-    excerpt:
-      "Google-এর 1st page-এ rank করতে হলে শুধু keyword দিলেই হয় না। Technical SEO, content authority, এবং backlink strategy সব মিলিয়ে একটা complete roadmap দরকার।",
-    thumbnail: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80",
-    author: "Easin Arafat",
-    authorAvatar: "https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png",
-    readTime: "8 min read",
-    date: "Apr 10, 2025",
-    featured: true,
-    accentColor: "#3b82f6",
-  },
-  {
-    id: 2,
-    slug: "meta-ads-strategy-2025",
-    category: "Digital Marketing",
-    tag: "marketing",
-    title: "Meta Ads Strategy That Converts — Stop Wasting Your Budget",
-    excerpt:
-      "অনেকেই Meta Ads-এ টাকা ঢালেন কিন্তু result পান না। এই blog-এ দেখাব কীভাবে proper audience targeting, creative testing এবং pixel tracking দিয়ে ROAS 5x করা যায়।",
-    thumbnail: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&q=80",
-    author: "Easin Arafat",
-    authorAvatar: "https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png",
-    readTime: "6 min read",
-    date: "Apr 5, 2025",
-    featured: false,
-    accentColor: "#6366f1",
-  },
-  {
-    id: 3,
-    slug: "nextjs-vs-wordpress-2025",
-    category: "Web Dev",
-    tag: "webdev",
-    title: "Next.js vs WordPress — Which Should Your Business Choose in 2025?",
-    excerpt:
-      "WordPress simple মনে হলেও performance এবং scalability-তে Next.js অনেক এগিয়ে। কিন্তু কোনটা আপনার business-এর জন্য সঠিক? সঠিক decision নিতে পড়ুন।",
-    thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
-    author: "Easin Arafat",
-    authorAvatar: "https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png",
-    readTime: "7 min read",
-    date: "Mar 28, 2025",
-    featured: false,
-    accentColor: "#0ea5e9",
-  },
-  {
-    id: 4,
-    slug: "whatsapp-chatbot-for-ecommerce",
-    category: "Automation",
-    tag: "automation",
-    title: "WhatsApp Chatbot দিয়ে E-Commerce Sales 3x বাড়ানোর গোপন কৌশল",
-    excerpt:
-      "WhatsApp Business API ব্যবহার করে কীভাবে automated order tracking, abandoned cart recovery, এবং 24/7 customer support implement করবেন — step by step guide।",
-    thumbnail: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=800&q=80",
-    author: "Easin Arafat",
-    authorAvatar: "https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png",
-    readTime: "9 min read",
-    date: "Mar 20, 2025",
-    featured: false,
-    accentColor: "#10b981",
-  },
-  {
-    id: 5,
-    slug: "website-speed-optimization-guide",
-    category: "Web Dev",
-    tag: "webdev",
-    title: "Website Speed Optimization — How to Get 100/100 on PageSpeed",
-    excerpt:
-      "Slow website মানে হারানো customer। Image optimization, lazy loading, CDN setup, এবং Core Web Vitals improve করার complete technical guide — beginners থেকে experts সবার জন্য।",
-    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-    author: "Easin Arafat",
-    authorAvatar: "https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png",
-    readTime: "10 min read",
-    date: "Mar 12, 2025",
-    featured: false,
-    accentColor: "#f59e0b",
-  },
-  {
-    id: 6,
-    slug: "google-ads-keyword-strategy",
-    category: "Digital Marketing",
-    tag: "marketing",
-    title: "Google Ads Keyword Strategy — How to Find Winning Keywords Fast",
-    excerpt:
-      "Google Ads-এ সঠিক keyword বাছাই না করলে বাজেট নষ্ট হবে। এই guide-এ দেখাব কীভাবে competitor research, negative keywords, এবং smart bidding দিয়ে CPA কমানো যায়।",
-    thumbnail: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=800&q=80",
-    author: "Easin Arafat",
-    authorAvatar: "https://i.ibb.co.com/xPS3xYC/scaleup-web-logo.png",
-    readTime: "5 min read",
-    date: "Mar 5, 2025",
-    featured: false,
-    accentColor: "#ec4899",
-  },
-];
+// ── Use shared data (later from MongoDB via Admin Panel) ──────────────────────
+const allBlogs = blogsData;
 
 const categories = [
   { label: "All Posts", value: "all", icon: <BookOpen size={14} /> },
