@@ -17,7 +17,7 @@ export default function robots() {
         disallow: ["/api/"],
       },
     ],
-    sitemap: "https://www.scaleupweb.xyz/sitemap.xml",
-    host: "https://www.scaleupweb.xyz",
+    sitemap: "https://scaleupweb.xyz/sitemap.xml",
+    host: "https://scaleupweb.xyz",
   };
 }

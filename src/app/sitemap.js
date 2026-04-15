@@ -6,7 +6,7 @@
 import { servicesData } from "../data/servicesData";
 
 export default function sitemap() {
-  const baseUrl = "https://www.scaleupweb.xyz";
+  const baseUrl = "https://scaleupweb.xyz";
   const lastModified = new Date();
 
   const staticPages = [
