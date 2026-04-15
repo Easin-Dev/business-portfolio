@@ -5,6 +5,7 @@ import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
 import MarqueeSection from "./component/MarqueeSection";
 import StructuredData from "./component/StructuredData";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -101,6 +102,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <MarqueeSection />
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
