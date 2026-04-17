@@ -151,6 +151,7 @@ export default async function BlogDetailPage({ params }) {
         <section className="max-w-3xl mx-auto px-6 lg:px-8 pb-24">
           <h2 className="text-2xl font-bold text-white mb-8">Related Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {related.map((b) => (
               <Link key={b.id} href={`/blogs/${b.slug}`} className="group relative block">
                 <div className="overflow-hidden rounded-2xl border border-white/8 hover:border-white/20 transition-all duration-300 h-full flex flex-col">
                   <div className="h-40 relative overflow-hidden">
