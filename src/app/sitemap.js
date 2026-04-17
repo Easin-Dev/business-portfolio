@@ -4,6 +4,7 @@
  * @see https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
  */
 import { servicesData } from "../data/servicesData";
+import { blogsData } from "../data/blogsData";
 
 export default function sitemap() {
   const baseUrl = "https://www.scaleupweb.xyz";
@@ -61,6 +62,13 @@ export default function sitemap() {
     priority: 0.85,
   }));
 
-  return [...staticPages, ...servicePages];
+  const blogPages = blogsData.map((blog) => ({
+    url: `${baseUrl}/blogs/${blog.slug}`,
+    lastModified,
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...servicePages, ...blogPages];
 }
 

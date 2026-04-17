@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Clock, Calendar, User } from "lucide-react";
 import { notFound } from "next/navigation";
 import { blogsData } from "../../../data/blogsData";
@@ -13,10 +14,37 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const blog = allBlogs.find((b) => b.slug === slug);
   if (!blog) return {};
+  
+  const url = `https://www.scaleupweb.xyz/blogs/${slug}`;
+  
   return {
     title: blog.title,
     description: blog.excerpt,
-    openGraph: { title: blog.title, description: blog.excerpt, images: [blog.thumbnail] },
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: blog.title,
+      description: blog.excerpt,
+      url: url,
+      type: "article",
+      publishedTime: new Date(blog.date).toISOString(),
+      authors: [blog.author],
+      images: [
+        {
+          url: blog.thumbnail,
+          width: 1200,
+          height: 630,
+          alt: blog.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description: blog.excerpt,
+      images: [blog.thumbnail],
+    },
   };
 }
 
@@ -32,7 +60,13 @@ export default async function BlogDetailPage({ params }) {
 
       {/* Hero / Thumbnail */}
       <div className="relative w-full h-[55vh] md:h-[65vh] overflow-hidden">
-        <img src={blog.thumbnail} alt={blog.title} className="w-full h-full object-cover" />
+        <Image 
+          src={blog.thumbnail} 
+          alt={blog.title} 
+          fill 
+          priority
+          className="w-full h-full object-cover" 
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-[#050709] via-[#050709]/60 to-[#050709]/20" />
 
         {/* Back button */}
@@ -117,13 +151,17 @@ export default async function BlogDetailPage({ params }) {
         <section className="max-w-3xl mx-auto px-6 lg:px-8 pb-24">
           <h2 className="text-2xl font-bold text-white mb-8">Related Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {related.map((b) => (
-              <Link key={b.id} href={`/blogs/${b.slug}`} className="group">
-                <div className="overflow-hidden rounded-2xl border border-white/8 hover:border-white/20 transition-all duration-300">
-                  <div className="h-40 overflow-hidden">
-                    <img src={b.thumbnail} alt={b.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <Link key={b.id} href={`/blogs/${b.slug}`} className="group relative block">
+                <div className="overflow-hidden rounded-2xl border border-white/8 hover:border-white/20 transition-all duration-300 h-full flex flex-col">
+                  <div className="h-40 relative overflow-hidden">
+                    <Image 
+                      src={b.thumbnail} 
+                      alt={b.title} 
+                      fill
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
                   </div>
-                  <div className="p-5">
+                  <div className="p-5 flex-1 bg-white/5">
                     <span className="text-xs font-bold uppercase tracking-widest" style={{ color: b.accentColor }}>{b.category}</span>
                     <h3 className="text-white font-bold mt-2 leading-snug group-hover:text-blue-300 transition-colors line-clamp-2">{b.title}</h3>
                     <p className="text-neutral-500 text-xs mt-2">{b.readTime} · {b.date}</p>

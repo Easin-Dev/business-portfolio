@@ -43,7 +43,9 @@ export const metadata = {
   creator: "ScaleUp Web",
   publisher: "ScaleUp Web",
   alternates: {
-    canonical: "https://www.scaleupweb.xyz",
+    languages: {
+      "en-US": "/en-US",
+    },
   },
   openGraph: {
     type: "website",

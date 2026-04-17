@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Clock, ArrowRight, Search, TrendingUp, Code2, Megaphone, Bot, BookOpen } from "lucide-react";
 import { Spotlight } from "../component/ui/spotlight";
@@ -32,9 +33,11 @@ function BlogCard({ blog, index, featured = false }) {
           <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0f1015] hover:border-blue-500/40 transition-all duration-500 hover:shadow-[0_0_60px_rgba(59,130,246,0.12)]">
             {/* Thumbnail */}
             <div className="relative h-[320px] md:h-[420px] overflow-hidden">
-              <img
+              <Image
                 src={blog.thumbnail}
                 alt={blog.title}
+                fill
+                priority
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               {/* Gradient overlay */}
@@ -85,9 +88,10 @@ function BlogCard({ blog, index, featured = false }) {
         <div className="relative h-full flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-[#0f1015] hover:border-white/20 transition-all duration-400 hover:shadow-[0_0_40px_rgba(255,255,255,0.04)]">
           {/* Thumbnail */}
           <div className="relative h-[200px] overflow-hidden flex-shrink-0">
-            <img
+            <Image
               src={blog.thumbnail}
               alt={blog.title}
+              fill
               className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0f1015] via-transparent to-transparent" />

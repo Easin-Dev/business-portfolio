@@ -60,9 +60,11 @@ export default function VideoWithSpinningText() {
                 : "opacity-0 scale-75"
               }`}
           >
-            <img
+            <Image
               src="https://cdn.prod.website-files.com/672a72b52eb5f37692d645a9/67ae30449566892a169fa179_Video%20Play%5D%20(2).svg"
               alt="Play Video"
+              width={112}
+              height={112}
               className="spinning-play-button"
             />
           </div>
@@ -87,4 +89,3 @@ export default function VideoWithSpinningText() {
     </section>
   );
 }
-

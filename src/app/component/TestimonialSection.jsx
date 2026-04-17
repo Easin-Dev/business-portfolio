@@ -83,7 +83,7 @@ export default function TestimonialSection() {
         </div>
 
         {/* টেস্টিমোনিয়াল স্লাইডার */}
-        <div className="relative mt-16 h-96 flex items-center justify-center">
+        <div className="relative mt-16 h-120 md:h-96 flex items-center justify-center">
           <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={page}
@@ -102,11 +102,12 @@ export default function TestimonialSection() {
                 <div className="absolute -top-4 -left-4 w-20 h-20 bg-gradient-to-br from-yellow-300 to-green-300 blur-2xl opacity-50"></div>
 
                 {/* বাম দিকের ছবি */}
-                <div className="md:col-span-1">
-                  <img
+                <div className="md:col-span-1 relative h-48 md:h-64 w-full">
+                  <Image
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-full h-auto rounded-xl object-cover"
+                    fill
+                    className="rounded-xl object-cover"
                   />
                 </div>
 
@@ -120,11 +121,14 @@ export default function TestimonialSection() {
                     <p className="font-bold text-lg">{testimonial.name}</p>
                     <p className="text-gray-500">{testimonial.title}</p>
                   </div>
-                  <img
-                    src={testimonial.logo}
-                    alt="Company Logo"
-                    className="h-8 w-auto opacity-50"
-                  />
+                  <div className="relative h-8 w-32">
+                    <Image
+                      src={testimonial.logo}
+                      alt="Company Logo"
+                      fill
+                      className="object-contain object-left opacity-50 grayscale hover:grayscale-0 transition-all duration-300"
+                    />
+                  </div>
                 </div>
               </div>
             </motion.div>

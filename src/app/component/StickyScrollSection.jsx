@@ -87,11 +87,12 @@ const ProjectCard = ({ project, index }) => {
 
         {/* Image Display */}
         <div className="order-1 lg:order-2">
-          <div className="relative group overflow-hidden rounded-3xl shadow-2xl bg-white p-2">
-            <img
+          <div className="relative group overflow-hidden rounded-3xl shadow-2xl bg-white p-2 aspect-video lg:aspect-square w-full">
+            <Image
               src={project.image}
               alt={project.title}
-              className="w-full h-full object-cover rounded-2xl transform group-hover:scale-105 transition-transform duration-700 ease-out"
+              fill
+              className="object-cover rounded-2xl transform group-hover:scale-105 transition-transform duration-700 ease-out p-1"
             />
           </div>
         </div>
@@ -100,7 +101,7 @@ const ProjectCard = ({ project, index }) => {
   );
 };
 
-export default function App() {
+export default function StickyScrollSection() {
   const containerRef = useRef(null);
   const gsapLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js");
   const scrollLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js");

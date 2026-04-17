@@ -29,6 +29,9 @@ export async function generateMetadata({ params }) {
       url: `https://www.scaleupweb.xyz/services/${slug}`,
       type: "website",
     },
+    alternates: {
+      canonical: `https://www.scaleupweb.xyz/services/${slug}`,
+    },
   };
 }
 

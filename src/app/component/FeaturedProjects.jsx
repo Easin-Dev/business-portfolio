@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 
 const featuredProjects = [
   {
@@ -138,10 +139,11 @@ function ImagePair({ project, visible }) {
             transform: visible ? "rotate(-6deg) scale(1)" : "rotate(-6deg) scale(0.95)",
           }}
         >
-          <img
+          <Image
             src={project.images[0]}
             alt={project.title}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            fill
+            className="object-cover"
           />
         </div>
 
@@ -162,10 +164,11 @@ function ImagePair({ project, visible }) {
             transition: "transform 0.5s ease 0.1s",
           }}
         >
-          <img
+          <Image
             src={project.images[1]}
             alt={project.title}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            fill
+            className="object-cover"
           />
         </div>
       </div>
@@ -317,18 +320,23 @@ export default function FeaturedProjects() {
                 ))}
               </div>
 
-              {/* Mobile: inline images */}
               <div className="lg:hidden w-full mb-8 grid grid-cols-2 gap-4">
-                <img
-                  src={project.images[0]}
-                  className="w-full aspect-[3/4] object-cover rounded-2xl border border-slate-200 shadow-md"
-                  alt={project.title}
-                />
-                <img
-                  src={project.images[1]}
-                  className="w-full aspect-[3/4] object-cover rounded-2xl border border-slate-200 shadow-md mt-6"
-                  alt={project.title}
-                />
+                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl border border-slate-200 shadow-md">
+                  <Image
+                    src={project.images[0]}
+                    fill
+                    className="object-cover"
+                    alt={project.title}
+                  />
+                </div>
+                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl border border-slate-200 shadow-md mt-6">
+                  <Image
+                    src={project.images[1]}
+                    fill
+                    className="object-cover"
+                    alt={project.title}
+                  />
+                </div>
               </div>
 
               {/* CTA */}
