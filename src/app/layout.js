@@ -1,4 +1,3 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./component/SmoothScroll";
 import Navbar from "./component/Navbar";
@@ -6,16 +5,6 @@ import Footer from "./component/Footer";
 import MarqueeSection from "./component/MarqueeSection";
 import StructuredData from "./component/StructuredData";
 import { Analytics } from "@vercel/analytics/next";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   metadataBase: new URL("https://www.scaleupweb.xyz"),
@@ -96,9 +85,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         <StructuredData />
         <SmoothScroll>{children}</SmoothScroll>
         <Navbar />
