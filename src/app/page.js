@@ -2,9 +2,7 @@
 
 import FaqSection from "./component/FaqSection";
 import FeaturedProjects from "./component/FeaturedProjects";
-import Footer from "./component/Footer";
 import Hero_section from "./component/Hero_section";
-import MarqueeSection from "./component/MarqueeSection";
 import PricingSection from "./component/PricingSection";
 import StickyScrollSection from "./component/StickyScrollSection";
 import TestimonialSection from "./component/TestimonialSection";
@@ -22,8 +20,6 @@ export default function Home() {
       <PricingSection />
       <TestimonialSection />
       <FaqSection />
-      {/* <MarqueeSection /> */}
-      {/* <Footer /> */}
     </main>
   );
 }

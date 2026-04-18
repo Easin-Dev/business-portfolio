@@ -1,28 +1,34 @@
 "use client";
 import React from "react";
 
+import { usePathname } from "next/navigation";
+
 export default function MarqueeSection() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/admin")) return null;
   const marqueeText =
-    "Get 100% Value And Guarantee. • Don’t Miss Out - Secure Your Brand’s Future Today. • Why Risk It With The Wrong Partner? • ";
+    "UNCOMPROMISING QUALITY • 100% VALUE GUARANTEE • SCALE YOUR BUSINESS TODAY • DATA-DRIVEN STRATEGIES • PREMIUM DIGITAL SOLUTIONS • ";
 
   return (
-    <div className="w-full bg-black py-20">
-      <div className="relative rounded-full bg-gradient-to-r from-green-300 via-lime-300 to-green-400 p-4 shadow-[0_0_40px_theme(colors.lime.400)] overflow-hidden">
+    <div className="w-full bg-[#050710] py-12 md:py-20 flex flex-col items-center justify-center overflow-hidden">
+      <div className="relative w-[120%] -rotate-1 py-4 md:py-6 bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-700 shadow-[0_0_60px_rgba(37,99,235,0.2)] border-y border-white/10 flex items-center overflow-hidden">
         <div className="marquee-wrapper">
-          <p className="marquee-text text-2xl font-bold italic text-black">
-            {marqueeText.repeat(5)}
+          <p className="marquee-text text-xl md:text-3xl font-black tracking-[0.15em] text-white uppercase italic">
+            {marqueeText.repeat(8)}
           </p>
         </div>
       </div>
+      
       <style jsx>{`
         .marquee-wrapper {
-          display: inline-block;
+          display: flex;
           white-space: nowrap;
-          animation: marquee 40s linear infinite;
+          animation: marquee 60s linear infinite;
         }
         .marquee-text {
           will-change: transform;
           display: inline-block;
+          padding-right: 2rem;
         }
         @keyframes marquee {
           0% {

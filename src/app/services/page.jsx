@@ -1,10 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Minus, Plus } from "lucide-react";
 import FaqSection from "../component/FaqSection";
-import { servicesData } from "../../data/servicesData";
 import PageHero from "../component/PageHero";
 
 // Accordion Item Component
@@ -34,7 +33,24 @@ const AccordionItem = ({ feature }) => {
   );
 };
 
+import { servicesData } from "../../data/servicesData";
+
 export default function ServicesPage() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a small delay for smoothness or just set loading false
+    setLoading(false);
+  }, []);
+
+  if (loading && servicesData.length === 0) {
+    return (
+      <div className="bg-white min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white min-h-screen">
       <PageHero

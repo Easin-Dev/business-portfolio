@@ -163,11 +163,16 @@ function MoreMenu() {
   );
 }
 
+import { usePathname } from "next/navigation";
+
 // Main Responsive Navbar Component
 export default function Navbar() {
+  const pathname = usePathname();
   const [isServicesMenuOpen, setServicesMenuOpen] = useState(false);
   const [isMobileMoreMenuOpen, setMobileMoreMenuOpen] = useState(false);
   const [isDesktopMoreMenuOpen, setDesktopMoreMenuOpen] = useState(false);
+
+  if (pathname.startsWith("/admin")) return null;
 
   // Helper component for mobile nav items
   const MobileNavItem = ({ icon: Icon, label, onClick, href }) => {

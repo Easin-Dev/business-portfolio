@@ -8,9 +8,6 @@ import { Spotlight } from "../component/ui/spotlight";
 import { blogsData } from "../../data/blogsData";
 import PageHero from "../component/PageHero";
 
-// ── Use shared data (later from MongoDB via Admin Panel) ──────────────────────
-const allBlogs = blogsData;
-
 const categories = [
   { label: "All Posts", value: "all", icon: <BookOpen size={14} /> },
   { label: "SEO", value: "seo", icon: <TrendingUp size={14} /> },
@@ -128,8 +125,25 @@ function BlogCard({ blog, index, featured = false }) {
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function BlogsPage() {
+  const [allBlogs, setAllBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await fetch("/api/blogs");
+        const data = await res.json();
+        setAllBlogs(data);
+      } catch (err) {
+        console.error("Error fetching blogs:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlogs();
+  }, []);
 
   const filtered = allBlogs.filter((b) => {
     const matchCat = activeCategory === "all" || b.tag === activeCategory;

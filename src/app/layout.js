@@ -5,6 +5,8 @@ import Footer from "./component/Footer";
 import MarqueeSection from "./component/MarqueeSection";
 import StructuredData from "./component/StructuredData";
 import { Analytics } from "@vercel/analytics/next";
+import SessionWrapper from "./component/SessionWrapper";
+import LoaderWrapper from "./component/loaders/LoaderWrapper";
 
 export const metadata = {
   metadataBase: new URL("https://www.scaleupweb.xyz"),
@@ -82,16 +84,21 @@ export const metadata = {
   category: "technology",
 };
 
+import LayoutWrapper from "./component/LayoutWrapper";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        <StructuredData />
-        <SmoothScroll>{children}</SmoothScroll>
-        <Navbar />
-        <MarqueeSection />
-        <Footer />
-        <Analytics />
+      <body className="antialiased font-serif">
+        <SessionWrapper>
+          <LoaderWrapper>
+            <StructuredData />
+            <LayoutWrapper>
+              <SmoothScroll>{children}</SmoothScroll>
+            </LayoutWrapper>
+            <Analytics />
+          </LoaderWrapper>
+        </SessionWrapper>
       </body>
     </html>
   );

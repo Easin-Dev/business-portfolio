@@ -2,17 +2,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Clock, Calendar, User } from "lucide-react";
 import { notFound } from "next/navigation";
-import { blogsData } from "../../../data/blogsData";
-
-const allBlogs = blogsData;
+import dbConnect from "@/lib/db";
+import Blog from "@/models/Blog";
 
 export async function generateStaticParams() {
-  return allBlogs.map((b) => ({ slug: b.slug }));
+  await dbConnect();
+  const blogs = await Blog.find({ status: "published" }, { slug: 1 });
+  return blogs.map((b) => ({ slug: b.slug }));
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const blog = allBlogs.find((b) => b.slug === slug);
+  await dbConnect();
+  const blog = await Blog.findOne({ slug, status: "published" });
   if (!blog) return {};
   
   const url = `https://www.scaleupweb.xyz/blogs/${slug}`;
@@ -50,10 +52,15 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogDetailPage({ params }) {
   const { slug } = await params;
-  const blog = allBlogs.find((b) => b.slug === slug);
+  await dbConnect();
+  const blog = await Blog.findOne({ slug, status: "published" });
   if (!blog) notFound();
 
-  const related = allBlogs.filter((b) => b.tag === blog.tag && b.slug !== blog.slug).slice(0, 2);
+  const related = await Blog.find({ 
+    tag: blog.tag, 
+    slug: { $ne: blog.slug },
+    status: "published"
+  }).limit(2);
 
   return (
     <div className="w-full bg-[#050709] min-h-screen text-white">

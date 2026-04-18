@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import dbConnect from '@/lib/db';
+import Lead from '@/models/Lead';
 
 export async function POST(req) {
     try {
@@ -53,6 +55,21 @@ export async function POST(req) {
                 </div>
             `,
         };
+
+        // Save to Database
+        try {
+            await dbConnect();
+            await Lead.create({
+                fullName,
+                whatsapp,
+                email,
+                budget,
+                details
+            });
+        } catch (dbError) {
+            console.error('Database saving error:', dbError);
+            // We continue even if DB fails, as email is the primary notification
+        }
 
         // Dono email-i eksathe pathano (Promise.all use kora best practice)
         await Promise.all([
