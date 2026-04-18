@@ -125,7 +125,7 @@ function BlogCard({ blog, index, featured = false }) {
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function BlogsPage() {
-  const [allBlogs, setAllBlogs] = useState([]);
+  const [allBlogs, setAllBlogs] = useState(blogsData);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
