@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
@@ -127,7 +128,7 @@ function MoreMenu() {
     <div className="w-[700px] rounded-2xl bg-white p-8 shadow-2xl text-black grid grid-cols-2 gap-8">
       {/* বাম দিকের কলাম */}
       <div className="flex flex-col">
-        <a href="/work" className="group">
+        <Link href="/work" className="group">
           <h3 className="font-bold text-lg flex items-center text-neutral-800 group-hover:text-purple-600 transition-colors">
             Our Latest Work
             <ArrowRight size={16} className="ml-2" />
@@ -138,25 +139,25 @@ function MoreMenu() {
           </p>
           <div className="rounded-lg overflow-hidden mt-4">
             <Image
-              src="https://i.ibb.co.com/tT6CNrhV/Blue-Gradient-Graphic-Design-Youtube-Ad-Video.png"
+              src="https://i.ibb.co/tT6CNrhV/Blue-Gradient-Graphic-Design-Youtube-Ad-Video.png"
               alt="Latest Work"
               width={800} height={800}
               className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
-        </a>
+        </Link>
       </div>
       {/* ডান দিকের কলাম */}
       <div>
         {menuItems.map((item) => (
-          <a
+          <Link
             key={item.href}
             href={item.href}
             className="block p-3 rounded-lg hover:bg-neutral-100 transition-colors"
           >
             <h4 className="font-semibold text-neutral-800">{item.title}</h4>
             <p className="text-sm text-neutral-500">{item.description}</p>
-          </a>
+          </Link>
         ))}
       </div>
     </div>
@@ -185,12 +186,12 @@ export default function Navbar() {
 
     if (href) {
       return (
-        <a
+        <Link
           href={href}
           className="flex flex-col items-center gap-1 text-neutral-300 hover:text-white transition-colors"
         >
           {content}
-        </a>
+        </Link>
       );
     }
 
@@ -231,23 +232,23 @@ export default function Navbar() {
 
           {/* Desktop Navbar */}
           <div className="hidden md:flex items-center justify-center rounded-full border border-white/10 bg-black/50 p-2.5 shadow-2xl shadow-black/40 backdrop-blur-md">
-            <a
+            <Link
               href="/work"
               className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors"
             >
               Work
-            </a>
+            </Link>
             <div
               onMouseEnter={() => setServicesMenuOpen(true)}
               onMouseLeave={() => setServicesMenuOpen(false)}
               className="relative"
             >
-              <a
+              <Link
                 href="/services"
                 className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors"
               >
                 Services
-              </a>
+              </Link>
               <AnimatePresence>
                 {isServicesMenuOpen && (
                   <motion.div
@@ -262,20 +263,20 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
-            <a
+            <Link
               href="/pricing"
               className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors"
             >
               Pricing
-            </a>
+            </Link>
             <div
               onMouseEnter={() => setDesktopMoreMenuOpen(true)}
               onMouseLeave={() => setDesktopMoreMenuOpen(false)}
               className="relative"
             >
-              <a className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors">
+              <span className="rounded-full px-5 py-2.5 text-base font-medium text-neutral-300 hover:text-white transition-colors cursor-default">
                 More
-              </a>
+              </span>
               <AnimatePresence>
                 {isDesktopMoreMenuOpen && (
                   <motion.div
@@ -290,12 +291,12 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
-            <a
+            <Link
               href="/contact"
               className="ml-2 rounded-full border-2 border-purple-500/50 bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-2.5 text-base font-semibold text-white shadow-lg shadow-purple-500/20 transition-transform duration-300 hover:scale-105"
             >
               Start a Project
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Navbar */}
@@ -312,12 +313,12 @@ export default function Navbar() {
           </div>
 
           <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[calc(50%+10px)]">
-            <a
+            <Link
               href="/contact"
               className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/30 transition-transform duration-300 hover:scale-110"
             >
               <MessageCircle size={30} />
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
@@ -341,20 +342,20 @@ export default function Navbar() {
                 <X size={20} />
               </button>
               <div className="mt-4">
-                {moreMenuItems.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className="block py-3 border-b border-neutral-200 last:border-b-0"
-                  >
-                    <h3 className="text-lg font-semibold text-black">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-neutral-500">
-                      {item.description}
-                    </p>
-                  </a>
-                ))}
+                  {moreMenuItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block py-3 border-b border-neutral-200 last:border-b-0"
+                    >
+                      <h3 className="text-lg font-semibold text-black">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm text-neutral-500">
+                        {item.description}
+                      </p>
+                    </Link>
+                  ))}
               </div>
             </div>
           </motion.div>

@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const featuredProjects = [
   {
@@ -133,8 +134,6 @@ function ImagePair({ project, visible }) {
             overflow: "hidden",
             border: "6px solid white",
             boxShadow: "0 25px 50px -15px rgba(0,0,0,0.15)",
-            transform: "rotate(-6deg)",
-            background: "white",
             transition: "transform 0.5s ease",
             transform: visible ? "rotate(-6deg) scale(1)" : "rotate(-6deg) scale(0.95)",
           }}
@@ -340,13 +339,13 @@ export default function FeaturedProjects() {
               </div>
 
               {/* CTA */}
-              <a
+              <Link
                 href={project.serviceLink}
                 className="inline-flex items-center gap-3 font-bold hover:gap-5 transition-all duration-300 text-sm md:text-base"
                 style={{ color: project.accent }}
               >
                 EXPLORE THIS SERVICE <ArrowIcon />
-              </a>
+              </Link>
             </div>
           ))}
         </div>
@@ -395,12 +394,12 @@ export default function FeaturedProjects() {
 
       {/* Bottom CTA */}
       <div className="relative z-10 text-center pb-20 pt-4">
-        <a
+        <Link
           href="/services"
           className="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-full font-bold text-sm md:text-base hover:bg-blue-600 transition-all duration-300 shadow-xl hover:shadow-blue-500/30 hover:scale-105"
         >
           View All Services <ArrowIcon />
-        </a>
+        </Link>
       </div>
     </div>
   );
