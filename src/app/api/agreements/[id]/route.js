@@ -76,7 +76,7 @@ export async function PUT(req, { params }) {
           <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
           <p style="font-size: 14px; color: #666;">You can download your copy of the agreement from the link you used for signing at any time.</p>
           <p style="text-align: center; margin-top: 30px;">
-            <a href="${process.env.NEXTAUTH_URL}/agreement/${agreement.uniqueHash}" style="background: #6d28d9; color: white; padding: 12px 24px; text-decoration: none; rounded: 5px; font-weight: bold;">View Signed Agreement</a>
+            <a href="${req.nextUrl.origin}/agreement/${agreement.uniqueHash}" style="background: #6d28d9; color: white; padding: 12px 24px; text-decoration: none; rounded: 5px; font-weight: bold;">View Signed Agreement</a>
           </p>
         </div>
       `,

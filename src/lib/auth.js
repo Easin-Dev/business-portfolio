@@ -60,5 +60,9 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "development_secret_placeholder",
 };
+
+if (!process.env.NEXTAUTH_SECRET && process.env.NODE_ENV === "production") {
+  console.warn("WARNING: NEXTAUTH_SECRET is not defined in production environment!");
+}

@@ -31,6 +31,5 @@ const AgreementSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-// Clear cache to force schema update in development
-delete mongoose.models.Agreement;
+// Use standard registration pattern for production
 export default mongoose.models.Agreement || mongoose.model("Agreement", AgreementSchema);
