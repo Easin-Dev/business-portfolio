@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Mail, Phone, Calendar, Trash2, CheckCircle, Clock, ExternalLink, Search, MessageSquare } from "lucide-react";
+import { Mail, Phone, Calendar, Trash2, Search, MessageSquare, Globe2, Monitor } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ManageLeads() {
@@ -13,7 +13,7 @@ export default function ManageLeads() {
       try {
         const res = await fetch("/api/leads");
         const data = await res.json();
-        setLeads(data);
+        setLeads(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Error fetching leads:", err);
       } finally {
@@ -24,9 +24,11 @@ export default function ManageLeads() {
   }, []);
 
   const filteredLeads = leads.filter(lead => 
-    lead.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    lead.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    lead.budget.toLowerCase().includes(searchTerm.toLowerCase())
+    (lead.fullName || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (lead.email || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (lead.budget || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (lead.ipAddress || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (lead.whatsapp || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -89,6 +91,18 @@ export default function ManageLeads() {
                     <div className="flex items-center gap-3 text-sm text-gray-400">
                       <Phone size={16} className="text-gray-600" />
                       <span>{lead.whatsapp}</span>
+                    </div>
+                  )}
+                  {lead.ipAddress && (
+                    <div className="flex items-center gap-3 text-sm text-gray-400">
+                      <Globe2 size={16} className="text-gray-600" />
+                      <span>{lead.ipAddress}</span>
+                    </div>
+                  )}
+                  {(lead.sourcePage || lead.referrer) && (
+                    <div className="flex items-center gap-3 text-sm text-gray-400">
+                      <Monitor size={16} className="text-gray-600" />
+                      <span className="truncate">{lead.sourcePage || lead.referrer}</span>
                     </div>
                   )}
                 </div>

@@ -91,6 +91,8 @@ export default function ContactPage() {
         const dataToSend = {
             ...formData,
             budget: selectedBudget,
+            visitorId: typeof window !== "undefined" ? window.localStorage.getItem("scaleup_visitor_id") : "",
+            sourcePage: typeof window !== "undefined" ? `${window.location.pathname}${window.location.search}` : "",
         };
 
         if (!dataToSend.fullName || !dataToSend.email || !dataToSend.budget || !dataToSend.details) {

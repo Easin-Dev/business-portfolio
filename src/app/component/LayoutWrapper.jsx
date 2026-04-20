@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MarqueeSection from "./MarqueeSection";
+import VisitorTracker from "./VisitorTracker";
 
 export default function LayoutWrapper({ children }) {
   const pathname = usePathname();
@@ -16,6 +17,7 @@ export default function LayoutWrapper({ children }) {
 
   return (
     <>
+      <VisitorTracker />
       <Navbar />
       {children}
       <MarqueeSection />

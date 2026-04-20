@@ -2,10 +2,13 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import dbConnect from '@/lib/db';
 import Lead from '@/models/Lead';
+import Visitor from '@/models/Visitor';
+import { getRequestMeta } from '@/lib/requestMeta';
 
 export async function POST(req) {
     try {
-        const { fullName, whatsapp, email, budget, details } = await req.json();
+        const { fullName, whatsapp, email, budget, details, visitorId, sourcePage } = await req.json();
+        const { ipAddress, userAgent, referrer } = getRequestMeta(req);
 
         // Server-side validation
         if (!fullName || !email || !budget || !details) {
@@ -33,6 +36,8 @@ export async function POST(req) {
                     <p><strong>Name:</strong> ${fullName}</p>
                     <p><strong>Email:</strong> ${email}</p>
                     <p><strong>WhatsApp:</strong> ${whatsapp || 'N/A'}</p>
+                    <p><strong>IP Address:</strong> ${ipAddress}</p>
+                    <p><strong>Source Page:</strong> ${sourcePage || referrer || 'N/A'}</p>
                     <p><strong>Project Budget:</strong> ${budget}</p>
                     <p><strong>Project Details:</strong></p>
                     <p style="white-space: pre-wrap; background-color: #f7f7f7; padding: 15px; border-radius: 8px;">${details}</p>
@@ -64,8 +69,30 @@ export async function POST(req) {
                 whatsapp,
                 email,
                 budget,
-                details
+                details,
+                visitorId,
+                ipAddress,
+                userAgent,
+                sourcePage: sourcePage || referrer,
+                referrer
             });
+
+            if (visitorId) {
+                await Visitor.findOneAndUpdate(
+                    { visitorId },
+                    {
+                        $set: {
+                            ipAddress,
+                            userAgent,
+                            "lead.fullName": fullName,
+                            "lead.email": email,
+                            "lead.phone": whatsapp || "",
+                            "lead.submittedAt": new Date(),
+                        },
+                    },
+                    { upsert: false }
+                );
+            }
         } catch (dbError) {
             console.error('Database saving error:', dbError);
             // We continue even if DB fails, as email is the primary notification

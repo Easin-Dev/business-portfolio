@@ -12,6 +12,11 @@ const LeadSchema = new mongoose.Schema({
   whatsapp: String,
   budget: String,
   details: String,
+  visitorId: String,
+  ipAddress: String,
+  userAgent: String,
+  sourcePage: String,
+  referrer: String,
   status: {
     type: String,
     enum: ['new', 'contacted', 'resolved', 'ignored'],

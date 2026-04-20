@@ -29,26 +29,30 @@ export default function AdminDashboard() {
     blogs: 0,
     projects: 0,
     leads: 0,
+    visitors: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [blogRes, projectRes, leadRes] = await Promise.all([
+        const [blogRes, projectRes, leadRes, visitorRes] = await Promise.all([
           fetch('/api/blogs/count'),
           fetch('/api/projects/count'),
           fetch('/api/leads/count'),
+          fetch('/api/visitors/count'),
         ]);
         
         const blogs = await blogRes.json();
         const projects = await projectRes.json();
         const leads = await leadRes.json();
+        const visitors = await visitorRes.json();
 
         setStats({
           blogs: blogs.count || 0,
           projects: projects.count || 0,
           leads: leads.total || 0,
+          visitors: visitors.total || 0,
         });
       } catch (err) {
         console.error("Error fetching stats:", err);
@@ -79,7 +83,7 @@ export default function AdminDashboard() {
         <StatCard title="Insights" value={stats.blogs} icon={FileText} color="blue" delay={0.1} />
         <StatCard title="Portfolio" value={stats.projects} icon={Briefcase} color="purple" delay={0.2} />
         <StatCard title="New Leads" value={stats.leads} icon={MessageSquare} color="indigo" delay={0.3} />
-        <StatCard title="Visitors" value="1.2k" icon={Users} color="emerald" delay={0.4} />
+        <StatCard title="Visitors" value={stats.visitors} icon={Users} color="emerald" delay={0.4} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
