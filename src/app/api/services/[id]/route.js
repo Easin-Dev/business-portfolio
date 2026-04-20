@@ -4,8 +4,6 @@ import Service from "@/models/Service";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
-const publicServiceFields = "slug title shortDescription description image features benefits process status featured priceFrom timeline targetAudience createdAt updatedAt";
-
 function normalizeServicePayload(data) {
   const payload = { ...data };
 
@@ -27,32 +25,48 @@ function normalizeServicePayload(data) {
   return payload;
 }
 
-export async function GET() {
-  try {
-    const session = await getServerSession(authOptions);
-    await dbConnect();
-    const isAdmin = session?.user?.role === "admin";
-    const query = Service.find({}).sort({ createdAt: -1 });
-    const services = isAdmin ? await query : await query.select(publicServiceFields);
-
-    return NextResponse.json(services);
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch services" }, { status: 500 });
-  }
-}
-
-export async function POST(req) {
+export async function PUT(req, { params }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
     await dbConnect();
     const data = normalizeServicePayload(await req.json());
-    const service = await Service.create(data);
 
-    return NextResponse.json(service, { status: 201 });
+    const service = await Service.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!service) {
+      return NextResponse.json({ error: "Service not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(service);
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 400 });
+  }
+}
+
+export async function DELETE(req, { params }) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { id } = await params;
+    await dbConnect();
+
+    const service = await Service.findByIdAndDelete(id);
+    if (!service) {
+      return NextResponse.json({ error: "Service not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Service deleted successfully" });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }

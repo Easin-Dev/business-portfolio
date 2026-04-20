@@ -8,7 +8,8 @@ export async function GET() {
     // Fetch only featured projects, limit to 4, sorted by newest
     const projects = await Project.find({ featured: true })
       .sort({ updatedAt: -1 })
-      .limit(4);
+      .limit(4)
+      .select("title category image featured link description createdAt updatedAt");
     
     return NextResponse.json(projects);
   } catch (error) {

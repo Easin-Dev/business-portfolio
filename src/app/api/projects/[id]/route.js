@@ -4,6 +4,27 @@ import Project from "@/models/Project";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
+function normalizeProjectPayload(data) {
+  const payload = { ...data };
+
+  if (payload.status === "completed" && !payload.completedAt) {
+    payload.completedAt = new Date();
+  }
+
+  if (payload.status && payload.status !== "completed") {
+    payload.completedAt = null;
+  }
+
+  if (Array.isArray(payload.tasks)) {
+    payload.tasks = payload.tasks.map((task) => ({
+      ...task,
+      completedAt: task.done ? task.completedAt || new Date() : null,
+    }));
+  }
+
+  return payload;
+}
+
 // UPDATE Project
 export async function PUT(req, { params }) {
   try {
@@ -14,11 +35,15 @@ export async function PUT(req, { params }) {
 
     const { id } = await params;
     await dbConnect();
-    const data = await req.json();
+    const data = normalizeProjectPayload(await req.json());
 
     // Check featured limit
     if (data.featured === true) {
       const currentProject = await Project.findById(id);
+      if (!currentProject) {
+        return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      }
+
       if (!currentProject.featured) {
         const featuredCount = await Project.countDocuments({ featured: true });
         if (featuredCount >= 4) {

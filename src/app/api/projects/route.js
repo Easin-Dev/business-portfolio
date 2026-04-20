@@ -4,10 +4,37 @@ import Project from "@/models/Project";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
+const publicProjectFields = "title category image featured link description createdAt updatedAt";
+
+function normalizeProjectPayload(data) {
+  const payload = { ...data };
+
+  if (payload.status === "completed" && !payload.completedAt) {
+    payload.completedAt = new Date();
+  }
+
+  if (payload.status && payload.status !== "completed") {
+    payload.completedAt = null;
+  }
+
+  if (Array.isArray(payload.tasks)) {
+    payload.tasks = payload.tasks.map((task) => ({
+      ...task,
+      completedAt: task.done ? task.completedAt || new Date() : null,
+    }));
+  }
+
+  return payload;
+}
+
 export async function GET() {
   try {
+    const session = await getServerSession(authOptions);
     await dbConnect();
-    const projects = await Project.find({}).sort({ createdAt: -1 });
+    const isAdmin = session?.user?.role === "admin";
+    const query = Project.find({}).sort({ createdAt: -1 });
+    const projects = isAdmin ? await query : await query.select(publicProjectFields);
+
     return NextResponse.json(projects);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
@@ -22,7 +49,7 @@ export async function POST(req) {
     }
 
     await dbConnect();
-    const data = await req.json();
+    const data = normalizeProjectPayload(await req.json());
 
     if (data.featured) {
       const featuredCount = await Project.countDocuments({ featured: true });
