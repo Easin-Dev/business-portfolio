@@ -2,14 +2,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, Download, FileText, Loader2, PenTool, Printer, ShieldCheck, Mail, User } from "lucide-react";
+import { Building2, CheckCircle, Download, FileText, Loader2, MapPin, MessageCircle, PenTool, Phone, Printer, ShieldCheck, Mail, User } from "lucide-react";
 import SignatureCanvas from "react-signature-canvas";
+import { useAlert } from "@/app/component/AlertProvider";
 // Native print system used for PDF generation
 
 // Google Fonts Import for Type Signature
 const FONT_IMPORT = "@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');";
 
 export default function PublicAgreement() {
+  const { toast } = useAlert();
   const params = useParams();
   const hash = params.hash;
   const [agreement, setAgreement] = useState(null);
@@ -20,7 +22,12 @@ export default function PublicAgreement() {
   // Client Identity (Now filled by client)
   const [clientData, setClientData] = useState({
     name: "",
-    email: ""
+    email: "",
+    phone: "",
+    whatsapp: "",
+    company: "",
+    address: "",
+    preferredContact: "phone",
   });
   
   // Signature Mode
@@ -41,7 +48,15 @@ export default function PublicAgreement() {
       setAgreement(data);
       if (data.status === "signed") {
         setSignedSuccess(true);
-        setClientData({ name: data.clientName, email: data.clientEmail });
+        setClientData({
+          name: data.clientName || "",
+          email: data.clientEmail || "",
+          phone: data.clientPhone || "",
+          whatsapp: data.clientWhatsApp || "",
+          company: data.clientCompany || "",
+          address: data.clientAddress || "",
+          preferredContact: data.preferredContact || "phone",
+        });
       }
     } catch (err) {
       console.error(err);
@@ -53,21 +68,27 @@ export default function PublicAgreement() {
   const clearSignature = () => sigCanvas.current?.clear();
 
   const handleSign = async () => {
-    if (!clientData.name || !clientData.email) {
-      alert("Please provide your name and email.");
+    if (signing || signedSuccess) return;
+
+    if (!clientData.name || !clientData.email || !clientData.phone || !clientData.company) {
+      toast({
+        type: "warning",
+        title: "Client details required",
+        message: "Please provide your name, email, phone number, and business name.",
+      });
       return;
     }
     
     let signatureData = "";
     if (sigMode === "draw") {
       if (sigCanvas.current.isEmpty()) {
-        alert("Please provide your signature drawing.");
+        toast({ type: "warning", title: "Signature required", message: "Please provide your signature drawing." });
         return;
       }
       signatureData = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
     } else {
       if (!typedName) {
-        alert("Please type your signature.");
+        toast({ type: "warning", title: "Signature required", message: "Please type your signature." });
         return;
       }
       // Create a canvas from the typed name
@@ -91,17 +112,33 @@ export default function PublicAgreement() {
         body: JSON.stringify({ 
           signatureData,
           clientName: clientData.name,
-          clientEmail: clientData.email
+          clientEmail: clientData.email,
+          clientPhone: clientData.phone,
+          clientWhatsApp: clientData.whatsapp || clientData.phone,
+          clientCompany: clientData.company,
+          clientAddress: clientData.address,
+          preferredContact: clientData.preferredContact,
         }),
       });
 
       if (res.ok) {
         setSignedSuccess(true);
+        toast({ type: "success", title: "Agreement signed", message: "Your project agreement has been activated." });
         // Refresh local agreement data to show the just-saved info
         fetchAgreement();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        if (data.error === "Agreement already signed") {
+          setSignedSuccess(true);
+          toast({ type: "info", title: "Already signed", message: "This agreement has already been signed." });
+          fetchAgreement();
+          return;
+        }
+        toast({ type: "error", title: "Signing failed", message: data.error || "Could not sign this agreement." });
       }
     } catch (err) {
       console.error(err);
+      toast({ type: "error", title: "Signing failed", message: "Could not sign this agreement. Please try again." });
     } finally {
       setSigning(false);
     }
@@ -223,7 +260,10 @@ export default function PublicAgreement() {
                     {agreement.clientName ? (
                       <>
                         <p className="font-bold text-lg leading-tight">{agreement.clientName}</p>
+                        {agreement.clientCompany && <p className="text-[13px] font-semibold text-slate-600">{agreement.clientCompany}</p>}
                         <p className="text-[13px] font-medium text-slate-500">{agreement.clientEmail}</p>
+                        {agreement.clientPhone && <p className="text-[13px] font-medium text-slate-500">{agreement.clientPhone}</p>}
+                        {agreement.clientAddress && <p className="text-[13px] font-medium text-slate-500">{agreement.clientAddress}</p>}
                       </>
                     ) : (
                       <p className="text-slate-300 italic text-sm">Awaiting client identification...</p>
@@ -330,6 +370,56 @@ export default function PublicAgreement() {
                         placeholder="Your Business Email"
                       />
                     </div>
+                    <div className="relative">
+                      <Phone size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type="tel"
+                        required
+                        value={clientData.phone}
+                        onChange={(e) => setClientData({...clientData, phone: e.target.value})}
+                        className="w-full bg-slate-50 border border-gray-100 rounded-2xl py-3.5 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-600/10 focus:border-purple-600 transition-all font-bold text-slate-700 text-sm"
+                        placeholder="Your Phone Number"
+                      />
+                    </div>
+                    <div className="relative">
+                      <Building2 size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type="text"
+                        required
+                        value={clientData.company}
+                        onChange={(e) => setClientData({...clientData, company: e.target.value})}
+                        className="w-full bg-slate-50 border border-gray-100 rounded-2xl py-3.5 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-600/10 focus:border-purple-600 transition-all font-bold text-slate-700 text-sm"
+                        placeholder="Business / Company Name"
+                      />
+                    </div>
+                    <div className="relative">
+                      <MessageCircle size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type="tel"
+                        value={clientData.whatsapp}
+                        onChange={(e) => setClientData({...clientData, whatsapp: e.target.value})}
+                        className="w-full bg-slate-50 border border-gray-100 rounded-2xl py-3.5 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-600/10 focus:border-purple-600 transition-all font-bold text-slate-700 text-sm"
+                        placeholder="WhatsApp Number (optional)"
+                      />
+                    </div>
+                    <div className="relative">
+                      <MapPin size={16} className="absolute left-4 top-4 text-slate-400" />
+                      <textarea
+                        value={clientData.address}
+                        onChange={(e) => setClientData({...clientData, address: e.target.value})}
+                        className="min-h-[84px] w-full resize-none bg-slate-50 border border-gray-100 rounded-2xl py-3.5 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-purple-600/10 focus:border-purple-600 transition-all font-bold text-slate-700 text-sm"
+                        placeholder="Business Address / Location (optional)"
+                      />
+                    </div>
+                    <select
+                      value={clientData.preferredContact}
+                      onChange={(e) => setClientData({...clientData, preferredContact: e.target.value})}
+                      className="w-full bg-slate-50 border border-gray-100 rounded-2xl py-3.5 px-4 focus:outline-none focus:ring-2 focus:ring-purple-600/10 focus:border-purple-600 transition-all font-bold text-slate-700 text-sm"
+                    >
+                      <option value="phone">Preferred Contact: Phone</option>
+                      <option value="whatsapp">Preferred Contact: WhatsApp</option>
+                      <option value="email">Preferred Contact: Email</option>
+                    </select>
                   </div>
 
                   <div className="pt-2 border-t border-slate-50">

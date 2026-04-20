@@ -12,10 +12,10 @@ export async function GET() {
     }
 
     await dbConnect();
-    const total = await Visitor.countDocuments({});
-    const knownLeads = await Visitor.countDocuments({ "lead.email": { $exists: true, $ne: "" } });
+    const ipAddresses = await Visitor.distinct("ipAddress");
+    const knownLeadIps = await Visitor.distinct("ipAddress", { "lead.email": { $exists: true, $ne: "" } });
 
-    return NextResponse.json({ total, knownLeads });
+    return NextResponse.json({ total: ipAddresses.length, knownLeads: knownLeadIps.length });
   } catch (error) {
     console.error("Visitor count error:", error);
     return NextResponse.json({ error: "Failed to fetch visitor count" }, { status: 500 });

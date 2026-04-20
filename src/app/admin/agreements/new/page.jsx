@@ -1,13 +1,14 @@
 "use client";
-import React, { useState, useRef } from "react";
-import { ChevronLeft, Save, Loader2, ArrowRight, Briefcase, DollarSign, Calendar, ListChecks, CheckCircle } from "lucide-react";
+import React, { useState } from "react";
+import { ChevronLeft, Save, Loader2, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import SignatureCanvas from "react-signature-canvas";
+import { useAlert } from "@/app/component/AlertProvider";
 
 export default function NewAgreement() {
   const router = useRouter();
+  const { toast } = useAlert();
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   
@@ -49,14 +50,15 @@ export default function NewAgreement() {
       });
 
       if (res.ok) {
+        toast({ type: "success", title: "Agreement drafted", message: "The signing link is ready." });
         router.push("/admin/agreements");
       } else {
         const errorData = await res.json();
-        alert(`Failed to save: ${errorData.error}`);
+        toast({ type: "error", title: "Save failed", message: errorData.error || "Could not save agreement" });
       }
     } catch (err) {
       console.error(err);
-      alert("A network error occurred while saving the agreement.");
+      toast({ type: "error", title: "Save failed", message: "A network error occurred while saving the agreement." });
     } finally {
       setLoading(false);
     }

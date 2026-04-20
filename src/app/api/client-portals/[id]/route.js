@@ -138,3 +138,26 @@ export async function PUT(req, { params }) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }
+
+export async function DELETE(req, { params }) {
+  try {
+    const { id } = await params;
+    const session = await getServerSession(authOptions);
+
+    if (!session || session.user.role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    await dbConnect();
+    const portal = await findPortal(id);
+
+    if (!portal) {
+      return NextResponse.json({ error: "Portal not found" }, { status: 404 });
+    }
+
+    await portal.deleteOne();
+    return NextResponse.json({ message: "Client portal deleted" });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to delete client portal" }, { status: 500 });
+  }
+}

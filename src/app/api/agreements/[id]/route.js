@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Agreement from "@/models/Agreement";
 import ClientPortal from "@/models/ClientPortal";
+import Lead from "@/models/Lead";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import nodemailer from "nodemailer";
@@ -53,13 +54,60 @@ export async function PUT(req, { params }) {
       return NextResponse.json({ error: "Agreement already signed" }, { status: 400 });
     }
 
+    if (!data.clientName || !data.clientEmail || !data.clientPhone || !data.clientCompany || !data.signatureData) {
+      return NextResponse.json({ error: "Client name, email, phone, business name, and signature are required" }, { status: 400 });
+    }
+
     // Update agreement with client-provided identity
     agreement.clientName = data.clientName;
     agreement.clientEmail = data.clientEmail;
+    agreement.clientPhone = data.clientPhone;
+    agreement.clientWhatsApp = data.clientWhatsApp || data.clientPhone;
+    agreement.clientCompany = data.clientCompany;
+    agreement.clientAddress = data.clientAddress || "";
+    agreement.preferredContact = data.preferredContact || "phone";
     agreement.signatureData = data.signatureData;
     agreement.status = "signed";
     agreement.signedAt = new Date();
     await agreement.save();
+
+    const leadDetails = [
+      `Agreement signed for ${agreement.projectTitle}.`,
+      agreement.projectDescription ? `Project: ${agreement.projectDescription}` : "",
+      agreement.services?.length ? `Services: ${agreement.services.join(", ")}` : "",
+      agreement.timeline ? `Timeline: ${agreement.timeline}` : "",
+      agreement.preferredContact ? `Preferred contact: ${agreement.preferredContact}` : "",
+    ].filter(Boolean).join("\n");
+
+    const existingLead = await Lead.findOne({
+      $or: [
+        { agreementId: agreement._id.toString() },
+        { email: agreement.clientEmail },
+      ],
+    });
+
+    const leadPayload = {
+      fullName: agreement.clientName,
+      email: agreement.clientEmail,
+      whatsapp: agreement.clientWhatsApp || agreement.clientPhone,
+      company: agreement.clientCompany || "",
+      address: agreement.clientAddress || "",
+      source: "agreement",
+      agreementId: agreement._id.toString(),
+      projectTitle: agreement.projectTitle,
+      services: agreement.services || [],
+      timeline: agreement.timeline || "",
+      budget: `৳${Number(agreement.price || 0).toLocaleString()}`,
+      details: leadDetails,
+      sourcePage: `/agreement/${agreement.uniqueHash}`,
+      status: "customer",
+    };
+
+    if (existingLead) {
+      await Lead.findByIdAndUpdate(existingLead._id, leadPayload, { runValidators: true });
+    } else {
+      await Lead.create(leadPayload);
+    }
 
     const portal = await createPortalForAgreement(agreement);
     const portalUrl = `${req.nextUrl.origin}/client-portal/${portal.portalHash}`;
@@ -82,6 +130,9 @@ export async function PUT(req, { params }) {
           <h2 style="color: #6d28d9; text-align: center;">Congratulations!</h2>
           <p>Hi <b>${agreement.clientName || "Client"}</b>,</p>
           <p>We are excited to confirm that the project agreement for <b>"${agreement.projectTitle}"</b> has been successfully signed.</p>
+          <p><b>Client phone:</b> ${agreement.clientPhone || "N/A"}</p>
+          <p><b>Business:</b> ${agreement.clientCompany || "N/A"}</p>
+          <p><b>Address:</b> ${agreement.clientAddress || "N/A"}</p>
           <p>This marks the official start of our collaboration. We are thrilled to help you scale up your digital presence!</p>
           <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
           <p style="font-size: 14px; color: #666;">You can download your copy of the agreement from the link you used for signing at any time.</p>

@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
-import { LayoutDashboard, FileText, ClipboardList, Briefcase, MessageSquare, LogOut, Loader2, Menu, X, FileCheck, FolderKanban, Users } from "lucide-react";
+import { LayoutDashboard, FileText, ClipboardList, Briefcase, MessageSquare, LogOut, Loader2, Menu, X, FileCheck, FolderKanban, Users, UserCog } from "lucide-react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 
@@ -19,6 +19,7 @@ const AdminSidebar = () => {
     { title: "Manage Services", icon: ClipboardList, href: "/admin/services" },
     { title: "Leads", icon: MessageSquare, href: "/admin/leads" },
     { title: "Visitors", icon: Users, href: "/admin/visitors" },
+    { title: "Account", icon: UserCog, href: "/admin/account" },
   ];
 
   return (

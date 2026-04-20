@@ -7,9 +7,22 @@ const LeadSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'Please provide an email'],
+    default: '',
   },
   whatsapp: String,
+  company: String,
+  address: String,
+  source: {
+    type: String,
+    default: 'manual',
+  },
+  agreementId: String,
+  projectTitle: String,
+  services: {
+    type: [String],
+    default: [],
+  },
+  timeline: String,
   budget: String,
   details: String,
   visitorId: String,
@@ -19,7 +32,7 @@ const LeadSchema = new mongoose.Schema({
   referrer: String,
   status: {
     type: String,
-    enum: ['new', 'contacted', 'resolved', 'ignored'],
+    enum: ['new', 'contacted', 'customer', 'resolved', 'ignored'],
     default: 'new',
   },
 }, { timestamps: true });

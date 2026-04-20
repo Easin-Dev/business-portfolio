@@ -11,9 +11,11 @@ import {
   Search,
   Smartphone,
   Tablet,
+  Trash2,
   UserRound,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAlert } from "@/app/component/AlertProvider";
 
 function formatDate(value) {
   if (!value) return "Unknown";
@@ -27,6 +29,7 @@ function DeviceIcon({ type }) {
 }
 
 export default function VisitorsPage() {
+  const { toast, confirm } = useAlert();
   const [visitors, setVisitors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,6 +63,7 @@ export default function VisitorsPage() {
         visitor.lead?.fullName,
         visitor.lead?.email,
         visitor.lead?.phone,
+        ...(visitor.pageViews || []).map((view) => view.path),
       ]
         .filter(Boolean)
         .join(" ")
@@ -70,6 +74,35 @@ export default function VisitorsPage() {
   }, [searchTerm, visitors]);
 
   const knownLeads = visitors.filter((visitor) => visitor.lead?.email).length;
+
+  const deleteVisitorIp = async (visitor) => {
+    const ok = await confirm({
+      type: "warning",
+      title: "Delete this visitor IP?",
+      message: `This will delete all visitor records for ${visitor.ipAddress || "Unknown IP"}.`,
+      confirmText: "Delete Visitor",
+    });
+
+    if (!ok) return;
+
+    try {
+      const res = await fetch(`/api/visitors?ipAddress=${encodeURIComponent(visitor.ipAddress || "")}`, {
+        method: "DELETE",
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        toast({ type: "error", title: "Delete failed", message: data.error || "Could not delete visitor" });
+        return;
+      }
+
+      setVisitors((current) => current.filter((item) => item.ipAddress !== visitor.ipAddress));
+      toast({ type: "success", title: "Visitor deleted", message: `${data.deletedCount || 0} record(s) removed.` });
+    } catch (error) {
+      console.error("Error deleting visitor:", error);
+      toast({ type: "error", title: "Delete failed", message: "Could not delete visitor" });
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -110,7 +143,7 @@ export default function VisitorsPage() {
         <div className="grid grid-cols-1 gap-5 p-6 lg:grid-cols-2">
           <AnimatePresence>
             {filteredVisitors.map((visitor, index) => {
-              const latestPages = [...(visitor.pageViews || [])].reverse().slice(0, 3);
+              const latestPages = [...(visitor.pageViews || [])].slice(0, 4);
 
               return (
                 <motion.article
@@ -133,9 +166,17 @@ export default function VisitorsPage() {
                       </div>
                     </div>
 
-                    <span className="rounded-full border border-purple-100 bg-purple-50 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-purple-700">
-                      {visitor.visitCount || 1} visits
-                    </span>
+                    <div className="flex shrink-0 items-center gap-2">
+                      <span className="rounded-full border border-purple-100 bg-purple-50 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-purple-700">
+                        {visitor.visitCount || 1} visits
+                      </span>
+                      <button
+                        onClick={() => deleteVisitorIp(visitor)}
+                        className="rounded-full border border-red-100 bg-red-50 p-2 text-red-400 transition-colors hover:bg-red-100 hover:text-red-600"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
                   </div>
 
                   {visitor.lead?.email && (
@@ -157,6 +198,10 @@ export default function VisitorsPage() {
                     <div className="flex items-center gap-3">
                       <DeviceIcon type={visitor.deviceType} />
                       <span>{visitor.deviceType || "Unknown device"} {visitor.screen ? `- ${visitor.screen}` : ""}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <UserRound size={16} />
+                      <span>{visitor.sessionCount || 1} session{Number(visitor.sessionCount || 1) > 1 ? "s" : ""} from this IP</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <Calendar size={16} />
@@ -183,6 +228,20 @@ export default function VisitorsPage() {
                       )}
                     </div>
                   </div>
+
+                  {(visitor.sessions || []).length > 1 && (
+                    <div className="mt-4 rounded-2xl border border-slate-100 bg-white p-4">
+                      <p className="mb-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Recent Sessions</p>
+                      <div className="space-y-2">
+                        {visitor.sessions.slice(0, 3).map((session, sessionIndex) => (
+                          <div key={`${session.visitorId}-${sessionIndex}`} className="flex items-center justify-between gap-3 text-xs font-bold text-slate-500">
+                            <span className="truncate">{session.deviceType || "Unknown"} {session.screen ? `- ${session.screen}` : ""}</span>
+                            <span className="shrink-0 text-slate-400">{formatDate(session.lastSeenAt)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </motion.article>
               );
             })}

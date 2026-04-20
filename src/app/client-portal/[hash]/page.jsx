@@ -15,6 +15,7 @@ import {
   UploadCloud,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useAlert } from "@/app/component/AlertProvider";
 
 const MAX_FILE_SIZE = 2.5 * 1024 * 1024;
 
@@ -66,6 +67,7 @@ function getStatusClasses(status) {
 }
 
 export default function ClientPortalPage() {
+  const { toast } = useAlert();
   const params = useParams();
   const hash = params.hash;
   const [portal, setPortal] = useState(null);
@@ -117,7 +119,11 @@ export default function ClientPortalPage() {
 
     const oversizedFile = selectedFiles.find((file) => file.size > MAX_FILE_SIZE);
     if (oversizedFile) {
-      alert(`${oversizedFile.name} is too large. Please keep files under 2.5 MB each.`);
+      toast({
+        type: "warning",
+        title: "File is too large",
+        message: `${oversizedFile.name} is too large. Please keep files under 2.5 MB each.`,
+      });
       return;
     }
 
@@ -149,7 +155,7 @@ export default function ClientPortalPage() {
     const attachments = draft.attachments?.length ? draft.attachments : requirement.attachments || [];
 
     if (!clientResponse.trim() && attachments.length === 0) {
-      alert("Please write a response or upload a file first.");
+      toast({ type: "warning", title: "Nothing to submit", message: "Please write a response or upload a file first." });
       return;
     }
 
@@ -169,15 +175,16 @@ export default function ClientPortalPage() {
 
       const data = await res.json();
       if (!res.ok) {
-        alert(data.error || "Could not submit this item");
+        toast({ type: "error", title: "Submit failed", message: data.error || "Could not submit this item" });
         return;
       }
 
       setPortal(data);
       setDrafts((current) => ({ ...current, [requirement._id]: { clientResponse: "", attachments: [] } }));
+      toast({ type: "success", title: "Submitted successfully", message: "We received this requirement item." });
     } catch (err) {
       console.error(err);
-      alert("Could not submit this item");
+      toast({ type: "error", title: "Submit failed", message: "Could not submit this item" });
     } finally {
       setSavingId(null);
     }

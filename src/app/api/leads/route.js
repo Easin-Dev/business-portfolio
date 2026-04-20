@@ -18,3 +18,36 @@ export async function GET() {
     return NextResponse.json({ error: "Failed to fetch leads" }, { status: 500 });
   }
 }
+
+export async function POST(req) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const data = await req.json();
+    const fullName = String(data.fullName || "").trim();
+
+    if (!fullName) {
+      return NextResponse.json({ error: "Customer name is required" }, { status: 400 });
+    }
+
+    await dbConnect();
+    const lead = await Lead.create({
+      fullName,
+      email: String(data.email || "").trim(),
+      whatsapp: String(data.whatsapp || "").trim(),
+      company: String(data.company || "").trim(),
+      address: String(data.address || "").trim(),
+      source: String(data.source || "manual").trim(),
+      budget: String(data.budget || "").trim(),
+      details: String(data.details || "").trim(),
+      status: data.status || "customer",
+    });
+
+    return NextResponse.json(lead, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to create customer" }, { status: 500 });
+  }
+}

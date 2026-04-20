@@ -1,11 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Plus, Search, FileText, Trash2, ExternalLink, Link as LinkIcon, CheckCircle, Clock, Copy, Check, FolderKanban } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Search, FileText, Trash2, ExternalLink, Link as LinkIcon, CheckCircle, Clock, Check, FolderKanban } from "lucide-react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { format } from "date-fns";
+import { useAlert } from "@/app/component/AlertProvider";
 
 export default function AdminAgreements() {
+  const { toast, confirm } = useAlert();
   const [agreements, setAgreements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,12 +30,27 @@ export default function AdminAgreements() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Are you sure? This will permanently delete the agreement.")) return;
+    const ok = await confirm({
+      type: "warning",
+      title: "Delete this agreement?",
+      message: "This will permanently delete the agreement.",
+      confirmText: "Delete",
+    });
+
+    if (!ok) return;
+
     try {
       const res = await fetch(`/api/agreements/${id}`, { method: "DELETE" });
-      if (res.ok) fetchAgreements();
+      if (res.ok) {
+        toast({ type: "success", title: "Agreement deleted" });
+        fetchAgreements();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        toast({ type: "error", title: "Delete failed", message: data.error || "Could not delete agreement" });
+      }
     } catch (err) {
       console.error("Delete Error:", err);
+      toast({ type: "error", title: "Delete failed", message: "Could not delete agreement" });
     }
   };
 
@@ -42,6 +58,7 @@ export default function AdminAgreements() {
     const url = `${window.location.origin}/agreement/${hash}`;
     navigator.clipboard.writeText(url);
     setCopiedId(hash);
+    toast({ type: "success", title: "Agreement link copied" });
     setTimeout(() => setCopiedId(null), 2000);
   };
 
@@ -57,14 +74,15 @@ export default function AdminAgreements() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || "Could not create portal");
+        toast({ type: "error", title: "Portal failed", message: data.error || "Could not create portal" });
         return;
       }
 
+      toast({ type: "success", title: "Client portal ready" });
       window.location.href = "/admin/client-portals";
     } catch (err) {
       console.error("Portal Error:", err);
-      alert("Could not create portal");
+      toast({ type: "error", title: "Portal failed", message: "Could not create portal" });
     } finally {
       setPortalLoadingId(null);
     }

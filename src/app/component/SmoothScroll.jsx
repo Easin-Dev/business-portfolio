@@ -2,26 +2,33 @@
 
 import { useEffect } from "react";
 import Lenis from "@studio-freight/lenis";
+import { usePathname } from "next/navigation";
 
 export default function SmoothScroll({ children }) {
-  useEffect(() => {
-    // Lenis ইনস্ট্যান্স তৈরি করুন
-    const lenis = new Lenis();
+  const pathname = usePathname();
+  const useNativeScroll =
+    pathname?.startsWith("/admin") ||
+    pathname?.startsWith("/agreement/") ||
+    pathname?.startsWith("/client-portal/");
 
-    // প্রতি ফ্রেমে Lenis-কে আপডেট করার জন্য একটি ফাংশন
+  useEffect(() => {
+    if (useNativeScroll) return undefined;
+
+    const lenis = new Lenis();
+    let frameId;
+
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      frameId = requestAnimationFrame(raf);
     }
 
-    // অ্যানিমেশন ফ্রেম রিকুয়েস্ট করুন
-    requestAnimationFrame(raf);
+    frameId = requestAnimationFrame(raf);
 
-    // কম্পোনেন্ট আনমাউন্ট হলে Lenis-কে নষ্ট করে দিন
     return () => {
+      if (frameId) cancelAnimationFrame(frameId);
       lenis.destroy();
     };
-  }, []);
+  }, [useNativeScroll]);
 
   return <>{children}</>;
 }

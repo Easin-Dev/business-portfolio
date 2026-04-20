@@ -132,6 +132,22 @@ const ClientPortalSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  clientPhone: {
+    type: String,
+    default: "",
+  },
+  clientCompany: {
+    type: String,
+    default: "",
+  },
+  clientAddress: {
+    type: String,
+    default: "",
+  },
+  clientWhatsApp: {
+    type: String,
+    default: "",
+  },
   projectTitle: {
     type: String,
     required: true,

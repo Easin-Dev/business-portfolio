@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import {
+  AlertTriangle,
   CheckCircle2,
-  Copy,
   CreditCard,
   Download,
   Edit3,
@@ -21,6 +21,7 @@ import {
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useAlert } from "@/app/component/AlertProvider";
 
 const stageOptions = ["requirements", "planning", "design", "development", "review", "revision", "delivery", "completed"];
 const statusOptions = ["active", "waiting_client", "in_progress", "completed", "paused"];
@@ -49,6 +50,7 @@ function getStatusClasses(status) {
 }
 
 export default function AdminClientPortals() {
+  const { toast, confirm } = useAlert();
   const [portals, setPortals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -112,7 +114,7 @@ export default function AdminClientPortals() {
     setActivePortal((current) => (current?._id === updatedPortal._id ? updatedPortal : current));
   };
 
-  const savePortalPatch = async (portal, patch) => {
+  const savePortalPatch = async (portal, patch, options = {}) => {
     setSaving(true);
 
     try {
@@ -124,15 +126,18 @@ export default function AdminClientPortals() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || "Could not update portal");
+        toast({ type: "error", title: "Update failed", message: data.error || "Could not update portal" });
         return null;
       }
 
       updateLocalPortal(data);
+      if (options.successTitle) {
+        toast({ type: "success", title: options.successTitle });
+      }
       return data;
     } catch (err) {
       console.error("Error updating portal:", err);
-      alert("Could not update portal");
+      toast({ type: "error", title: "Update failed", message: "Could not update portal" });
       return null;
     } finally {
       setSaving(false);
@@ -143,7 +148,36 @@ export default function AdminClientPortals() {
     const url = `${window.location.origin}/client-portal/${portal.portalHash}`;
     navigator.clipboard.writeText(url);
     setCopiedHash(portal.portalHash);
+    toast({ type: "success", title: "Portal link copied" });
     setTimeout(() => setCopiedHash(null), 1800);
+  };
+
+  const deletePortal = async (portal) => {
+    const ok = await confirm({
+      type: "warning",
+      title: "Delete this client portal?",
+      message: `This will permanently delete "${portal.projectTitle}" from client portals. The signed agreement will stay untouched.`,
+      confirmText: "Delete Portal",
+    });
+
+    if (!ok) return;
+
+    try {
+      const res = await fetch(`/api/client-portals/${portal._id}`, { method: "DELETE" });
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        toast({ type: "error", title: "Delete failed", message: data.error || "Could not delete portal" });
+        return;
+      }
+
+      setPortals((current) => current.filter((item) => item._id !== portal._id));
+      setActivePortal((current) => (current?._id === portal._id ? null : current));
+      toast({ type: "success", title: "Client portal deleted" });
+    } catch (error) {
+      console.error("Error deleting portal:", error);
+      toast({ type: "error", title: "Delete failed", message: "Could not delete portal" });
+    }
   };
 
   const addRequirement = async () => {
@@ -161,10 +195,14 @@ export default function AdminClientPortals() {
       },
     ];
 
-    const updated = await savePortalPatch(activePortal, {
-      requirements,
-      status: "waiting_client",
-    });
+    const updated = await savePortalPatch(
+      activePortal,
+      {
+        requirements,
+        status: "waiting_client",
+      },
+      { successTitle: "Requirement added" }
+    );
 
     if (updated) {
       setRequirementDraft({ title: "", description: "", type: "text" });
@@ -189,12 +227,16 @@ export default function AdminClientPortals() {
   const addPayment = async () => {
     if (!paymentDraft.amount) return;
 
-    const updated = await savePortalPatch(activePortal, {
-      action: "add_payment",
-      label: paymentDraft.label,
-      amount: Number(paymentDraft.amount),
-      note: paymentDraft.note,
-    });
+    const updated = await savePortalPatch(
+      activePortal,
+      {
+        action: "add_payment",
+        label: paymentDraft.label,
+        amount: Number(paymentDraft.amount),
+        note: paymentDraft.note,
+      },
+      { successTitle: "Payment added" }
+    );
 
     if (updated) {
       setPaymentDraft({ label: "Payment", amount: "", note: "" });
@@ -204,11 +246,15 @@ export default function AdminClientPortals() {
   const sendClientUpdate = async () => {
     if (!updateDraft.title.trim() || !updateDraft.message.trim()) return;
 
-    const updated = await savePortalPatch(activePortal, {
-      action: "notify_client",
-      title: updateDraft.title,
-      message: updateDraft.message,
-    });
+    const updated = await savePortalPatch(
+      activePortal,
+      {
+        action: "notify_client",
+        title: updateDraft.title,
+        message: updateDraft.message,
+      },
+      { successTitle: "Client update sent" }
+    );
 
     if (updated) {
       setUpdateDraft({ title: "", message: "" });
@@ -335,6 +381,12 @@ export default function AdminClientPortals() {
                     >
                       <ExternalLink size={17} />
                     </a>
+                    <button
+                      onClick={() => deletePortal(portal)}
+                      className="rounded-lg bg-red-50 p-2.5 text-red-400 hover:bg-red-100 hover:text-red-600"
+                    >
+                      <Trash2 size={17} />
+                    </button>
                   </div>
                 </div>
               </motion.div>
@@ -420,10 +472,17 @@ export default function AdminClientPortals() {
                       </div>
                     </div>
                     <button
-                      onClick={() => savePortalPatch(activePortal, { status: "completed", progressStage: "completed", progressPercent: 100 })}
+                      onClick={() => savePortalPatch(activePortal, { status: "completed", progressStage: "completed", progressPercent: 100 }, { successTitle: "Portal marked complete" })}
                       className="w-full rounded-lg bg-emerald-600 px-4 py-3 text-sm font-black text-white hover:bg-emerald-700"
                     >
                       Mark Complete
+                    </button>
+                    <button
+                      onClick={() => deletePortal(activePortal)}
+                      className="flex w-full items-center justify-center gap-2 rounded-lg border border-red-100 bg-red-50 px-4 py-3 text-sm font-black text-red-600 hover:bg-red-100"
+                    >
+                      <AlertTriangle size={16} />
+                      Delete Portal
                     </button>
                   </div>
                 </div>

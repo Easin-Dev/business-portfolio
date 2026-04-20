@@ -7,6 +7,7 @@ import StructuredData from "./component/StructuredData";
 import { Analytics } from "@vercel/analytics/next";
 import SessionWrapper from "./component/SessionWrapper";
 import LoaderWrapper from "./component/loaders/LoaderWrapper";
+import { AlertProvider } from "./component/AlertProvider";
 
 export const metadata = {
   metadataBase: new URL("https://www.scaleupweb.xyz"),
@@ -91,13 +92,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="antialiased font-serif">
         <SessionWrapper>
-          <LoaderWrapper>
-            <StructuredData />
-            <LayoutWrapper>
-              <SmoothScroll>{children}</SmoothScroll>
-            </LayoutWrapper>
-            <Analytics />
-          </LoaderWrapper>
+          <AlertProvider>
+            <LoaderWrapper>
+              <StructuredData />
+              <LayoutWrapper>
+                <SmoothScroll>{children}</SmoothScroll>
+              </LayoutWrapper>
+              <Analytics />
+            </LoaderWrapper>
+          </AlertProvider>
         </SessionWrapper>
       </body>
     </html>

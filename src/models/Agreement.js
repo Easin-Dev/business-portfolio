@@ -3,7 +3,11 @@ import mongoose from "mongoose";
 const AgreementSchema = new mongoose.Schema({
   clientName: String,
   clientEmail: String,
+  clientPhone: String,
+  clientWhatsApp: String,
   clientCompany: String,
+  clientAddress: String,
+  preferredContact: String,
   projectTitle: {
     type: String,
     required: true,
