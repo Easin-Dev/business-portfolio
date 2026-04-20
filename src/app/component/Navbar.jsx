@@ -106,20 +106,20 @@ function ServicesMenu() {
 // "More" বাটনের হোভার মেনুর জন্য নতুন কম্পোনেন্ট
 function MoreMenu() {
   const menuItems = [
-    { title: "Home", description: "Home is where the monk lives", href: "/" },
+    { title: "Home", description: "ScaleUp Web digital agency homepage", href: "/" },
     {
       title: "About us",
-      description: "The journey of Design Monks",
+      description: "The story, mission, and team behind ScaleUp Web",
       href: "/about-us",
     },
     {
       title: "Blogs",
-      description: "A collection of informative blogs",
+      description: "Digital marketing, web development, and automation insights",
       href: "/blogs",
     },
     {
       title: "Contact us",
-      description: "Start your dream design journey from here",
+      description: "Start your website, marketing, or automation project",
       href: "/contact",
     },
   ];
@@ -206,20 +206,20 @@ export default function Navbar() {
   };
 
   const moreMenuItems = [
-    { title: "Home", description: "Home is where the monk lives", href: "/" },
+    { title: "Home", description: "ScaleUp Web digital agency homepage", href: "/" },
     {
       title: "About us",
-      description: "The journey of Design Monks",
+      description: "The story, mission, and team behind ScaleUp Web",
       href: "/about-us",
     },
     {
       title: "Blogs",
-      description: "A collection of informative blogs",
+      description: "Digital marketing, web development, and automation insights",
       href: "/blogs",
     },
     {
       title: "Contact us",
-      description: "Start your dream design journey from here",
+      description: "Start your website, marketing, or automation project",
       href: "/contact",
     },
   ];
