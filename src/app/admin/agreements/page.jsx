@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Plus, Search, FileText, Trash2, ExternalLink, Link as LinkIcon, CheckCircle, Clock, Copy, Check } from "lucide-react";
+import { Plus, Search, FileText, Trash2, ExternalLink, Link as LinkIcon, CheckCircle, Clock, Copy, Check, FolderKanban } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -10,6 +10,7 @@ export default function AdminAgreements() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [copiedId, setCopiedId] = useState(null);
+  const [portalLoadingId, setPortalLoadingId] = useState(null);
 
   useEffect(() => {
     fetchAgreements();
@@ -42,6 +43,31 @@ export default function AdminAgreements() {
     navigator.clipboard.writeText(url);
     setCopiedId(hash);
     setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const createPortal = async (agreementId) => {
+    setPortalLoadingId(agreementId);
+
+    try {
+      const res = await fetch("/api/client-portals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ agreementId }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Could not create portal");
+        return;
+      }
+
+      window.location.href = "/admin/client-portals";
+    } catch (err) {
+      console.error("Portal Error:", err);
+      alert("Could not create portal");
+    } finally {
+      setPortalLoadingId(null);
+    }
   };
 
   const filteredAgreements = Array.isArray(agreements) ? agreements.filter(a => 
@@ -119,6 +145,17 @@ export default function AdminAgreements() {
                     {copiedId === agreement.uniqueHash ? <Check size={14} /> : <LinkIcon size={14} />}
                     {copiedId === agreement.uniqueHash ? "Copied" : "Copy Link"}
                   </button>
+
+                  {agreement.status === "signed" && (
+                    <button
+                      onClick={() => createPortal(agreement._id)}
+                      disabled={portalLoadingId === agreement._id}
+                      className="flex items-center gap-2 px-4 py-2.5 bg-slate-50 text-slate-500 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all font-bold text-xs disabled:opacity-70"
+                    >
+                      {portalLoadingId === agreement._id ? <Clock size={14} /> : <FolderKanban size={14} />}
+                      Portal
+                    </button>
+                  )}
                   
                   <Link 
                     href={`/agreement/${agreement.uniqueHash}`}

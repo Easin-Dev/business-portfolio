@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/db";
 import Agreement from "@/models/Agreement";
+import ClientPortal from "@/models/ClientPortal";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import nodemailer from "nodemailer";
+import { createPortalForAgreement, sendPortalEmail } from "@/lib/clientPortal";
 
 // GET individual agreement (Public or Admin)
 export async function GET(req, { params }) {
@@ -23,7 +25,12 @@ export async function GET(req, { params }) {
       return NextResponse.json({ error: "Agreement not found" }, { status: 404 });
     }
 
-    return NextResponse.json(agreement);
+    const portal = await ClientPortal.findOne({ agreementId: agreement._id }).select("portalHash");
+
+    return NextResponse.json({
+      ...agreement.toObject(),
+      portalHash: portal?.portalHash || null,
+    });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch agreement" }, { status: 500 });
   }
@@ -54,6 +61,9 @@ export async function PUT(req, { params }) {
     agreement.signedAt = new Date();
     await agreement.save();
 
+    const portal = await createPortalForAgreement(agreement);
+    const portalUrl = `${req.nextUrl.origin}/client-portal/${portal.portalHash}`;
+
     // Send Confirmation Email
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -75,16 +85,28 @@ export async function PUT(req, { params }) {
           <p>This marks the official start of our collaboration. We are thrilled to help you scale up your digital presence!</p>
           <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
           <p style="font-size: 14px; color: #666;">You can download your copy of the agreement from the link you used for signing at any time.</p>
+          <p style="font-size: 14px; color: #666;">Your client project portal is ready. Please open the portal and submit the requested project materials.</p>
           <p style="text-align: center; margin-top: 30px;">
             <a href="${req.nextUrl.origin}/agreement/${agreement.uniqueHash}" style="background: #6d28d9; color: white; padding: 12px 24px; text-decoration: none; rounded: 5px; font-weight: bold;">View Signed Agreement</a>
+          </p>
+          <p style="text-align: center; margin-top: 12px;">
+            <a href="${portalUrl}" style="background: #111827; color: white; padding: 12px 24px; text-decoration: none; rounded: 5px; font-weight: bold;">Open Client Portal</a>
           </p>
         </div>
       `,
     };
 
     await transporter.sendMail(mailOptions);
+    await sendPortalEmail({
+      to: agreement.clientEmail,
+      clientName: agreement.clientName,
+      projectTitle: agreement.projectTitle,
+      portalUrl,
+      subject: `Client portal ready: ${agreement.projectTitle}`,
+      message: `Your project portal for <b>${agreement.projectTitle}</b> is ready. Please submit the requested information and files so we can move to the next step.`,
+    });
 
-    return NextResponse.json({ message: "Agreement signed and email sent successfully!" });
+    return NextResponse.json({ message: "Agreement signed, portal created, and email sent successfully!", portalHash: portal.portalHash });
   } catch (error) {
     console.error("Signing Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

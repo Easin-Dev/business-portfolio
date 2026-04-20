@@ -2,19 +2,99 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Clock, Calendar, User } from "lucide-react";
 import { notFound } from "next/navigation";
-import { blogsData } from "../../../data/blogsData";
+import { getBlogBySlug, getBlogs } from "@/lib/blogs";
 
-export async function generateStaticParams() {
-  return blogsData.map((b) => ({ slug: b.slug }));
+export const dynamic = "force-dynamic";
+
+function renderListItemContent(line, accentColor) {
+  const match = line.match(/^- \*\*(.+?)\*\*:? ?(.*)/);
+
+  if (match) {
+    return (
+      <span>
+        <strong className="text-white">{match[1]}:</strong>{" "}
+        <span>{match[2]}</span>
+      </span>
+    );
+  }
+
+  return line.replace(/^- /, "");
+}
+
+function parseContent(content = "") {
+  const lines = content.split("\n");
+  const blocks = [];
+  let unorderedList = [];
+  let orderedList = [];
+
+  const flushLists = () => {
+    if (unorderedList.length > 0) {
+      blocks.push({ type: "ul", items: unorderedList });
+      unorderedList = [];
+    }
+
+    if (orderedList.length > 0) {
+      blocks.push({ type: "ol", items: orderedList });
+      orderedList = [];
+    }
+  };
+
+  lines.forEach((rawLine) => {
+    const line = rawLine.trim();
+
+    if (!line) {
+      flushLists();
+      blocks.push({ type: "space" });
+      return;
+    }
+
+    if (line.startsWith("## ")) {
+      flushLists();
+      blocks.push({ type: "h2", text: line.replace("## ", "") });
+      return;
+    }
+
+    if (line.startsWith("### ")) {
+      flushLists();
+      blocks.push({ type: "h3", text: line.replace("### ", "") });
+      return;
+    }
+
+    if (line.startsWith("- ")) {
+      unorderedList.push(line);
+      return;
+    }
+
+    if (/^\d+\.\s/.test(line)) {
+      orderedList.push(line.replace(/^\d+\.\s/, ""));
+      return;
+    }
+
+    flushLists();
+    blocks.push({ type: "p", text: line });
+  });
+
+  flushLists();
+  return blocks;
+}
+
+function getAuthorInitials(name = "") {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("") || "AU";
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const blog = blogsData.find((b) => b.slug === slug);
+  const blog = await getBlogBySlug(slug);
+
   if (!blog) return {};
-  
+
   const url = `https://www.scaleupweb.xyz/blogs/${slug}`;
-  
+
   return {
     title: blog.title,
     description: blog.excerpt,
@@ -24,7 +104,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: blog.title,
       description: blog.excerpt,
-      url: url,
+      url,
       type: "article",
       publishedTime: new Date(blog.date).toISOString(),
       authors: [blog.author],
@@ -48,124 +128,195 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogDetailPage({ params }) {
   const { slug } = await params;
-  const blog = blogsData.find((b) => b.slug === slug);
-  if (!blog) notFound();
+  const blog = await getBlogBySlug(slug);
 
-  const related = blogsData.filter((b) => 
-    b.tag === blog.tag && b.slug !== blog.slug
-  ).slice(0, 2);
+  if (!blog) {
+    notFound();
+  }
+
+  const allPublishedBlogs = await getBlogs({ status: "published" });
+  const related = allPublishedBlogs
+    .filter((item) => item.tag === blog.tag && item.slug !== blog.slug)
+    .slice(0, 2);
+  const contentBlocks = parseContent(blog.content);
+  const authorInitials = getAuthorInitials(blog.author);
 
   return (
-    <div className="w-full bg-[#050709] min-h-screen text-white">
-
-      {/* Hero / Thumbnail */}
-      <div className="relative w-full h-[55vh] md:h-[65vh] overflow-hidden">
-        <Image 
-          src={blog.thumbnail} 
-          alt={blog.title} 
-          fill 
+    <div className="min-h-screen w-full bg-[#050709] text-white">
+      <div className="relative h-[55vh] w-full overflow-hidden md:h-[65vh]">
+        <Image
+          src={blog.thumbnail}
+          alt={blog.title}
+          fill
           priority
-          className="w-full h-full object-cover" 
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#050709] via-[#050709]/60 to-[#050709]/20" />
 
-        {/* Back button */}
         <Link
           href="/blogs"
-          className="absolute top-8 left-6 md:left-10 flex items-center gap-2 text-sm text-white/70 hover:text-white bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10 hover:border-white/30 transition-all duration-300 z-10"
+          className="absolute left-6 top-8 z-10 flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-white/70 backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:text-white md:left-10"
         >
           <ArrowLeft size={14} /> Back to Blog
         </Link>
 
-        {/* Category badge */}
-        <div className="absolute bottom-10 left-6 md:left-10 z-10">
+        <div className="absolute bottom-10 left-6 z-10 md:left-10">
           <span
-            className="px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest"
-            style={{ background: blog.accentColor + "25", color: blog.accentColor, border: `1px solid ${blog.accentColor}40` }}
+            className="rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-widest"
+            style={{
+              background: `${blog.accentColor}25`,
+              color: blog.accentColor,
+              border: `1px solid ${blog.accentColor}40`,
+            }}
           >
             {blog.category}
           </span>
         </div>
       </div>
 
-      {/* Article Body */}
-      <div className="max-w-3xl mx-auto px-6 lg:px-8 py-12">
-
-        {/* Meta info */}
-        <div className="flex flex-wrap items-center gap-5 text-neutral-500 text-sm mb-6">
-          <span className="flex items-center gap-1.5"><User size={13} /> {blog.author}</span>
-          <span className="flex items-center gap-1.5"><Calendar size={13} /> {blog.date}</span>
-          <span className="flex items-center gap-1.5"><Clock size={13} /> {blog.readTime}</span>
+      <div className="mx-auto max-w-3xl px-6 py-12 lg:px-8">
+        <div className="mb-6 flex flex-wrap items-center gap-5 text-sm text-neutral-500">
+          <span className="flex items-center gap-1.5">
+            <User size={13} /> {blog.author}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Calendar size={13} /> {blog.date}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Clock size={13} /> {blog.readTime}
+          </span>
         </div>
 
-        {/* Title */}
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-8">
+        <h1 className="mb-8 text-3xl font-extrabold leading-tight text-white md:text-4xl lg:text-5xl">
           {blog.title}
         </h1>
 
-        {/* Excerpt highlight */}
         <div
-          className="border-l-4 pl-5 py-2 mb-10 rounded-r-lg"
-          style={{ borderColor: blog.accentColor, background: blog.accentColor + "10" }}
+          className="mb-10 rounded-r-lg border-l-4 py-2 pl-5"
+          style={{
+            borderColor: blog.accentColor,
+            background: `${blog.accentColor}10`,
+          }}
         >
-          <p className="text-neutral-300 text-base leading-relaxed italic">{blog.excerpt}</p>
+          <p className="text-base italic leading-relaxed text-neutral-300">
+            {blog.excerpt}
+          </p>
         </div>
 
-        {/* Content — Markdown-style rendered */}
-        <div className="prose prose-invert prose-lg max-w-none">
-          {blog.content.split("\n").map((line, i) => {
-            if (line.startsWith("## ")) return <h2 key={i} className="text-2xl font-bold text-white mt-10 mb-4">{line.replace("## ", "")}</h2>;
-            if (line.startsWith("### ")) return <h3 key={i} className="text-xl font-bold text-white mt-8 mb-3" style={{ color: blog.accentColor }}>{line.replace("### ", "")}</h3>;
-            if (line.startsWith("- **")) {
-              const match = line.match(/- \*\*(.+?)\*\*:? ?(.*)/);
-              return match ? (
-                <li key={i} className="text-neutral-300 text-base leading-relaxed mb-2 flex gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full mt-2.5 flex-shrink-0" style={{ background: blog.accentColor }} />
-                  <span><strong className="text-white">{match[1]}:</strong> {match[2]}</span>
-                </li>
-              ) : null;
+        <div className="max-w-none space-y-4">
+          {contentBlocks.map((block, index) => {
+            if (block.type === "h2") {
+              return (
+                <h2 key={index} className="mb-4 mt-10 text-2xl font-bold text-white">
+                  {block.text}
+                </h2>
+              );
             }
-            if (line.startsWith("- ")) return <li key={i} className="text-neutral-400 text-base mb-2 flex gap-2 items-start"><span className="w-1.5 h-1.5 rounded-full mt-2.5 flex-shrink-0 bg-neutral-600" />{line.replace("- ", "")}</li>;
-            if (line.trim() === "") return <br key={i} />;
-            return <p key={i} className="text-neutral-400 text-base leading-loose mb-4">{line}</p>;
+
+            if (block.type === "h3") {
+              return (
+                <h3
+                  key={index}
+                  className="mb-3 mt-8 text-xl font-bold"
+                  style={{ color: blog.accentColor }}
+                >
+                  {block.text}
+                </h3>
+              );
+            }
+
+            if (block.type === "ul") {
+              return (
+                <ul key={index} className="space-y-3">
+                  {block.items.map((item, itemIndex) => (
+                    <li
+                      key={`${index}-${itemIndex}`}
+                      className="flex gap-3 text-base leading-relaxed text-neutral-300"
+                    >
+                      <span
+                        className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full"
+                        style={{ background: blog.accentColor }}
+                      />
+                      <span>{renderListItemContent(item, blog.accentColor)}</span>
+                    </li>
+                  ))}
+                </ul>
+              );
+            }
+
+            if (block.type === "ol") {
+              return (
+                <ol key={index} className="space-y-3 pl-5 text-base leading-relaxed text-neutral-300">
+                  {block.items.map((item, itemIndex) => (
+                    <li key={`${index}-${itemIndex}`} className="list-decimal pl-2">
+                      {item}
+                    </li>
+                  ))}
+                </ol>
+              );
+            }
+
+            if (block.type === "space") {
+              return <div key={index} className="h-2" />;
+            }
+
+            return (
+              <p key={index} className="text-base leading-loose text-neutral-400">
+                {block.text}
+              </p>
+            );
           })}
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-white/8 mt-14 mb-10" />
+        <div className="mb-10 mt-14 border-t border-white/8" />
 
-        {/* Author Card */}
-        <div className="flex items-center gap-4 p-6 rounded-2xl bg-white/5 border border-white/10">
-          <div className="w-14 h-14 rounded-full bg-blue-600/30 flex items-center justify-center text-blue-400 font-bold text-lg flex-shrink-0">
-            EA
+        <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-blue-600/30 text-lg font-bold text-blue-400">
+            {authorInitials}
           </div>
           <div>
-            <p className="text-white font-bold">Easin Arafat</p>
-            <p className="text-neutral-400 text-sm">Founder & Lead Developer at ScaleUp Web — Expert in web development, digital marketing & automation.</p>
+            <p className="font-bold text-white">{blog.author}</p>
+            <p className="text-sm text-neutral-400">
+              Published from the ScaleUp Web admin content panel.
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Related Articles */}
       {related.length > 0 && (
-        <section className="max-w-3xl mx-auto px-6 lg:px-8 pb-24">
-          <h2 className="text-2xl font-bold text-white mb-8">Related Articles</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {related.map((b) => (
-              <Link key={b.id} href={`/blogs/${b.slug}`} className="group relative block">
-                <div className="overflow-hidden rounded-2xl border border-white/8 hover:border-white/20 transition-all duration-300 h-full flex flex-col">
-                  <div className="h-40 relative overflow-hidden">
-                    <Image 
-                      src={b.thumbnail} 
-                      alt={b.title} 
+        <section className="mx-auto max-w-3xl px-6 pb-24 lg:px-8">
+          <h2 className="mb-8 text-2xl font-bold text-white">Related Articles</h2>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {related.map((item) => (
+              <Link
+                key={item._id || item.slug}
+                href={`/blogs/${item.slug}`}
+                className="group relative block"
+              >
+                <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/8 transition-all duration-300 hover:border-white/20">
+                  <div className="relative h-40 overflow-hidden">
+                    <Image
+                      src={item.thumbnail}
+                      alt={item.title}
                       fill
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
-                  <div className="p-5 flex-1 bg-white/5">
-                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: b.accentColor }}>{b.category}</span>
-                    <h3 className="text-white font-bold mt-2 leading-snug group-hover:text-blue-300 transition-colors line-clamp-2">{b.title}</h3>
-                    <p className="text-neutral-500 text-xs mt-2">{b.readTime} · {b.date}</p>
+
+                  <div className="flex-1 bg-white/5 p-5">
+                    <span
+                      className="text-xs font-bold uppercase tracking-widest"
+                      style={{ color: item.accentColor }}
+                    >
+                      {item.category}
+                    </span>
+                    <h3 className="mt-2 line-clamp-2 font-bold leading-snug text-white transition-colors group-hover:text-blue-300">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-xs text-neutral-500">
+                      {item.readTime} · {item.date}
+                    </p>
                   </div>
                 </div>
               </Link>

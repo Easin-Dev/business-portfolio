@@ -4,9 +4,9 @@
  * @see https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
  */
 import { servicesData } from "../data/servicesData";
-import { blogsData } from "../data/blogsData";
+import { getBlogs } from "@/lib/blogs";
 
-export default function sitemap() {
+export default async function sitemap() {
   const baseUrl = "https://www.scaleupweb.xyz";
   const lastModified = new Date();
 
@@ -62,13 +62,14 @@ export default function sitemap() {
     priority: 0.85,
   }));
 
-  const blogPages = blogsData.map((blog) => ({
+  const blogs = await getBlogs({ status: "published" });
+
+  const blogPages = blogs.map((blog) => ({
     url: `${baseUrl}/blogs/${blog.slug}`,
-    lastModified,
+    lastModified: blog.updatedAt || lastModified,
     changeFrequency: "weekly",
     priority: 0.7,
   }));
 
   return [...staticPages, ...servicePages, ...blogPages];
 }
-

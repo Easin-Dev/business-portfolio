@@ -410,6 +410,14 @@ export default function PublicAgreement() {
                 >
                   <Download size={20} /> Generate PDF Copy
                 </button>
+                {agreement.portalHash && (
+                  <a
+                    href={`/client-portal/${agreement.portalHash}`}
+                    className="mt-3 flex w-full items-center justify-center gap-3 rounded-3xl bg-green-900/30 py-5 font-black text-white transition-all hover:bg-green-900/40"
+                  >
+                    Open Client Portal
+                  </a>
+                )}
               </motion.div>
             )}
 

@@ -1,21 +1,24 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/db";
 import Blog from "@/models/Blog";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import dbConnect from "@/lib/db";
+import { getBlogs, normalizeBlogPayload } from "@/lib/blogs";
 
 // GET all blogs
 export async function GET(req) {
   try {
-    await dbConnect();
     const { searchParams } = new URL(req.url);
     const featured = searchParams.get("featured");
     const status = searchParams.get("status") || "published";
+    const slug = searchParams.get("slug");
 
-    let query = { status };
-    if (featured === "true") query.featured = true;
+    const blogs = await getBlogs({
+      status,
+      slug,
+      featured: featured === null ? undefined : featured === "true",
+    });
 
-    const blogs = await Blog.find(query).sort({ createdAt: -1 });
     return NextResponse.json(blogs);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch blogs" }, { status: 500 });
@@ -32,7 +35,8 @@ export async function POST(req) {
 
     await dbConnect();
     const data = await req.json();
-    const blog = await Blog.create(data);
+    const payload = normalizeBlogPayload(data);
+    const blog = await Blog.create(payload);
     return NextResponse.json(blog, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 400 });

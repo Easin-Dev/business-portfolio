@@ -1,22 +1,12 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Clock, ArrowRight, Search, TrendingUp, Code2, Megaphone, Bot, BookOpen } from "lucide-react";
-import { Spotlight } from "../component/ui/spotlight";
-import { blogsData } from "../../data/blogsData";
+import { Clock, ArrowRight, Search } from "lucide-react";
 import PageHero from "../component/PageHero";
 
-const categories = [
-  { label: "All Posts", value: "all", icon: <BookOpen size={14} /> },
-  { label: "SEO", value: "seo", icon: <TrendingUp size={14} /> },
-  { label: "Web Dev", value: "webdev", icon: <Code2 size={14} /> },
-  { label: "Marketing", value: "marketing", icon: <Megaphone size={14} /> },
-  { label: "Automation", value: "automation", icon: <Bot size={14} /> },
-];
-
-// ── Blog Card Component ───────────────────────────────────────────────────────
 function BlogCard({ blog, index, featured = false }) {
   if (featured) {
     return (
@@ -24,47 +14,54 @@ function BlogCard({ blog, index, featured = false }) {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="md:col-span-2 group relative"
+        className="group relative md:col-span-2"
       >
         <Link href={`/blogs/${blog.slug}`}>
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0f1015] hover:border-blue-500/40 transition-all duration-500 hover:shadow-[0_0_60px_rgba(59,130,246,0.12)]">
-            {/* Thumbnail */}
-            <div className="relative h-[320px] md:h-[420px] overflow-hidden">
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0f1015] transition-all duration-500 hover:border-blue-500/40 hover:shadow-[0_0_60px_rgba(59,130,246,0.12)]">
+            <div className="relative h-[320px] overflow-hidden md:h-[420px]">
               <Image
                 src={blog.thumbnail}
                 alt={blog.title}
                 fill
                 priority
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              {/* Gradient overlay */}
+
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/50 to-transparent" />
-              {/* Featured badge */}
-              <div className="absolute top-5 left-5 flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-600/90 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest">
-                <TrendingUp size={11} /> Featured
+
+              <div className="absolute left-5 top-5 rounded-full bg-blue-600/90 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-sm">
+                Featured
               </div>
-              {/* Category badge */}
+
               <div
-                className="absolute top-5 right-5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest backdrop-blur-sm"
-                style={{ background: blog.accentColor + "30", color: blog.accentColor, border: `1px solid ${blog.accentColor}40` }}
+                className="absolute right-5 top-5 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-widest backdrop-blur-sm"
+                style={{
+                  background: `${blog.accentColor}30`,
+                  color: blog.accentColor,
+                  border: `1px solid ${blog.accentColor}40`,
+                }}
               >
                 {blog.category}
               </div>
             </div>
 
-            {/* Content */}
             <div className="p-6 md:p-8">
-              <div className="flex items-center gap-4 text-neutral-500 text-xs mb-4">
-                <span className="flex items-center gap-1.5"><Clock size={12} /> {blog.readTime}</span>
+              <div className="mb-4 flex items-center gap-4 text-xs text-neutral-500">
+                <span className="flex items-center gap-1.5">
+                  <Clock size={12} /> {blog.readTime}
+                </span>
                 <span>{blog.date}</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight mb-3 group-hover:text-blue-300 transition-colors duration-300">
+
+              <h2 className="mb-3 text-2xl font-bold leading-tight text-white transition-colors duration-300 group-hover:text-blue-300 md:text-3xl">
                 {blog.title}
               </h2>
-              <p className="text-neutral-400 text-sm md:text-base leading-relaxed line-clamp-2 mb-6">
+
+              <p className="mb-6 line-clamp-2 text-sm leading-relaxed text-neutral-400 md:text-base">
                 {blog.excerpt}
               </p>
-              <span className="inline-flex items-center gap-2 text-blue-400 font-semibold text-sm group-hover:gap-3 transition-all duration-300">
+
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-blue-400 transition-all duration-300 group-hover:gap-3">
                 Read Article <ArrowRight size={15} />
               </span>
             </div>
@@ -82,38 +79,49 @@ function BlogCard({ blog, index, featured = false }) {
       className="group"
     >
       <Link href={`/blogs/${blog.slug}`}>
-        <div className="relative h-full flex flex-col overflow-hidden rounded-2xl border border-white/8 bg-[#0f1015] hover:border-white/20 transition-all duration-400 hover:shadow-[0_0_40px_rgba(255,255,255,0.04)]">
-          {/* Thumbnail */}
-          <div className="relative h-[200px] overflow-hidden flex-shrink-0">
+        <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/8 bg-[#0f1015] transition-all duration-500 hover:border-white/20 hover:shadow-[0_0_40px_rgba(255,255,255,0.04)]">
+          <div className="relative h-[200px] overflow-hidden">
             <Image
               src={blog.thumbnail}
               alt={blog.title}
               fill
-              className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-105"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
+
             <div className="absolute inset-0 bg-gradient-to-t from-[#0f1015] via-transparent to-transparent" />
-            {/* Category */}
+
             <div
-              className="absolute top-4 left-4 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-widest"
-              style={{ background: blog.accentColor + "25", color: blog.accentColor, border: `1px solid ${blog.accentColor}35` }}
+              className="absolute left-4 top-4 rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-widest"
+              style={{
+                background: `${blog.accentColor}25`,
+                color: blog.accentColor,
+                border: `1px solid ${blog.accentColor}35`,
+              }}
             >
               {blog.category}
             </div>
           </div>
 
-          {/* Content */}
-          <div className="flex flex-col flex-grow p-5">
-            <div className="flex items-center gap-3 text-neutral-600 text-xs mb-3">
-              <span className="flex items-center gap-1"><Clock size={11} /> {blog.readTime}</span>
+          <div className="flex flex-grow flex-col p-5">
+            <div className="mb-3 flex items-center gap-3 text-xs text-neutral-600">
+              <span className="flex items-center gap-1">
+                <Clock size={11} /> {blog.readTime}
+              </span>
               <span>{blog.date}</span>
             </div>
-            <h3 className="text-base font-bold text-white leading-snug mb-2 line-clamp-2 group-hover:text-blue-300 transition-colors duration-300 flex-grow">
+
+            <h3 className="mb-2 flex-grow line-clamp-2 text-base font-bold leading-snug text-white transition-colors duration-300 group-hover:text-blue-300">
               {blog.title}
             </h3>
-            <p className="text-neutral-500 text-sm leading-relaxed line-clamp-2 mb-4">
+
+            <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-neutral-500">
               {blog.excerpt}
             </p>
-            <span className="inline-flex items-center gap-1.5 text-sm font-semibold group-hover:gap-2.5 transition-all duration-300" style={{ color: blog.accentColor }}>
+
+            <span
+              className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all duration-300 group-hover:gap-2.5"
+              style={{ color: blog.accentColor }}
+            >
               Read More <ArrowRight size={13} />
             </span>
           </div>
@@ -123,9 +131,8 @@ function BlogCard({ blog, index, featured = false }) {
   );
 }
 
-// ── Main Page ─────────────────────────────────────────────────────────────────
 export default function BlogsPage() {
-  const [allBlogs, setAllBlogs] = useState(blogsData);
+  const [allBlogs, setAllBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -133,114 +140,138 @@ export default function BlogsPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch("/api/blogs");
+        const res = await fetch("/api/blogs", { cache: "no-store" });
         const data = await res.json();
-        setAllBlogs(data);
-      } catch (err) {
-        console.error("Error fetching blogs:", err);
+        setAllBlogs(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+        setAllBlogs([]);
       } finally {
         setLoading(false);
       }
     };
+
     fetchBlogs();
   }, []);
 
-  const filtered = allBlogs.filter((b) => {
-    const matchCat = activeCategory === "all" || b.tag === activeCategory;
-    const matchSearch =
+  const categories = [
+    { label: "All Posts", value: "all" },
+    ...allBlogs
+      .map((blog) => ({
+        label: blog.category,
+        value: blog.tag || blog.category.toLowerCase(),
+      }))
+      .filter(
+        (category, index, array) =>
+          array.findIndex((item) => item.value === category.value) === index
+      ),
+  ];
+
+  const filtered = allBlogs.filter((blog) => {
+    const matchesCategory =
+      activeCategory === "all" ||
+      (blog.tag || blog.category.toLowerCase()) === activeCategory;
+    const matchesSearch =
       searchQuery === "" ||
-      b.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      b.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchCat && matchSearch;
+      blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      blog.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      blog.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesCategory && matchesSearch;
   });
 
-  const nonFeatured = filtered.filter((b) => !b.featured);
-  const showFeatured = filtered.find((b) => b.featured);
+  const showFeatured = filtered.find((blog) => blog.featured);
+  const nonFeatured = filtered.filter((blog) => blog._id !== showFeatured?._id);
 
   return (
-    <div className="w-full bg-[#050709] min-h-screen text-white">
-
-      <PageHero 
+    <div className="min-h-screen w-full bg-[#050709] text-white">
+      <PageHero
         breadcrumb="Blog"
         title="The ScaleUp"
         highlight="Blog"
-        subtitle="Expert insights on web development, digital marketing, SEO, and automation — to help your business grow faster online."
+        subtitle="Expert insights on web development, digital marketing, SEO, and automation to help your business grow faster online."
       />
 
-      {/* ── SEARCH BAR ─────────────────────────────────────── */}
       <div className="relative z-30 -mt-10 mb-16 px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative max-w-md mx-auto"
-          >
-            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" />
-            <input
-              type="text"
-              placeholder="Search articles..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-5 py-3.5 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-neutral-500 text-sm focus:outline-none focus:border-blue-500/60 focus:bg-white/8 transition-all duration-300 shadow-2xl backdrop-blur-xl"
-            />
-          </motion.div>
-      </div>
-
-      {/* ── MAIN CONTENT ─────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
-
-        {/* Category Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-2 mb-14"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="relative mx-auto max-w-md"
         >
-          {categories.map((cat) => (
-            <button
-              key={cat.value}
-              onClick={() => setActiveCategory(cat.value)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                activeCategory === cat.value
-                  ? "bg-blue-600 text-white shadow-[0_0_20px_rgba(59,130,246,0.35)]"
-                  : "bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-white border border-white/8"
-              }`}
-            >
-              {cat.icon} {cat.label}
-            </button>
-          ))}
+          <Search
+            size={16}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500"
+          />
+          <input
+            type="text"
+            placeholder="Search articles..."
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            className="w-full rounded-full border border-white/10 bg-white/5 py-3.5 pl-11 pr-5 text-sm text-white placeholder:text-neutral-500 shadow-2xl backdrop-blur-xl transition-all duration-300 focus:border-blue-500/60 focus:bg-white/8 focus:outline-none"
+          />
         </motion.div>
+      </div>
 
-        {/* Blog Grid */}
-        {filtered.length === 0 ? (
+      <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
+        {categories.length > 1 && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-24"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-14 flex flex-wrap justify-center gap-2"
           >
-            <p className="text-neutral-500 text-lg">No articles found. Try a different search.</p>
+            {categories.map((category) => (
+              <button
+                key={category.value}
+                onClick={() => setActiveCategory(category.value)}
+                className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                  activeCategory === category.value
+                    ? "bg-blue-600 text-white shadow-[0_0_20px_rgba(59,130,246,0.35)]"
+                    : "border border-white/8 bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                {category.label}
+              </button>
+            ))}
+          </motion.div>
+        )}
+
+        {loading ? (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div
+                key={index}
+                className="h-[360px] animate-pulse rounded-3xl border border-white/8 bg-white/5"
+              />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-24 text-center">
+            <p className="text-lg text-neutral-500">
+              {allBlogs.length === 0
+                ? "No published blogs yet."
+                : "No articles found. Try a different search."}
+            </p>
           </motion.div>
         ) : (
           <div className="space-y-8">
-            {/* Featured post row */}
             {showFeatured && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <BlogCard blog={showFeatured} featured={true} index={0} />
               </div>
             )}
 
-            {/* Regular grid */}
             {nonFeatured.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {nonFeatured.map((blog, i) => (
-                  <BlogCard key={blog.id} blog={blog} index={i} />
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {nonFeatured.map((blog, index) => (
+                  <BlogCard key={blog._id || blog.slug} blog={blog} index={index} />
                 ))}
               </div>
             )}
           </div>
         )}
 
-        {/* Bottom CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -248,18 +279,18 @@ export default function BlogsPage() {
           transition={{ duration: 0.6 }}
           className="mt-24 text-center"
         >
-          <div className="inline-block relative">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-30" />
-            <div className="relative border border-white/10 bg-[#0f1015] rounded-3xl px-8 py-10 max-w-2xl">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+          <div className="relative inline-block">
+            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 blur opacity-30" />
+            <div className="relative max-w-2xl rounded-3xl border border-white/10 bg-[#0f1015] px-8 py-10">
+              <h2 className="mb-3 text-2xl font-bold text-white md:text-3xl">
                 Want to Scale Your Business?
               </h2>
-              <p className="text-neutral-400 mb-6 text-sm leading-relaxed">
-                আমাদের expert team আপনার business-কে digitally scale করতে ready। আজই একটি free consultation নিন।
+              <p className="mb-6 text-sm leading-relaxed text-neutral-400">
+                Our team helps businesses grow with websites, SEO, paid marketing, and automation that actually convert.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3.5 rounded-full font-bold text-sm hover:scale-105 hover:shadow-[0_0_30px_rgba(79,70,229,0.4)] transition-all duration-300"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(79,70,229,0.4)]"
               >
                 Get Free Consultation <ArrowRight size={15} />
               </Link>
