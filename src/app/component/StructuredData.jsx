@@ -31,9 +31,9 @@ export default function StructuredData() {
         url: siteUrl,
         logo: {
           "@type": "ImageObject",
-          url: `${siteUrl}/logo.png`,
+          url: `${siteUrl}/favicon.ico`,
         },
-        image: `${siteUrl}/og-image.png`,
+        image: `${siteUrl}/favicon.ico`,
         description:
           "ScaleUp Web is a digital agency offering website development, digital marketing, SEO, and WhatsApp chatbot automation for growing businesses.",
         email: "contact.scaleupweb@gmail.com",

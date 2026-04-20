@@ -51,9 +51,9 @@ export const metadata = {
       "From Code to Commerce - we build your digital success with blazing-fast web apps, data-driven ads, and intelligent AI chatbots.",
     images: [
       {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
+        url: "/favicon.ico",
+        width: 512,
+        height: 512,
         alt: "ScaleUp Web - Digital Agency",
       },
     ],
@@ -65,7 +65,7 @@ export const metadata = {
     title: "ScaleUp Web - Digital Agency",
     description:
       "From Code to Commerce - blazing-fast web apps, data-driven ads & intelligent AI chatbots.",
-    images: ["/og-image.png"],
+    images: ["/favicon.ico"],
   },
   robots: {
     index: true,

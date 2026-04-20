@@ -24,6 +24,12 @@ export default async function sitemap() {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/services/landing-page`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
       url: `${baseUrl}/work`,
       lastModified,
       changeFrequency: "weekly",
@@ -62,7 +68,13 @@ export default async function sitemap() {
     priority: 0.85,
   }));
 
-  const blogs = await getBlogs({ status: "published" });
+  let blogs = [];
+
+  try {
+    blogs = await getBlogs({ status: "published" });
+  } catch (error) {
+    console.error("Sitemap blog fetch failed:", error);
+  }
 
   const blogPages = blogs.map((blog) => ({
     url: `${baseUrl}/blogs/${blog.slug}`,

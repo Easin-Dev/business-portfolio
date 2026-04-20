@@ -77,7 +77,12 @@ export default function Hero_section() {
           className="text-center max-w-4xl"
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold tracking-tight text-[#0f172a] leading-[1.1] mb-6">
-            Expert Web <span className="text-[#1d4ed8] relative inline-block">
+            <span className="text-[#1d4ed8] relative inline-block">
+              ScaleUp Web
+              <svg className="absolute -bottom-1 md:-bottom-2 left-0 w-full h-2 md:h-3 text-blue-600/80" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            </span> Expert Web <span className="text-[#1d4ed8] relative inline-block">
               Design
               <svg className="absolute -bottom-1 md:-bottom-2 left-0 w-full h-2 md:h-3 text-blue-600/80" viewBox="0 0 200 9" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
