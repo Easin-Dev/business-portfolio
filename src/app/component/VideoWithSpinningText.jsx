@@ -71,7 +71,7 @@ export default function VideoWithSpinningText() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .spinning-play-button {
           width: 100%;
           height: 100%;
@@ -85,7 +85,7 @@ export default function VideoWithSpinningText() {
             transform: rotate(360deg);
           }
         }
-      `}</style>
+      ` }} />
     </section>
   );
 }

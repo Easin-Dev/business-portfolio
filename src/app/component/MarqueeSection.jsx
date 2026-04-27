@@ -19,7 +19,7 @@ export default function MarqueeSection() {
         </div>
       </div>
       
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .marquee-wrapper {
           display: flex;
           white-space: nowrap;
@@ -38,7 +38,7 @@ export default function MarqueeSection() {
             transform: translateX(-50%);
           }
         }
-      `}</style>
+      ` }} />
     </div>
   );
 }

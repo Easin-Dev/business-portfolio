@@ -653,7 +653,7 @@ export default function ManageBlogs() {
                   </p>
                 </div>
 
-                <style jsx global>{`
+                <style dangerouslySetInnerHTML={{ __html: `
                   .admin-quill-editor .ql-toolbar {
                     border: none !important;
                     background: #f8fafc !important;
@@ -674,7 +674,7 @@ export default function ManageBlogs() {
                     color: #94a3b8 !important;
                     font-style: normal !important;
                   }
-                `}</style>
+                ` }} />
 
                 <button
                   type="submit"
