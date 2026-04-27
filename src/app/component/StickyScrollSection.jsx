@@ -1,21 +1,8 @@
-import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+"use client";
+import React, { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
-
-// Helper to load external scripts in the preview environment
-const useScript = (url) => {
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = url;
-    script.async = true;
-    script.onload = () => setLoaded(true);
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [url]);
-  return loaded;
-};
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const colorPalettes = [
   { bgColor: "bg-blue-50", accentColor: "text-blue-600", textColor: "text-slate-900" },
@@ -65,43 +52,20 @@ const ProjectCard = ({ project, index }) => {
   );
 };
 
-export default function StickyScrollSection() {
+export default function StickyScrollSection({ initialProjects = [] }) {
   const containerRef = useRef(null);
-  const [projects, setProjects] = useState([]);
-  const gsapLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js");
-  const scrollLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js");
-
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const res = await fetch("/api/projects");
-        const data = await res.json();
-        
-        // Filter featured projects and map colors
-        const featuredProjects = (Array.isArray(data) ? data : [])
-          .filter(p => p.featured)
-          .sort((a, b) => (a.order || 0) - (b.order || 0))
-          .slice(0, 4)
-          .map((p, index) => ({
-            ...p,
-            bgColor: colorPalettes[index % colorPalettes.length].bgColor,
-            accentColor: colorPalettes[index % colorPalettes.length].accentColor,
-            textColor: colorPalettes[index % colorPalettes.length].textColor,
-          }));
-          
-        setProjects(featuredProjects);
-      } catch (err) {
-        console.error("Failed to fetch projects:", err);
-      }
-    }
-    fetchProjects();
-  }, []);
+  
+  // Map colors to projects
+  const projects = initialProjects.map((p, index) => ({
+    ...p,
+    bgColor: colorPalettes[index % colorPalettes.length].bgColor,
+    accentColor: colorPalettes[index % colorPalettes.length].accentColor,
+    textColor: colorPalettes[index % colorPalettes.length].textColor,
+  }));
 
   useLayoutEffect(() => {
-    if (!gsapLoaded || !scrollLoaded || !window.gsap || projects.length === 0) return;
+    if (typeof window === "undefined" || projects.length === 0) return;
 
-    const gsap = window.gsap;
-    const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
@@ -124,7 +88,7 @@ export default function StickyScrollSection() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [gsapLoaded, scrollLoaded, projects]);
+  }, [projects]);
 
   return (
     <div ref={containerRef} className="bg-[#fcfcfc] min-h-screen font-sans">
