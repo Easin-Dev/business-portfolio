@@ -117,6 +117,10 @@ const ProjectSchema = new mongoose.Schema({
     type: [ProjectAttachmentSchema],
     default: [],
   },
+  order: {
+    type: Number,
+    default: 0,
+  },
 }, { timestamps: true });
 
 export default mongoose.models.Project || mongoose.model('Project', ProjectSchema);

@@ -203,70 +203,140 @@ export default async function BlogDetailPage({ params }) {
           </p>
         </div>
 
-        <div className="max-w-none space-y-4">
-          {contentBlocks.map((block, index) => {
-            if (block.type === "h2") {
+        <div className="max-w-none space-y-4 blog-content-wrapper">
+          {blog.content.trim().startsWith("<") ? (
+            <div 
+              className="rich-text-content"
+              dangerouslySetInnerHTML={{ __html: blog.content }} 
+            />
+          ) : (
+            contentBlocks.map((block, index) => {
+              if (block.type === "h2") {
+                return (
+                  <h2 key={index} className="mb-4 mt-10 text-2xl font-bold text-white">
+                    {block.text}
+                  </h2>
+                );
+              }
+
+              if (block.type === "h3") {
+                return (
+                  <h3
+                    key={index}
+                    className="mb-3 mt-8 text-xl font-bold"
+                    style={{ color: blog.accentColor }}
+                  >
+                    {block.text}
+                  </h3>
+                );
+              }
+
+              if (block.type === "ul") {
+                return (
+                  <ul key={index} className="space-y-3">
+                    {block.items.map((item, itemIndex) => (
+                      <li
+                        key={`${index}-${itemIndex}`}
+                        className="flex gap-3 text-base leading-relaxed text-neutral-300"
+                      >
+                        <span
+                          className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full"
+                          style={{ background: blog.accentColor }}
+                        />
+                        <span>{renderListItemContent(item, blog.accentColor)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                );
+              }
+
+              if (block.type === "ol") {
+                return (
+                  <ol key={index} className="space-y-3 pl-5 text-base leading-relaxed text-neutral-300">
+                    {block.items.map((item, itemIndex) => (
+                      <li key={`${index}-${itemIndex}`} className="list-decimal pl-2">
+                        {item}
+                      </li>
+                    ))}
+                  </ol>
+                );
+              }
+
+              if (block.type === "space") {
+                return <div key={index} className="h-2" />;
+              }
+
               return (
-                <h2 key={index} className="mb-4 mt-10 text-2xl font-bold text-white">
+                <p key={index} className="text-base leading-loose text-neutral-400">
                   {block.text}
-                </h2>
+                </p>
               );
-            }
-
-            if (block.type === "h3") {
-              return (
-                <h3
-                  key={index}
-                  className="mb-3 mt-8 text-xl font-bold"
-                  style={{ color: blog.accentColor }}
-                >
-                  {block.text}
-                </h3>
-              );
-            }
-
-            if (block.type === "ul") {
-              return (
-                <ul key={index} className="space-y-3">
-                  {block.items.map((item, itemIndex) => (
-                    <li
-                      key={`${index}-${itemIndex}`}
-                      className="flex gap-3 text-base leading-relaxed text-neutral-300"
-                    >
-                      <span
-                        className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full"
-                        style={{ background: blog.accentColor }}
-                      />
-                      <span>{renderListItemContent(item, blog.accentColor)}</span>
-                    </li>
-                  ))}
-                </ul>
-              );
-            }
-
-            if (block.type === "ol") {
-              return (
-                <ol key={index} className="space-y-3 pl-5 text-base leading-relaxed text-neutral-300">
-                  {block.items.map((item, itemIndex) => (
-                    <li key={`${index}-${itemIndex}`} className="list-decimal pl-2">
-                      {item}
-                    </li>
-                  ))}
-                </ol>
-              );
-            }
-
-            if (block.type === "space") {
-              return <div key={index} className="h-2" />;
-            }
-
-            return (
-              <p key={index} className="text-base leading-loose text-neutral-400">
-                {block.text}
-              </p>
-            );
-          })}
+            })
+          )}
         </div>
+
+        <style dangerouslySetInnerHTML={{ __html: `
+          .rich-text-content {
+            color: #9ca3af;
+            line-height: 1.8;
+            font-size: 1.1rem;
+          }
+          .rich-text-content h1, .rich-text-content h2, .rich-text-content h3 {
+            color: white;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.2;
+          }
+          .rich-text-content h1 { font-size: 2.25rem; }
+          .rich-text-content h2 { font-size: 1.875rem; }
+          .rich-text-content h3 { font-size: 1.5rem; color: ${blog.accentColor}; }
+          
+          .rich-text-content p {
+            margin-bottom: 1.5rem;
+          }
+          
+          .rich-text-content ul, .rich-text-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+          }
+          
+          .rich-text-content ul { list-style-type: disc; }
+          .rich-text-content ol { list-style-type: decimal; }
+          
+          .rich-text-content li {
+            margin-bottom: 0.5rem;
+          }
+
+          .rich-text-content b, .rich-text-content strong {
+            color: white;
+            font-weight: 700;
+          }
+
+          .rich-text-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 1.5rem;
+            margin: 2.5rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+          }
+
+          .rich-text-content a {
+            color: ${blog.accentColor};
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            font-weight: 600;
+          }
+
+          .rich-text-content blockquote {
+            border-left: 4px solid ${blog.accentColor};
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem 2rem;
+            font-style: italic;
+            border-radius: 0 1rem 1rem 0;
+            margin: 2rem 0;
+          }
+        ` }} />
 
         <div className="mb-10 mt-14 border-t border-white/8" />
 

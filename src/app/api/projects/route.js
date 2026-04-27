@@ -32,7 +32,7 @@ export async function GET() {
     const session = await getServerSession(authOptions);
     await dbConnect();
     const isAdmin = session?.user?.role === "admin";
-    const query = Project.find({}).sort({ createdAt: -1 });
+    const query = Project.find({}).sort({ order: 1, createdAt: -1 });
     const projects = isAdmin ? await query : await query.select(publicProjectFields);
 
     return NextResponse.json(projects);

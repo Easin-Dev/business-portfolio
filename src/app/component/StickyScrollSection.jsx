@@ -17,53 +17,17 @@ const useScript = (url) => {
   return loaded;
 };
 
-const projects = [
-  {
-    title: "Trusted Export & Import Partner",
-    category: "Global Trade Services",
-    description:
-      "A professional export and import agency website providing global trade support, supplier sourcing, and international business solutions.",
-    image: "https://i.postimg.cc/bJ5xsFD9/Chat-GPT-Image-Jan-16-2026-03-02-06-PM.png",
-    bgColor: "bg-blue-50",
-    accentColor: "text-blue-600",
-    textColor: "text-slate-900",
-  },
-  {
-    title: "Leadership Development Organization",
-    category: "Social Impact",
-    description:
-      "An organization website dedicated to youth leadership training and community development. Empowering the next generation of leaders.",
-    image: "https://i.postimg.cc/dtJJXQSB/Chat-GPT-Image-Jan-16-2026-03-15-44-PM.png",
-    bgColor: "bg-rose-50",
-    accentColor: "text-rose-600",
-    textColor: "text-slate-900",
-  },
-  {
-    title: "Political Portfolio Website",
-    category: "Personal Branding",
-    description:
-      "A high-impact political portfolio showcasing vision, public service initiatives, and direct engagement with the community.",
-    image: "https://i.postimg.cc/R0JmfWNz/Chat-GPT-Image-Jan-16-2026-03-18-00-PM.png",
-    bgColor: "bg-amber-50",
-    accentColor: "text-amber-600",
-    textColor: "text-slate-900",
-  },
-  {
-    title: "Developer Portfolio Pro",
-    category: "Tech & Software",
-    description:
-      "A minimalist and fast developer portfolio showcasing skills, projects, and a professional journey through tech.",
-    image: "https://i.postimg.cc/85FHBrvT/Chat-GPT-Image-Jan-16-2026-03-31-49-PM.png",
-    bgColor: "bg-cyan-50",
-    accentColor: "text-cyan-600",
-    textColor: "text-slate-900",
-  },
+const colorPalettes = [
+  { bgColor: "bg-blue-50", accentColor: "text-blue-600", textColor: "text-slate-900" },
+  { bgColor: "bg-rose-50", accentColor: "text-rose-600", textColor: "text-slate-900" },
+  { bgColor: "bg-amber-50", accentColor: "text-amber-600", textColor: "text-slate-900" },
+  { bgColor: "bg-cyan-50", accentColor: "text-cyan-600", textColor: "text-slate-900" },
 ];
 
 const ProjectCard = ({ project, index }) => {
   return (
     <div
-      className={`project-card w-full min-h-[80vh] md:h-[85vh] flex items-center justify-center p-6 md:p-12 lg:p-20 rounded-[2.5rem] md:rounded-[4rem] shadow-xl border border-white/50 sticky top-[8vh] md:top-[10vh] mb-[8vh] overflow-hidden ${project.bgColor} ${project.textColor}`}
+      className={`project-card w-full min-h-[60vh] md:h-[70vh] flex items-center justify-center p-6 md:p-12 lg:p-16 rounded-[2.5rem] md:rounded-[3.5rem] shadow-xl border border-white/50 sticky top-[15vh] mb-[10vh] overflow-hidden ${project.bgColor} ${project.textColor}`}
       style={{ zIndex: index + 1 }}
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -74,15 +38,15 @@ const ProjectCard = ({ project, index }) => {
               {project.category}
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.1] mb-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.2] mb-4">
             {project.title}
           </h2>
           <p className="text-lg md:text-xl opacity-75 leading-relaxed max-w-xl">
             {project.description}
           </p>
-          <button className={`mt-8 px-8 py-3 rounded-full font-semibold transition-all hover:scale-105 active:scale-95 bg-white shadow-md border border-slate-100 ${project.accentColor}`}>
+          <a href={project.link || "#"} target="_blank" rel="noopener noreferrer" className={`inline-block mt-8 px-8 py-3 rounded-full font-semibold transition-all hover:scale-105 active:scale-95 bg-white shadow-md border border-slate-100 ${project.accentColor}`}>
             View Case Study
-          </button>
+          </a>
         </div>
 
         {/* Image Display */}
@@ -103,11 +67,38 @@ const ProjectCard = ({ project, index }) => {
 
 export default function StickyScrollSection() {
   const containerRef = useRef(null);
+  const [projects, setProjects] = useState([]);
   const gsapLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js");
   const scrollLoaded = useScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js");
 
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const res = await fetch("/api/projects");
+        const data = await res.json();
+        
+        // Filter featured projects and map colors
+        const featuredProjects = (Array.isArray(data) ? data : [])
+          .filter(p => p.featured)
+          .sort((a, b) => (a.order || 0) - (b.order || 0))
+          .slice(0, 4)
+          .map((p, index) => ({
+            ...p,
+            bgColor: colorPalettes[index % colorPalettes.length].bgColor,
+            accentColor: colorPalettes[index % colorPalettes.length].accentColor,
+            textColor: colorPalettes[index % colorPalettes.length].textColor,
+          }));
+          
+        setProjects(featuredProjects);
+      } catch (err) {
+        console.error("Failed to fetch projects:", err);
+      }
+    }
+    fetchProjects();
+  }, []);
+
   useLayoutEffect(() => {
-    if (!gsapLoaded || !scrollLoaded || !window.gsap) return;
+    if (!gsapLoaded || !scrollLoaded || !window.gsap || projects.length === 0) return;
 
     const gsap = window.gsap;
     const ScrollTrigger = window.ScrollTrigger;
@@ -133,7 +124,7 @@ export default function StickyScrollSection() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [gsapLoaded, scrollLoaded]);
+  }, [gsapLoaded, scrollLoaded, projects]);
 
   return (
     <div ref={containerRef} className="bg-[#fcfcfc] min-h-screen font-sans">

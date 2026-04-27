@@ -13,7 +13,39 @@ import {
   X,
   Image as ImageIcon,
   FileText,
+  Type,
 } from "lucide-react";
+import dynamic from "next/dynamic";
+import "react-quill-new/dist/quill.snow.css";
+
+// Dynamic import for React Quill to avoid SSR issues
+const ReactQuill = dynamic(() => import("react-quill-new"), {
+  ssr: false,
+  loading: () => <div className="h-[320px] w-full animate-pulse rounded-3xl bg-slate-50" />,
+});
+
+const quillModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
+
+const quillFormats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "list",
+  "bullet",
+  "link",
+  "image",
+  "video",
+];
 
 const getTodayInputValue = () => new Date().toISOString().split("T")[0];
 
@@ -601,20 +633,48 @@ export default function ManageBlogs() {
                   </label>
                 </div>
 
-                <div>
-                  <label className="mb-2 ml-1 block text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
-                    Blog Content
+                <div className="quill-editor-wrapper">
+                  <label className="mb-2 ml-1 block text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2">
+                    <Type size={14} className="text-purple-600" /> Blog Content
                   </label>
-                  <textarea
-                    required
-                    value={formData.content}
-                    onChange={(event) =>
-                      setFormData({ ...formData, content: event.target.value })
-                    }
-                    className="min-h-[320px] w-full rounded-3xl border border-gray-100 bg-slate-50 px-5 py-4 font-medium leading-7 text-slate-700 transition-all focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600/10"
-                    placeholder={"## Introduction\n\nWrite your blog here...\n\n### Key points\n- First point\n- Second point"}
-                  />
+                  <div className="rounded-3xl border border-gray-100 bg-slate-50 overflow-hidden">
+                    <ReactQuill
+                      theme="snow"
+                      value={formData.content}
+                      onChange={(content) => setFormData({ ...formData, content })}
+                      modules={quillModules}
+                      formats={quillFormats}
+                      placeholder="Write your amazing blog content here..."
+                      className="admin-quill-editor"
+                    />
+                  </div>
+                  <p className="mt-2 ml-1 text-[10px] font-bold text-slate-400">
+                    * You can directly paste images, add links, and format text using the toolbar above.
+                  </p>
                 </div>
+
+                <style jsx global>{`
+                  .admin-quill-editor .ql-toolbar {
+                    border: none !important;
+                    background: #f8fafc !important;
+                    border-bottom: 1px solid #f1f5f9 !important;
+                    padding: 12px 20px !important;
+                  }
+                  .admin-quill-editor .ql-container {
+                    border: none !important;
+                    min-height: 400px !important;
+                    font-size: 16px !important;
+                    font-family: inherit !important;
+                  }
+                  .admin-quill-editor .ql-editor {
+                    padding: 24px 20px !important;
+                    line-height: 1.7 !important;
+                  }
+                  .admin-quill-editor .ql-editor.ql-blank::before {
+                    color: #94a3b8 !important;
+                    font-style: normal !important;
+                  }
+                `}</style>
 
                 <button
                   type="submit"

@@ -51,12 +51,21 @@ export async function POST(req) {
             to: email, // User er input deya email
             subject: `Thank you for contacting us, ${fullName}!`,
             html: `
-                <div style="font-family: sans-serif; line-height: 1.6; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px;">
-                    <h2 style="color: #0070f3;">Hello ${fullName},</h2>
+                <div style="font-family: sans-serif; line-height: 1.6; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 30px; border-radius: 12px; background-color: #ffffff;">
+                    <h2 style="color: #0070f3; margin-top: 0;">Hello ${fullName},</h2>
                     <p>Amader kase email korar jonno dhonnobad. Amra apnar message-ti peyechi.</p>
                     <p>Amader team khub shiggroi apnar details review korbe ebong apnar sathe contact korbe meeting e bose project niye kotha bolar jonno.</p>
-                    <hr style="border: none; border-top: 1px solid #eee;" />
-                    <p style="font-size: 12px; color: #888;">This is an automated response. Please do not reply directly to this email.</p>
+                    <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;" />
+                    
+                    <div style="text-align: center; padding-top: 10px;">
+                        <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Follow us for updates & insights:</p>
+                        <div style="margin-bottom: 20px;">
+                            <a href="https://www.facebook.com/scaleupweb1" style="display: inline-block; margin: 0 12px; text-decoration: none; color: #1877F2; font-weight: bold; font-size: 14px;">Facebook</a>
+                            <a href="https://www.linkedin.com/company/scale-up-web/" style="display: inline-block; margin: 0 12px; text-decoration: none; color: #0A66C2; font-weight: bold; font-size: 14px;">LinkedIn</a>
+                            <a href="https://wa.me/your-number-here" style="display: inline-block; margin: 0 12px; text-decoration: none; color: #25D366; font-weight: bold; font-size: 14px;">WhatsApp</a>
+                        </div>
+                        <p style="font-size: 12px; color: #999;">&copy; ${new Date().getFullYear()} ScaleUp Web. All rights reserved.</p>
+                    </div>
                 </div>
             `,
         };

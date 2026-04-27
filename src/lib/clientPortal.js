@@ -96,7 +96,18 @@ export async function sendPortalEmail({ to, clientName, projectTitle, portalUrl,
         <p style="text-align: center; margin: 28px 0;">
           <a href="${portalUrl}" style="background: #6d28d9; color: white; padding: 13px 22px; text-decoration: none; border-radius: 10px; font-weight: bold;">Open Client Portal</a>
         </p>
-        <p style="font-size: 12px; color: #64748b;">If the button does not work, open this link: ${portalUrl}</p>
+        <p style="font-size: 11px; color: #64748b; margin-bottom: 20px;">If the button does not work, open this link: ${portalUrl}</p>
+        
+        <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
+        <div style="text-align: center;">
+          <p style="font-size: 13px; color: #666; margin-bottom: 12px;">Stay connected with us:</p>
+          <div style="margin-bottom: 15px;">
+            <a href="https://www.facebook.com/scaleupweb1" style="display: inline-block; margin: 0 10px; text-decoration: none; color: #1877F2; font-weight: bold; font-size: 13px;">Facebook</a>
+            <a href="https://www.linkedin.com/company/scale-up-web/" style="display: inline-block; margin: 0 10px; text-decoration: none; color: #0A66C2; font-weight: bold; font-size: 13px;">LinkedIn</a>
+            <a href="https://wa.me/your-number-here" style="display: inline-block; margin: 0 10px; text-decoration: none; color: #25D366; font-weight: bold; font-size: 13px;">WhatsApp</a>
+          </div>
+          <p style="font-size: 10px; color: #999;">&copy; ${new Date().getFullYear()} ScaleUp Web. All rights reserved.</p>
+        </div>
       </div>
     `,
   });

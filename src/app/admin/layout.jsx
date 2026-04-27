@@ -72,6 +72,8 @@ const AdminSidebar = () => {
   );
 };
 
+import AdminNotificationManager from "../component/AdminNotificationManager";
+
 export default function AdminLayout({ children }) {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -100,6 +102,7 @@ export default function AdminLayout({ children }) {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-900 selection:bg-purple-100 selection:text-purple-700">
+      <AdminNotificationManager />
       <AdminSidebar />
       <div className="lg:ml-64 p-4 md:p-8 min-h-screen">
         <main className="max-w-6xl mx-auto">

@@ -43,6 +43,7 @@ const emptyFormData = {
   priority: "medium",
   deadline: "",
   featured: false,
+  order: 0,
 };
 
 const statusOptions = [
@@ -191,6 +192,7 @@ export default function AdminProjects() {
         priority: project.priority || "medium",
         deadline: toDateInputValue(project.deadline),
         featured: Boolean(project.featured),
+        order: project.order || 0,
       });
     } else {
       setEditingProject(null);
@@ -1080,6 +1082,17 @@ export default function AdminProjects() {
                   />
                   <span className="text-sm font-black text-purple-700">Feature on homepage portfolio</span>
                 </label>
+
+                <div className="rounded-lg border border-slate-100 bg-slate-50 p-4">
+                  <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-slate-400">Display Order (Lower numbers show first)</label>
+                  <input
+                    type="number"
+                    value={formData.order}
+                    onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
+                    className="w-full rounded-lg border border-slate-100 bg-white px-4 py-2 text-sm font-bold outline-none focus:border-purple-300 focus:ring-4 focus:ring-purple-50"
+                    placeholder="0"
+                  />
+                </div>
 
                 <button
                   type="submit"

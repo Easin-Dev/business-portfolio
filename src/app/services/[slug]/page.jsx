@@ -1,42 +1,80 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { servicesData } from "../../../data/servicesData";
-import { ArrowRight, CheckCircle2, ChevronRight, Check, Zap, Star, Shield, Clock } from "lucide-react";
+import { 
+  ArrowRight, 
+  CheckCircle2, 
+  ChevronRight, 
+  Check, 
+  Zap, 
+  Star, 
+  Shield, 
+  Plus, 
+  Minus,
+  Code2,
+  Users2,
+  HelpCircle,
+  Cpu,
+  Trophy
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-// Generate Static Params for statically building dynamic routes
-export function generateStaticParams() {
-  return servicesData.map((service) => ({
-    slug: service.slug,
-  }));
-}
+const CurvedUnderline = ({ className = "" }) => (
+  <svg 
+    className={`absolute -bottom-2 left-0 w-full h-3 text-blue-500/80 pointer-events-none ${className}`} 
+    viewBox="0 0 200 9" 
+    fill="none" 
+    preserveAspectRatio="none" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path 
+      d="M2.00035 7.15346C55.0746 -1.04258 135.807 -1.82103 198.051 5.92215" 
+      stroke="currentColor" 
+      strokeWidth="3" 
+      strokeLinecap="round"
+    />
+  </svg>
+);
 
-export async function generateMetadata({ params }) {
-  const { slug } = await params;
-  const service = servicesData.find((s) => s.slug === slug);
+const FAQItem = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="border-b border-white/10 last:border-0">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full py-6 flex items-center justify-between text-left group"
+      >
+        <span className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
+          {question}
+        </span>
+        <div className={`p-2 rounded-lg bg-white/5 group-hover:bg-blue-500/10 transition-colors ${isOpen ? 'rotate-180' : ''}`}>
+          {isOpen ? <Minus size={18} className="text-blue-400" /> : <Plus size={18} className="text-neutral-500" />}
+        </div>
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <p className="pb-6 text-neutral-400 leading-relaxed max-w-3xl">
+              {answer}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
-  if (!service) {
-    return { title: "Service Not Found | ScaleUp Web" };
-  }
-
-  return {
-    title: `${service.title} | ScaleUp Web`,
-    description: service.shortDescription,
-    openGraph: {
-      title: `${service.title} Services | ScaleUp Web`,
-      description: service.shortDescription,
-      url: `https://www.scaleupweb.xyz/services/${slug}`,
-      type: "website",
-    },
-    alternates: {
-      canonical: `https://www.scaleupweb.xyz/services/${slug}`,
-    },
-  };
-}
-
-export default async function ServiceDetailPage({ params }) {
-  const { slug } = await params;
+export default function ServiceDetailPage() {
+  const { slug } = useParams();
   const service = servicesData.find((s) => s.slug === slug);
 
   if (!service) {
@@ -46,291 +84,243 @@ export default async function ServiceDetailPage({ params }) {
   const otherServices = servicesData.filter((s) => s.slug !== slug);
 
   return (
-    <div className="w-full bg-[#050709] min-h-screen text-white overflow-x-hidden">
-      {/* ——— Background Decorators ——— */}
-      <div className="fixed inset-0 pointer-events-none [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)]" />
-      <div className="fixed top-0 right-0 w-[700px] h-[700px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none translate-x-1/2 -translate-y-1/3" />
-      <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none -translate-x-1/3 translate-y-1/3" />
+    <div className="w-full min-h-screen overflow-x-hidden selection:bg-blue-500/30">
+      
+      {/* =========================================================================
+          TOP SECTION (DARK - Simple Media Hero)
+          ========================================================================= */}
+      <section className="relative bg-[#05070a] text-white pt-28 pb-48 overflow-hidden">
+        {/* Background Decorators */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[150px] -translate-x-1/4 -translate-y-1/2" />
+          <div className="absolute inset-0 [background-size:40px_40px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)]" />
+        </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-28 pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Breadcrumb */}
+          <motion.nav 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-2 text-sm text-neutral-500 mb-12"
+          >
+            <Link href="/" className="hover:text-blue-400 transition-colors">Home</Link>
+            <ChevronRight size={14} className="text-neutral-600" />
+            <Link href="/services" className="hover:text-blue-400 transition-colors">Services</Link>
+            <ChevronRight size={14} className="text-neutral-600" />
+            <span className="text-white font-medium">{service.title}</span>
+          </motion.nav>
 
-        {/* ——— Breadcrumb ——— */}
-        <nav className="flex items-center gap-2 text-sm text-neutral-500 mb-12">
-          <Link href="/" className="hover:text-blue-400 transition-colors duration-200">Home</Link>
-          <ChevronRight size={14} className="text-neutral-600" />
-          <Link href="/services" className="hover:text-blue-400 transition-colors duration-200">Services</Link>
-          <ChevronRight size={14} className="text-neutral-600" />
-          <span className="text-white font-medium">{service.title}</span>
-        </nav>
-
-        {/* ——— Hero Section ——— */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
-          <div>
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6">
-              <Zap size={12} />
-              Premium Service
-            </div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1]">
-              {service.title.split(" ")[0]}{" "}
-              <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500">
-                {service.title.split(" ").slice(1).join(" ")}
-              </span>
-            </h1>
-
-            <p className="text-lg md:text-xl text-neutral-400 mb-10 leading-relaxed border-l-4 border-blue-500 pl-5 py-1">
-              {service.description}
-            </p>
-
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full font-bold text-base hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-300"
-              >
-                Start Project <ArrowRight size={18} />
-              </Link>
-              <Link
-                href="/pricing"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 border border-white/15 text-white rounded-full font-bold text-base hover:bg-white/10 hover:border-blue-500/50 transition-all duration-300"
-              >
-                View Pricing
-              </Link>
-            </div>
-          </div>
-
-          {/* Service Media */}
-          <div className="relative rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.15)] border border-white/10 aspect-video lg:aspect-square flex items-center justify-center bg-black/40">
-            {service.image && service.image.endsWith(".mp4") ? (
-              <video
-                src={service.image}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            ) : service.image ? (
-              <Image
-                src={service.image}
-                alt={service.title}
-                width={800}
-                height={800}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="flex items-center justify-center w-full h-full bg-blue-900/20">
-                <Star size={64} className="text-blue-500/40" />
+          {/* Hero Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-[0.2em] px-4 py-2 rounded-full mb-8">
+                <Zap size={14} className="animate-pulse" />
+                Verified Premium Service
               </div>
-            )}
-            {/* Overlay glow */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-          </div>
-        </section>
 
-        {/* ——— Features / What You Get Section ——— */}
-        {service.features && service.features.length > 0 && (
-          <section className="mb-28">
-            <div className="text-center mb-16">
-              <span className="inline-block text-blue-500 font-bold uppercase tracking-widest text-sm mb-3">
-                What You Get
-              </span>
-              <h2 className="text-3xl md:text-5xl font-extrabold text-white">
-                Everything You{" "}
-                <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                  Need
+              <h1 className="text-5xl md:text-6xl lg:text-8xl font-black tracking-tighter mb-8 leading-[0.9]">
+                {service.title.split(" ")[0]} <br />
+                <span className="relative inline-block text-transparent italic bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                  {service.title.split(" ").slice(1).join(" ")}
+                  <CurvedUnderline />
                 </span>
-              </h2>
-            </div>
+              </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {service.features.map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white/[0.03] border border-white/10 p-8 rounded-2xl hover:bg-white/[0.06] hover:border-blue-500/30 transition-all duration-300 group flex flex-col"
+              <p className="text-xl text-neutral-400 mb-10 leading-relaxed border-l-[3px] border-blue-500/50 pl-6 py-2">
+                {service.description}
+              </p>
+
+              <div className="flex flex-wrap gap-5">
+                <Link
+                  href="/contact"
+                  className="group relative inline-flex items-center gap-3 px-10 py-5 bg-white text-black rounded-full font-black text-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_50px_rgba(255,255,255,0.25)] active:scale-95 overflow-hidden"
                 >
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="p-2 bg-blue-500/15 rounded-xl flex-shrink-0 group-hover:bg-blue-500/25 transition-colors">
-                      <CheckCircle2 className="text-blue-400 w-6 h-6" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white">{feature.title}</h3>
+                  <span className="relative z-10 font-sans">Start Project</span>
+                  <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-3 px-10 py-5 bg-white/[0.03] border border-white/10 text-white rounded-full font-bold text-lg transition-all duration-300 hover:bg-white/10 hover:border-blue-500/50 active:scale-95"
+                >
+                  View Plans
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Media (Image/Video) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative group"
+            >
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-[40px] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              <div className="relative rounded-[32px] overflow-hidden border border-white/10 aspect-square flex items-center justify-center bg-white/[0.02] backdrop-blur-sm shadow-2xl">
+                {service.image && service.image.endsWith(".mp4") ? (
+                  <video
+                    src={service.image}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-105"
+                  />
+                ) : service.image ? (
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    width={800}
+                    height={800}
+                    className="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center w-full h-full bg-blue-950/20">
+                    <Star size={80} className="text-blue-500/20" />
                   </div>
-                  <p className="text-neutral-400 text-base leading-relaxed mb-5">
-                    {feature.description}
-                  </p>
-                  {feature.bullets && feature.bullets.length > 0 && (
-                    <ul className="mt-auto space-y-2.5 pt-4 border-t border-white/10">
-                      {feature.bullets.map((bullet, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <Check className="text-blue-400 mt-0.5 flex-shrink-0" size={14} />
-                          <span className="text-neutral-300 text-sm">{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+                )}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-        {/* ——— Process Section ——— */}
-        {service.process && service.process.length > 0 && (
-          <section className="mb-28">
-            <div className="bg-gradient-to-br from-blue-900/20 to-indigo-900/10 border border-blue-500/20 rounded-3xl p-8 lg:p-16 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-[60px] pointer-events-none" />
-
-              <div className="relative z-10">
-                <div className="text-center mb-14">
-                  <span className="inline-block text-blue-500 font-bold uppercase tracking-widest text-sm mb-3">
-                    How We Work
-                  </span>
-                  <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-                    Our Proven{" "}
-                    <span className="italic font-serif text-blue-400">Process</span>
-                  </h2>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-                  {/* Connecting Line (desktop) */}
-                  <div className="hidden md:block absolute top-8 left-[16%] right-[16%] h-px bg-gradient-to-r from-blue-500/0 via-blue-500/40 to-blue-500/0" />
-
-                  {service.process.map((step, idx) => (
-                    <div key={idx} className="relative z-10 flex flex-col items-center text-center px-4">
-                      <div className="w-16 h-16 rounded-full bg-[#050709] border-2 border-blue-500 flex items-center justify-center text-xl font-bold text-blue-400 mb-6 shadow-[0_0_25px_rgba(59,130,246,0.3)]">
-                        {step.step}
+      {/* =========================================================================
+          MIDDLE SECTION (WHITE)
+          ========================================================================= */}
+      <section className="bg-[#fcfcfc] text-slate-900 py-40 relative overflow-hidden rounded-t-[4rem] md:rounded-t-[6rem] -mt-16 lg:-mt-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.2)]">
+        {/* Localized Grid Background */}
+        <div className="absolute top-0 left-0 w-full h-[800px] pointer-events-none">
+           <div className="absolute top-0 left-0 w-[500px] h-[500px] [background-size:25px_25px] [background-image:linear-gradient(to_right,rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(59,130,246,0.1)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_top_left,black_20%,transparent_75%)]" />
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          {/* Tech Timeline Stack */}
+          {service.technologies && (
+            <div className="mb-40">
+              <div className="text-center mb-24">
+                <span className="text-blue-600 font-black uppercase tracking-[0.4em] text-xs mb-6 block font-sans">Our Arsenal</span>
+                <h2 className="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter">
+                  Modern Tech <span className="relative inline-block text-blue-600 italic">Stack <CurvedUnderline /></span>
+                </h2>
+              </div>
+              
+              <div className="relative max-w-5xl mx-auto">
+                <div className="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent -translate-y-1/2 hidden lg:block" />
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-8 relative">
+                  {service.technologies.map((tech, idx) => (
+                    <motion.div key={idx} whileHover={{ y: -5 }} className="group flex flex-col items-center gap-5">
+                      <div className="relative">
+                        <div className="absolute -top-3 -right-3 w-7 h-7 rounded-full bg-blue-600 text-white text-[11px] font-black flex items-center justify-center shadow-lg">{idx + 1}</div>
+                        <div className="w-24 h-24 rounded-[32px] bg-white border border-slate-100 shadow-sm flex items-center justify-center group-hover:shadow-2xl group-hover:border-blue-500/30 transition-all duration-500">
+                          <img src={tech.icon} alt={tech.name} className="w-12 h-12" />
+                        </div>
                       </div>
-                      <h3 className="text-lg font-bold text-white mb-3">{step.title}</h3>
-                      <p className="text-neutral-400 text-sm leading-relaxed">{step.description}</p>
-                    </div>
+                      <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest group-hover:text-blue-600 transition-colors">{tech.name}</span>
+                    </motion.div>
                   ))}
                 </div>
               </div>
             </div>
-          </section>
-        )}
+          )}
 
-        {/* ——— Benefits / Why Choose Us Section ——— */}
-        {service.benefits && service.benefits.length > 0 && (
-          <section className="mb-28">
-            <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
-              {/* Left */}
-              <div className="w-full lg:w-1/3 lg:sticky lg:top-32">
-                <span className="inline-block text-blue-500 font-bold uppercase tracking-widest text-sm mb-4">
-                  Why Us
-                </span>
-                <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
-                  Why{" "}
-                  <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                    Choose Us?
+          {/* Features */}
+          {service.features && service.features.length > 0 && (
+            <div className="mb-40">
+              <div className="text-center mb-24">
+                <span className="text-cyan-600 font-black uppercase tracking-[0.4em] text-xs mb-6 block font-sans">Comprehensive Features</span>
+                <h2 className="text-5xl md:text-7xl font-black text-slate-900 leading-tight tracking-tighter">
+                  Solutions Designed to <br />
+                  <span className="relative inline-block text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">
+                    Scale Your Brand <CurvedUnderline className="text-blue-500" />
                   </span>
                 </h2>
-                <p className="text-neutral-400 mb-8 text-base leading-relaxed">
-                  We go beyond just delivering files. We deliver robust solutions built strictly to optimize your business operations and grow your revenue.
-                </p>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 text-blue-400 font-bold hover:text-blue-300 transition-colors duration-200 group"
-                >
-                  Let&apos;s discuss your project{" "}
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
               </div>
-
-              {/* Right */}
-              <div className="w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {service.benefits.map((benefit, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-white/[0.03] border border-white/10 p-6 rounded-2xl flex items-start gap-4 hover:border-blue-500/30 hover:bg-white/[0.06] transition-all duration-300"
-                  >
-                    <div className="p-2.5 bg-blue-500/15 rounded-xl flex-shrink-0 mt-0.5">
-                      <Check className="text-blue-400" size={18} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                {service.features.map((feature, idx) => (
+                  <motion.div key={idx} whileHover={{ y: -8 }} className="relative group p-12 lg:p-16 rounded-[48px] bg-white border border-slate-100 shadow-sm hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)] transition-all duration-700">
+                    <div className="flex items-center gap-8 mb-10">
+                      <div className="p-5 bg-blue-50 rounded-[24px] text-blue-600 border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                        <Code2 size={32} />
+                      </div>
+                      <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{feature.title}</h3>
                     </div>
-                    <div>
-                      <h4 className="text-base font-bold text-white mb-1.5">{benefit.title}</h4>
-                      <p className="text-neutral-400 text-sm leading-relaxed">{benefit.content}</p>
-                    </div>
-                  </div>
+                    <p className="text-slate-500 text-xl leading-relaxed mb-10 font-medium">{feature.description}</p>
+                    {feature.bullets && (
+                      <div className="space-y-4 pt-10 border-t border-slate-100">
+                        {feature.bullets.map((bullet, i) => (
+                          <div key={i} className="flex items-start gap-4">
+                            <div className="mt-2 p-1 rounded-full bg-blue-100 text-blue-600"><Check size={14} /></div>
+                            <span className="text-slate-700 font-bold text-lg leading-tight">{bullet}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
                 ))}
               </div>
             </div>
-          </section>
-        )}
+          )}
+        </div>
+      </section>
 
-        {/* ——— Other Services Section ——— */}
-        {otherServices.length > 0 && (
-          <section className="mb-28">
-            <div className="text-center mb-12">
-              <span className="inline-block text-blue-500 font-bold uppercase tracking-widest text-sm mb-3">
-                Explore More
-              </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-                Other{" "}
-                <span className="italic font-serif text-blue-400">Services</span>
+      {/* =========================================================================
+          BOTTOM SECTION (DARK)
+          ========================================================================= */}
+      <section className="bg-[#05070a] text-white py-40 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          {/* FAQ */}
+          {service.faqs && (
+            <div className="max-w-4xl mx-auto mb-56">
+              <div className="flex items-center gap-6 mb-16">
+                <div className="p-4 bg-blue-500/10 rounded-[24px] text-blue-400 border border-blue-500/20 shadow-2xl shadow-blue-500/10">
+                  <HelpCircle size={32} />
+                </div>
+                <h2 className="text-5xl font-black text-white uppercase tracking-tighter">
+                  Common <span className="relative inline-block text-blue-500 italic">Queries <CurvedUnderline /></span>
+                </h2>
+              </div>
+              <div className="bg-white/[0.02] border border-white/5 rounded-[48px] p-10 lg:p-16 shadow-2xl">
+                {service.faqs.map((faq, idx) => (
+                  <FAQItem key={idx} question={faq.question} answer={faq.answer} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* CTA */}
+          <section className="relative w-full rounded-[64px] overflow-hidden mb-48 shadow-2xl border border-white/5">
+            {/* Soft, deep background instead of bright gradient */}
+            <div className="absolute inset-0 bg-[#0a0d14]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-transparent to-indigo-600/10" />
+            
+            {/* Much subtler grid */}
+            <div className="absolute inset-0 [background-size:30px_30px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)]" />
+            
+            {/* Decorative soft glow */}
+            <div className="absolute -top-1/2 -left-1/4 w-full h-full bg-blue-500/10 blur-[120px] rounded-full" />
+            
+            <div className="relative z-10 px-10 py-24 lg:py-32 text-center max-w-5xl mx-auto">
+              <h2 className="text-5xl md:text-7xl font-black text-white mb-10 leading-[1.1] tracking-tighter">
+                Ready to Build Your <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 italic">Digital Legacy?</span>
               </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {otherServices.map((s) => (
-                <Link
-                  key={s.id}
-                  href={`/services/${s.slug}`}
-                  className="group bg-white/[0.03] border border-white/10 rounded-2xl p-6 flex items-center justify-between hover:bg-white/[0.07] hover:border-blue-500/40 transition-all duration-300"
-                >
-                  <div>
-                    <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">
-                      {s.title}
-                    </h3>
-                    <p className="text-sm text-neutral-500 line-clamp-2">{s.shortDescription}</p>
-                  </div>
-                  <ArrowRight
-                    size={20}
-                    className="text-neutral-600 flex-shrink-0 ml-4 group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-300"
-                  />
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* ——— Giant CTA ——— */}
-        <section className="w-full bg-gradient-to-br from-blue-950/60 via-[#050709] to-indigo-950/40 border border-blue-500/25 rounded-[32px] p-10 lg:p-20 text-center relative overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 [background-size:30px_30px] [background-image:linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
-          <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-          <div className="relative z-10 max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-8">
-              <Shield size={12} />
-              Trusted by Growing Businesses
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
-              Ready to scale your{" "}
-              <span className="text-transparent italic font-serif bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                business?
-              </span>
-            </h2>
-            <p className="text-lg text-neutral-400 mb-10 max-w-xl mx-auto leading-relaxed">
-              Stop wasting time on solutions that don&apos;t scale. Partner with ScaleUp Web and dominate your market today.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 px-10 py-5 bg-white text-black text-base font-bold rounded-full hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300"
+                className="px-14 py-7 bg-blue-600 text-white text-2xl font-black rounded-full hover:bg-blue-500 hover:shadow-[0_0_50px_rgba(37,99,235,0.3)] transition-all inline-block active:scale-95"
               >
-                Start Building Now <ArrowRight size={18} />
-              </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 px-10 py-5 bg-transparent border border-white/20 text-white text-base font-bold rounded-full hover:bg-white/5 transition-all duration-300"
-              >
-                All Services
+                Start Your Journey Now
               </Link>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
+      </section>
 
-      </div>
     </div>
   );
 }
